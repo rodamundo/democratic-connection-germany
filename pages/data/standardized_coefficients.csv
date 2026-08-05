@@ -1,0 +1,25 @@
+Outcome,Variable,Variable_Label,Beta,p_value,Significant
+Institutional Trust,social_disconnection,Social Disconnection,-0.45908610357979535,1.3252421319894264e-232,True
+Institutional Trust,ostwest,East vs West,0.16249166748006405,6.135841932090512e-10,True
+Institutional Trust,migration_background,Migration Background,-0.1015491900648671,0.05244331010140242,False
+Institutional Trust,q1,Political Interest,-0.06905480786748533,2.4484505646560827e-08,True
+Institutional Trust,age,Age,0.0569584450308493,1.830964512571199e-05,True
+Institutional Trust,d7,Education,0.04682544476136326,0.0010896838804668996,True
+Institutional Trust,d38,Subjective Social Class,0.04563289994715733,0.0034473144387730374,True
+Institutional Trust,d63,Household Income,-0.015079307136002298,0.2891993802831313,False
+Democratic Satisfaction,social_disconnection,Social Disconnection,0.39495735302033874,8.482829821765584e-166,True
+Democratic Satisfaction,ostwest,East vs West,-0.2751348425204818,7.511335486617547e-24,True
+Democratic Satisfaction,migration_background,Migration Background,0.05693304683635263,0.2943398955778431,False
+Democratic Satisfaction,d7,Education,-0.05062396275739583,0.0006618074825311791,True
+Democratic Satisfaction,q1,Political Interest,0.02644084586714117,0.03922337950595121,True
+Democratic Satisfaction,d38,Subjective Social Class,-0.02449304329590818,0.1299702191400355,False
+Democratic Satisfaction,d63,Household Income,-0.019718896453926316,0.18141159862413817,False
+Democratic Satisfaction,age,Age,-0.011501183781789022,0.4037327949545113,False
+Political Representation,q1,Political Interest,0.16669064063772934,1.2298257333419848e-31,True
+Political Representation,social_disconnection,Social Disconnection,0.12840462429207244,5.8010005553833e-17,True
+Political Representation,ostwest,East vs West,0.07414890614093769,0.013463101329264034,True
+Political Representation,migration_background,Migration Background,-0.04347085564348983,0.468023863358464,False
+Political Representation,age,Age,-0.03332378847680065,0.028366750051466452,True
+Political Representation,d63,Household Income,-0.017795638697046184,0.27434201908722633,False
+Political Representation,d38,Subjective Social Class,0.0050525810136959285,0.7770766397209105,False
+Political Representation,d7,Education,0.0020904887366131326,0.8985400969047641,False
