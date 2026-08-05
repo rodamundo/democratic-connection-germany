@@ -11,20 +11,23 @@ st.set_page_config(
 st.title("📊 Results")
 
 st.markdown("""
-The analysis compares three versions of the same model.
+The analysis compares three versions of the same regression model.
 
-- **Model 1 — Traditional factors:** income, education, age, region,
-  migration background and political interest.
+- **Model 1 — Traditional factors:** household income, education, age,
+  East/West Germany, migration background and political interest.
 
-- **Model 2 — Traditional factors + social position:** adds how people
-  perceive their own social class.
+- **Model 2 — Subjective Social Class:** adds how respondents perceive
+  their own position in society, beyond their objective income.
 
-- **Model 3 — Traditional factors + social position + Social Disconnection:**
-  adds whether people feel socially connected, recognized and included.
+- **Model 3 — Social Disconnection Index:** adds an index created from
+  four survey questions: Q46a, Q46b, Q46c and Q46d.
 
-Each model adds one new layer of information. This allows us to see whether
-understanding how people feel about their place in society improves our
-understanding of democratic attitudes.
+The four responses were reverse-coded and averaged into one score.
+Higher scores represent higher levels of the experience measured by
+the Social Disconnection Index.
+
+Each model adds one new layer of information. Comparing them shows whether
+the additional variable improves our understanding of democratic attitudes.
 """)
 
 st.divider()
@@ -69,16 +72,18 @@ with tab1:
 ### How to read this chart
 
 🔵 **Model 1 — Traditional factors**  
-Income, education, age, region, migration background and political interest.
+Household income, education, age, East/West Germany,
+migration background and political interest.
 
-🟠 **Model 2 — Traditional factors + Subjective Social Class**  
-This adds how people perceive their own social position.
+🟠 **Model 2 — Subjective Social Class**  
+Adds how respondents perceive their own position in society.
 
-🟢 **Model 3 — Model 2 + Social Disconnection**  
-This also adds whether people feel socially connected, recognized and included.
+🟢 **Model 3 — Social Disconnection Index**  
+Adds an index based on four survey questions: Q46a–Q46d.
+The responses were reverse-coded and averaged into one score.
 
-The higher the bar, the better the model helps us understand differences
-in the democratic outcome.
+The higher the bar, the more variation in the democratic outcome
+the model is able to explain.
 """)
 
     st.dataframe(
@@ -129,20 +134,25 @@ in the democratic outcome.
     st.success("""
 ### What does this graph tell us?
 
-When we only consider traditional factors such as income, education and age,
-we can explain part of the differences in democratic attitudes.
+Traditional socioeconomic and demographic variables explain part of the
+differences in democratic attitudes.
 
-When we also include how people perceive their own social class, the models
-improve slightly.
+Adding Subjective Social Class produces only a small improvement.
 
-The largest improvement happens when Social Disconnection is added.
+The largest improvement occurs when the Social Disconnection Index is added
+in Model 3.
 
-This means that considering whether people feel socially connected, recognized
-and included helps us understand Institutional Trust and Democratic Satisfaction
-much better.
+For Institutional Trust, the explanatory power increases from approximately
+10.7% in Model 2 to 27.6% in Model 3.
 
-The improvement is much smaller for Political Representation, suggesting that
-this outcome follows a different pattern.
+For Democratic Satisfaction, it increases from approximately 9.6% to 22.2%.
+
+The improvement is much smaller for Political Representation, where the
+explanatory power increases from approximately 3.9% to 5.3%.
+
+This indicates that the information captured by the Social Disconnection
+Index is particularly relevant to Institutional Trust and Democratic
+Satisfaction.
 """)
 
 # ============================================================
@@ -162,15 +172,17 @@ with tab2:
     st.markdown("""
 ### What this means
 
-Social Disconnection is the strongest predictor of Institutional Trust
-among the variables included in the model.
+The Social Disconnection Index has the largest standardized coefficient
+among the variables included in the final model.
 
-Once we include whether people feel socially disconnected, the model becomes
-much better at understanding why some people trust democratic institutions
-more than others.
+Its negative coefficient means that higher Social Disconnection scores
+are associated with lower Institutional Trust.
 
-Household Income does not make a meaningful independent contribution in the
-final model.
+This relationship remains after accounting for household income, education,
+age, East/West Germany, migration background, political interest and
+Subjective Social Class.
+
+Household Income is not statistically significant in the final model.
 """)
 
 # ============================================================
@@ -190,13 +202,15 @@ with tab3:
     st.markdown("""
 ### What this means
 
-The same general pattern appears for Democratic Satisfaction.
+The Social Disconnection Index also has the largest standardized coefficient
+in the final Democratic Satisfaction model.
 
-Social Disconnection is the strongest predictor after the other characteristics
-are included.
+Its positive coefficient reflects the direction of the outcome scale used
+in the dataset. The exact substantive interpretation therefore depends on
+how Democratic Satisfaction was coded.
 
-Once Social Disconnection enters the model, Subjective Social Class contributes
-much less to the explanation.
+After the Social Disconnection Index is included, Household Income and
+Subjective Social Class contribute much less to the model.
 """)
 
 # ============================================================
@@ -216,12 +230,15 @@ with tab4:
     st.markdown("""
 ### What this means
 
-Political Representation behaves differently.
+The Social Disconnection Index remains statistically associated with
+Political Representation, but the relationship is considerably weaker
+than for Institutional Trust and Democratic Satisfaction.
 
-Social Disconnection is still associated with this outcome, but the relationship
-is much weaker than for Institutional Trust and Democratic Satisfaction.
+Political Interest has the largest standardized coefficient in this model.
 
-Political Interest is the strongest predictor in this model.
+The relatively low final explanatory power of 5.3% also indicates that
+important factors related to Political Representation are not captured
+by the variables included here.
 """)
 
 st.divider()
@@ -229,6 +246,14 @@ st.divider()
 st.caption("""
 Source: German Longitudinal Election Study (GLES 2025).
 
+The Social Disconnection Index was created from Q46a–Q46d by reverse-coding
+the four responses and calculating their average.
+
 Results are based on cross-sectional OLS regression models. They describe
-statistical associations and should not be interpreted as proof of cause and effect.
+statistical associations and should not be interpreted as proof of cause
+and effect.
+
+The exact conceptual interpretation of Q46a–Q46d should be confirmed against
+the official GLES questionnaire or codebook before the final version of the
+project.
 """)
