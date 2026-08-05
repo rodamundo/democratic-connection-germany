@@ -19,12 +19,13 @@ The analysis compares three versions of the same regression model.
 - **Model 2 — Subjective Social Class:** adds how respondents perceive
   their own position in society, beyond their objective income.
 
-- **Model 3 — Composite Index:** adds an index created from four survey
-  questions. The responses were reverse-coded and averaged into a single score.
+- **Model 3 — Left Behind Index:** adds an index created from four survey
+  questions measuring whether respondents feel that people like them are
+  being left behind by society.
 
-The statistical contribution of this index is already being tested.
-Its exact conceptual interpretation is still being validated as part
-of the ongoing project.
+The four questions cover perceived economic neglect, lack of recognition,
+insufficient attention to basic infrastructure and services, and restrictions
+on freely expressing opinions.
 
 Each model adds one new layer of information. Comparing them shows whether
 the additional variable improves our understanding of democratic attitudes.
@@ -78,12 +79,18 @@ migration background and political interest.
 🟠 **Model 2 — Subjective Social Class**  
 Adds how respondents perceive their own position in society.
 
-🟢 **Model 3 — Composite Index**  
-Adds a composite measure created from four survey questions.
-The responses were reverse-coded and averaged into a single score.
+🟢 **Model 3 — Left Behind Index**  
+Adds an index created from four survey questions measuring whether respondents
+feel that people like them are being left behind by society.
 
-The higher the bar, the more variation in the democratic outcome
-the model is able to explain.
+The four questions cover:
+
+- economic neglect;
+- lack of social recognition;
+- insufficient attention to infrastructure and basic services;
+- reduced freedom to express opinions.
+
+The higher the bar, the more of the outcome the model is able to explain.
 """)
 
     st.dataframe(
@@ -139,7 +146,7 @@ differences in democratic attitudes.
 
 Adding Subjective Social Class produces only a small improvement.
 
-The largest improvement occurs when the composite index is added in Model 3.
+The largest improvement occurs when the Left Behind Index is added in Model 3.
 
 For Institutional Trust, the explanatory power increases from approximately
 10.7% in Model 2 to 27.6% in Model 3.
@@ -149,9 +156,9 @@ For Democratic Satisfaction, it increases from approximately 9.6% to 22.2%.
 The improvement is much smaller for Political Representation, where the
 explanatory power increases from approximately 3.9% to 5.3%.
 
-This indicates that the additional information captured by the composite
-index improves the explanation of Institutional Trust and Democratic
-Satisfaction beyond the traditional socioeconomic variables.
+This suggests that feeling left behind captures an important dimension that
+is not fully represented by income, education and the other traditional
+variables included in the analysis.
 """)
 
 # ============================================================
@@ -165,17 +172,17 @@ with tab2:
     c1, c2, c3 = st.columns(3)
 
     c1.metric("Final explanatory power", "27.6%")
-    c2.metric("Composite index β", "−0.459")
+    c2.metric("Left Behind Index β", "−0.459")
     c3.metric("Statistical significance", "p < .001")
 
     st.markdown("""
 ### What this means
 
-The composite index has the largest standardized coefficient among the
+The Left Behind Index has the largest standardized coefficient among the
 variables included in the final model.
 
-Its negative coefficient means that higher values on the index are associated
-with lower Institutional Trust.
+Its negative coefficient means that stronger feelings of being left behind
+are associated with lower Institutional Trust.
 
 This relationship remains after accounting for household income, education,
 age, East/West Germany, migration background, political interest and
@@ -195,20 +202,20 @@ with tab3:
     c1, c2, c3 = st.columns(3)
 
     c1.metric("Final explanatory power", "22.2%")
-    c2.metric("Composite index β", "0.395")
+    c2.metric("Left Behind Index β", "0.395")
     c3.metric("Statistical significance", "p < .001")
 
     st.markdown("""
 ### What this means
 
-The composite index also has the largest standardized coefficient
+The Left Behind Index also has the largest standardized coefficient
 in the final Democratic Satisfaction model.
 
 Its positive coefficient reflects the direction of the outcome scale used
-in the dataset. The exact substantive interpretation therefore depends on
-how Democratic Satisfaction was coded.
+in the dataset. In practical terms, stronger feelings of being left behind
+are associated with less favorable evaluations of democracy.
 
-After the composite index is included, Household Income and Subjective
+After the Left Behind Index is included, Household Income and Subjective
 Social Class contribute much less to the model.
 """)
 
@@ -223,35 +230,38 @@ with tab4:
     c1, c2, c3 = st.columns(3)
 
     c1.metric("Final explanatory power", "5.3%")
-    c2.metric("Composite index β", "0.128")
+    c2.metric("Left Behind Index β", "0.128")
     c3.metric("Statistical significance", "p < .001")
 
     st.markdown("""
 ### What this means
 
-The composite index remains statistically associated with Political
+The Left Behind Index remains statistically associated with Political
 Representation, but the relationship is considerably weaker than for
 Institutional Trust and Democratic Satisfaction.
 
 Political Interest has the largest standardized coefficient in this model.
 
-The relatively low final explanatory power of 5.3% also indicates that
-important factors related to Political Representation are not captured
-by the variables included here.
+The relatively low final explanatory power of 5.3% indicates that important
+factors related to Political Representation are not captured by the variables
+included here.
 """)
 
 st.divider()
 
 st.caption("""
-Source: German Longitudinal Election Study (GLES 2025).
+Source: German Longitudinal Election Study (GLES 2025), Post-Election
+Cross-Section, ZA10100.
 
-The composite index was created from four survey questions by reverse-coding
-the responses and calculating their average.
+The Left Behind Index was created from Q46a–Q46d. These questions measure
+whether respondents feel that people like them receive too little economic
+attention, too little recognition, insufficient access to infrastructure and
+basic services, and reduced freedom to express their opinions.
+
+The four responses were reverse-coded and averaged into a single score, where
+higher values represent stronger feelings of being left behind.
 
 Results are based on cross-sectional OLS regression models. They describe
 statistical associations and should not be interpreted as proof of cause
 and effect.
-
-The conceptual interpretation of the composite index will be further
-validated in the next stage of the project.
 """)
