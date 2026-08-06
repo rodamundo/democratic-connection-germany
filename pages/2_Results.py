@@ -11,24 +11,20 @@ st.set_page_config(
 st.title("📊 Results")
 
 st.markdown("""
-The analysis compares three versions of the same regression model.
+This page compares three versions of the regression analysis.
 
 - **Model 1 — Traditional factors:** household income, education, age,
   East/West Germany, migration background and political interest.
 
 - **Model 2 — Subjective Social Class:** adds how respondents perceive
-  their own position in society, beyond their objective income.
+  their own position in society, beyond objective income.
 
-- **Model 3 — Left Behind Index:** adds an index created from four survey
-  questions measuring whether respondents feel that people like them are
-  being left behind by society.
+- **Model 3 — Left Behind Index:** adds whether respondents feel that
+  people like them are being left behind by society.
 
-The four questions cover perceived economic neglect, lack of recognition,
-insufficient attention to basic infrastructure and services, and restrictions
-on freely expressing opinions.
-
-Each model adds one new layer of information. Comparing them shows whether
-the additional variable improves our understanding of democratic attitudes.
+The Left Behind Index combines four questions covering economic neglect,
+recognition for people's work, access to infrastructure and basic services,
+and freedom to express opinions.
 """)
 
 st.divider()
@@ -46,6 +42,16 @@ comparison = pd.DataFrame({
     "Model 1": [0.088, 0.085, 0.039],
     "Model 2": [0.107, 0.096, 0.039],
     "Model 3": [0.276, 0.222, 0.053]
+})
+
+standardized_results = pd.DataFrame({
+    "Outcome": [
+        "Institutional Trust",
+        "Democratic Satisfaction",
+        "Political Representation"
+    ],
+    "Left Behind β": [-0.459, 0.395, 0.128],
+    "Final R²": [0.276, 0.222, 0.053]
 })
 
 # ============================================================
@@ -67,36 +73,24 @@ with tab1:
 
     st.header("Overview")
 
-    st.subheader("Model comparison")
+    st.subheader("How the models build on each other")
 
     st.info("""
-### How to read this chart
+**Model 1** asks how much traditional socioeconomic and demographic
+characteristics explain.
 
-🔵 **Model 1 — Traditional factors**  
-Household income, education, age, East/West Germany,
-migration background and political interest.
+**Model 2** adds respondents' perceived social position.
 
-🟠 **Model 2 — Subjective Social Class**  
-Adds how respondents perceive their own position in society.
+**Model 3** adds the Left Behind Index.
 
-🟢 **Model 3 — Left Behind Index**  
-Adds an index created from four survey questions measuring whether respondents
-feel that people like them are being left behind by society.
-
-The four questions cover:
-
-- economic neglect;
-- lack of social recognition;
-- insufficient attention to infrastructure and basic services;
-- reduced freedom to express opinions.
-
-The higher the bar, the more of the outcome the model is able to explain.
+Comparing the models shows how much additional information each new layer
+contributes.
 """)
 
     st.dataframe(
         comparison,
         hide_index=True,
-        use_container_width=True
+        width="stretch"
     )
 
     chart_data = comparison.melt(
@@ -112,7 +106,7 @@ The higher the bar, the more of the outcome the model is able to explain.
         color="Model",
         barmode="group",
         text="R²",
-        title="Comparing the Three Models",
+        title="How Much Variation Each Model Explains",
         color_discrete_map={
             "Model 1": "#1f77b4",
             "Model 2": "#ff7f0e",
@@ -122,43 +116,82 @@ The higher the bar, the more of the outcome the model is able to explain.
 
     fig.update_traces(
         texttemplate="%{text:.3f}",
-        textposition="outside"
+        textposition="outside",
+        hovertemplate=(
+            "<b>%{x}</b><br>"
+            "%{fullData.name}<br>"
+            "R² = %{y:.3f}<extra></extra>"
+        )
     )
 
     fig.update_layout(
         height=550,
         xaxis_title="",
-        yaxis_title="How well each model explains the outcome",
+        yaxis_title="Proportion of variation explained (R²)",
         legend_title="",
         yaxis=dict(range=[0, 0.35])
     )
 
     st.plotly_chart(
         fig,
-        use_container_width=True
+        width="stretch"
     )
 
     st.success("""
-### What does this graph tell us?
+### Main result
 
-Traditional socioeconomic and demographic variables explain part of the
-differences in democratic attitudes.
+Adding **Subjective Social Class** produces only a small improvement.
 
-Adding Subjective Social Class produces only a small improvement.
+The largest change occurs when the **Left Behind Index** is added:
 
-The largest improvement occurs when the Left Behind Index is added in Model 3.
+- Institutional Trust increases from **10.7% to 27.6%**
+- Democratic Satisfaction increases from **9.6% to 22.2%**
+- Political Representation increases only from **3.9% to 5.3%**
 
-For Institutional Trust, the explanatory power increases from approximately
-10.7% in Model 2 to 27.6% in Model 3.
+This suggests that feeling left behind captures information that is not
+fully represented by income, education and the other traditional variables.
+""")
 
-For Democratic Satisfaction, it increases from approximately 9.6% to 22.2%.
+    st.subheader("Left Behind Index across the three outcomes")
 
-The improvement is much smaller for Political Representation, where the
-explanatory power increases from approximately 3.9% to 5.3%.
+    beta_fig = px.bar(
+        standardized_results,
+        x="Outcome",
+        y="Left Behind β",
+        text="Left Behind β",
+        title="Standardized Association of the Left Behind Index"
+    )
 
-This suggests that feeling left behind captures an important dimension that
-is not fully represented by income, education and the other traditional
-variables included in the analysis.
+    beta_fig.update_traces(
+        texttemplate="%{text:.3f}",
+        textposition="outside",
+        hovertemplate=(
+            "<b>%{x}</b><br>"
+            "Standardized β = %{y:.3f}<extra></extra>"
+        )
+    )
+
+    beta_fig.add_hline(
+        y=0,
+        line_width=1
+    )
+
+    beta_fig.update_layout(
+        height=480,
+        xaxis_title="",
+        yaxis_title="Standardized coefficient (β)",
+        yaxis=dict(range=[-0.55, 0.5])
+    )
+
+    st.plotly_chart(
+        beta_fig,
+        width="stretch"
+    )
+
+    st.caption("""
+The direction of a coefficient depends on how the outcome variable is coded.
+The size of the standardized coefficient indicates the relative strength
+of the association.
 """)
 
 # ============================================================
@@ -171,24 +204,50 @@ with tab2:
 
     c1, c2, c3 = st.columns(3)
 
-    c1.metric("Final explanatory power", "27.6%")
-    c2.metric("Left Behind Index β", "−0.459")
-    c3.metric("Statistical significance", "p < .001")
+    c1.metric(
+        "Final explanatory power",
+        "27.6%",
+        help="Model 3 explains 27.6% of the observed variation in Institutional Trust."
+    )
+
+    c2.metric(
+        "Left Behind Index β",
+        "−0.459",
+        help="Standardized coefficient from the final model."
+    )
+
+    c3.metric(
+        "Statistical significance",
+        "p < .001",
+        help="Based on HC3 robust standard errors."
+    )
 
     st.markdown("""
-### What this means
+### Interpretation
 
-The Left Behind Index has the largest standardized coefficient among the
-variables included in the final model.
+The **Left Behind Index is the strongest standardized predictor** of
+Institutional Trust among the variables included in the final model.
 
-Its negative coefficient means that stronger feelings of being left behind
-are associated with lower Institutional Trust.
+A higher score on the index is associated with lower trust in democratic
+institutions.
 
-This relationship remains after accounting for household income, education,
-age, East/West Germany, migration background, political interest and
-Subjective Social Class.
+This relationship remains after accounting for:
+
+- household income;
+- education;
+- age;
+- East/West Germany;
+- migration background;
+- political interest;
+- Subjective Social Class.
 
 Household Income is not statistically significant in the final model.
+""")
+
+    st.info("""
+The negative coefficient does not mean that feeling left behind was experimentally
+shown to cause lower trust. It indicates a strong statistical association in
+this cross-sectional sample.
 """)
 
 # ============================================================
@@ -201,22 +260,36 @@ with tab3:
 
     c1, c2, c3 = st.columns(3)
 
-    c1.metric("Final explanatory power", "22.2%")
-    c2.metric("Left Behind Index β", "0.395")
-    c3.metric("Statistical significance", "p < .001")
+    c1.metric(
+        "Final explanatory power",
+        "22.2%",
+        help="Model 3 explains 22.2% of the observed variation in Democratic Satisfaction."
+    )
+
+    c2.metric(
+        "Left Behind Index β",
+        "0.395",
+        help="Standardized coefficient from the final model."
+    )
+
+    c3.metric(
+        "Statistical significance",
+        "p < .001",
+        help="Based on HC3 robust standard errors."
+    )
 
     st.markdown("""
-### What this means
+### Interpretation
 
-The Left Behind Index also has the largest standardized coefficient
-in the final Democratic Satisfaction model.
+The Left Behind Index is also the strongest standardized predictor in the
+final Democratic Satisfaction model.
 
-Its positive coefficient reflects the direction of the outcome scale used
-in the dataset. In practical terms, stronger feelings of being left behind
-are associated with less favorable evaluations of democracy.
+The positive sign reflects the direction in which the outcome variable was
+coded. In practical terms, stronger feelings of being left behind are
+associated with less favorable evaluations of democracy.
 
-After the Left Behind Index is included, Household Income and Subjective
-Social Class contribute much less to the model.
+Once the Left Behind Index is included, Household Income and Subjective
+Social Class contribute much less to the explanation.
 """)
 
 # ============================================================
@@ -229,39 +302,74 @@ with tab4:
 
     c1, c2, c3 = st.columns(3)
 
-    c1.metric("Final explanatory power", "5.3%")
-    c2.metric("Left Behind Index β", "0.128")
-    c3.metric("Statistical significance", "p < .001")
+    c1.metric(
+        "Final explanatory power",
+        "5.3%",
+        help="Model 3 explains 5.3% of the observed variation in Political Representation."
+    )
+
+    c2.metric(
+        "Left Behind Index β",
+        "0.128",
+        help="Standardized coefficient from the final model."
+    )
+
+    c3.metric(
+        "Statistical significance",
+        "p < .001",
+        help="Based on HC3 robust standard errors."
+    )
 
     st.markdown("""
-### What this means
+### Interpretation
 
 The Left Behind Index remains statistically associated with Political
 Representation, but the relationship is considerably weaker than for
 Institutional Trust and Democratic Satisfaction.
 
-Political Interest has the largest standardized coefficient in this model.
+Political Interest is the strongest predictor in this model.
 
-The relatively low final explanatory power of 5.3% indicates that important
-factors related to Political Representation are not captured by the variables
-included here.
+The relatively low explanatory power of **5.3%** indicates that most of the
+differences in Political Representation are related to factors not captured
+by the variables included here.
+""")
+
+st.divider()
+
+# ============================================================
+# METHODOLOGICAL NOTE
+# ============================================================
+
+st.subheader("Methodological confidence")
+
+c1, c2, c3, c4 = st.columns(4)
+
+c1.metric("Analytical sample", "5,039")
+c2.metric("Cronbach's α", "0.753")
+c3.metric("Factor 1 eigenvalue", "2.323")
+c4.metric("Predictor VIF", "< 2")
+
+st.markdown("""
+The four items of the Left Behind Index showed acceptable internal
+consistency and a clear one-factor structure.
+
+No meaningful multicollinearity was detected. Because the regression
+diagnostics indicated heteroscedasticity, statistical significance and
+confidence intervals are based on **HC3 robust standard errors**.
 """)
 
 st.divider()
 
 st.caption("""
-Source: German Longitudinal Election Study (GLES 2025), Post-Election
-Cross-Section, ZA10100.
+Source: German Longitudinal Election Study (GLES 2025),
+Post-Election Cross-Section, ZA10100.
 
-The Left Behind Index was created from Q46a–Q46d. These questions measure
-whether respondents feel that people like them receive too little economic
-attention, too little recognition, insufficient access to infrastructure and
-basic services, and reduced freedom to express their opinions.
+The Left Behind Index was created from Q46a–Q46d. Higher values represent
+stronger feelings that people like the respondent receive insufficient
+economic attention and recognition, inadequate attention to infrastructure
+and basic services, and reduced freedom to express opinions.
 
-The four responses were reverse-coded and averaged into a single score, where
-higher values represent stronger feelings of being left behind.
-
-Results are based on cross-sectional OLS regression models. They describe
-statistical associations and should not be interpreted as proof of cause
-and effect.
+The analyses use cross-sectional observational data. Results describe
+statistical associations and should not be interpreted as evidence of
+cause and effect.
 """)
