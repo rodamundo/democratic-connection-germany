@@ -1,8 +1,10 @@
 # 🏛️ Beyond Socioeconomic Status
 
+![Dashboard Home](images/home.png)
+
 ## How Feeling Left Behind Shapes Democratic Attitudes in Germany
 
-An interactive data analytics project exploring whether **feeling left behind** explains democratic attitudes beyond traditional socioeconomic characteristics such as income and education.
+An interactive data analytics project exploring whether **feeling left behind** explains democratic attitudes beyond traditional socioeconomic characteristics such as household income and education.
 
 🔗 **Live Dashboard:** https://democratic-connection-germany.streamlit.app/
 
@@ -28,11 +30,11 @@ This project investigates whether a newly constructed **Left Behind Index** prov
 
 After controlling for traditional socioeconomic variables:
 
-- ✅ The **Left Behind Index** emerged as the strongest predictor of **Institutional Trust**.
+- ✅ The **Left Behind Index** remained the strongest predictor of **Institutional Trust**.
 
-- ✅ The index also strongly predicts **Democratic Satisfaction**.
+- ✅ The index also emerged as the strongest predictor of **Democratic Satisfaction**.
 
-- ✅ The relationship with **Political Representation** is statistically significant but substantially weaker.
+- ✅ The relationship with **Political Representation** was statistically significant but substantially weaker.
 
 These findings suggest that subjective perceptions of being left behind capture an important dimension of democratic attitudes that is not fully explained by objective socioeconomic conditions.
 
@@ -42,13 +44,13 @@ These findings suggest that subjective perceptions of being left behind capture 
 
 The project combines social science theory with reproducible quantitative analysis.
 
-Analytical workflow:
+### Analytical Workflow
 
 - Data cleaning and preprocessing
 - Construction of composite indices
 - Reliability analysis (Cronbach's Alpha)
 - Exploratory Factor Analysis (EFA)
-- Spearman correlations
+- Spearman correlation analysis
 - Multiple Linear Regression (OLS)
 - Variance Inflation Factor (VIF)
 - HC3 robust standard errors
@@ -70,18 +72,18 @@ The interactive Streamlit application includes:
 
 # Dataset
 
-**German Longitudinal Election Study (GLES) 2025)**
+**German Longitudinal Election Study (GLES) 2025**
 
 - Initial sample: **7,336 respondents**
 - Analytical sample: **5,039 respondents**
 
-Source:
+**Source**
 
 German Longitudinal Election Study (GLES), Post-Election Cross-Section 2025 (ZA10100)
 
 ---
 
-# Technologies
+# Tools & Technologies
 
 - Python
 - Pandas
@@ -89,24 +91,28 @@ German Longitudinal Election Study (GLES), Post-Election Cross-Section 2025 (ZA1
 - Statsmodels
 - Plotly
 - Streamlit
+- Git
+- GitHub
 
 ---
 
 # Repository Structure
 
-```
+```text
 streamlit_app.py
 
 pages/
-├── Research
-├── Results
-├── Methodology
-├── Policy Implications
-└── About
+├── 1_Research.py
+├── 2_Results.py
+├── 3_Methodology.py
+├── 4_Policy_Implications.py
+└── 5_About.py
 
-notebooks/
+images/
+└── home.png
 
-data/
+requirements.txt
+README.md
 ```
 
 ---
@@ -127,13 +133,13 @@ Berlin, Germany
 
 Sociologist • Programme Manager • Data Analyst
 
-Professional interests:
+### Areas of Interest
 
-- Democratic Participation
+- Data Analytics
 - Public Policy
+- Democratic Participation
 - Sustainability
 - Social Impact
-- Data Analytics
 
 ---
 
