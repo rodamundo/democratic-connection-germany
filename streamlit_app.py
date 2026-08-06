@@ -9,7 +9,7 @@ st.set_page_config(
 st.title("🏛️ Beyond Socioeconomic Status")
 
 st.subheader(
-    "Why Social Disconnection Matters for Democratic Connection in Germany"
+    "How Feeling Left Behind Shapes Democratic Attitudes in Germany"
 )
 
 st.markdown("---")
@@ -17,30 +17,64 @@ st.markdown("---")
 st.markdown("""
 ### Research Question
 
-How do subjective experiences of social disconnection shape democratic attitudes in Germany?
+**To what extent does feeling left behind explain democratic attitudes
+beyond traditional socioeconomic characteristics?**
 
-This project investigates whether feeling left behind explains democratic
-attitudes more strongly than objective socioeconomic conditions.
+This project investigates whether people's perception of being left behind
+helps explain democratic attitudes more strongly than objective socioeconomic
+conditions such as income and education.
 
-The analysis uses data from the **German Longitudinal Election Study (GLES 2025)**.
+The analysis uses data from the
+**German Longitudinal Election Study (GLES 2025)**.
 """)
 
 st.markdown("---")
 
-col1, col2, col3 = st.columns(3)
+col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    st.metric("Respondents", "7,336")
+    st.metric("Initial Respondents", "7,336")
 
 with col2:
-    st.metric("Regression Models", "9")
+    st.metric("Analytical Sample", "5,039")
 
 with col3:
+    st.metric("Regression Models", "9")
+
+with col4:
     st.metric("Validated Indices", "2")
 
 st.markdown("---")
 
-st.success(
-    "Main finding: Social Disconnection is substantially more strongly associated "
-    "with Institutional Trust and Democratic Satisfaction than objective socioeconomic characteristics."
-)
+st.success("""
+### Main Finding
+
+After accounting for household income, education, age, East/West Germany,
+migration background, political interest and Subjective Social Class,
+the **Left Behind Index** emerged as the strongest predictor of
+**Institutional Trust** and **Democratic Satisfaction**.
+
+Its relationship with **Political Representation** was substantially weaker.
+""")
+
+st.markdown("---")
+
+st.markdown("""
+### Explore the project
+
+Use the navigation menu to view:
+
+- **Research** — research design, variables and analytical sample
+- **Results** — comparison of the regression models and main findings
+- **Methodology** — index validation and regression diagnostics
+- **Policy Implications** — practical interpretation of the findings
+- **About** — project background and author
+""")
+
+st.caption("""
+Source: German Longitudinal Election Study (GLES 2025),
+Post-Election Cross-Section, ZA10100.
+
+The analyses describe statistical associations and should not be interpreted
+as evidence of causal relationships.
+""")
