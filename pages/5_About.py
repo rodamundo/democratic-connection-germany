@@ -5,60 +5,88 @@ st.title("👤 About")
 st.markdown("""
 ## About the project
 
-**Feeling Left Behind: A Hidden Dimension of Democratic Disconnection**
-
-is a data analytics project examining whether subjective perceptions of
-social neglect help explain people's relationship with democracy in Germany.
-
-The project combines:
-
-- social science research;
-- survey analysis;
-- statistical modelling;
-- data visualization;
-- public-facing communication.
+**Feeling Left Behind and Democracy in Germany** is a data analytics project
+examining whether subjective perceptions of social neglect help explain
+people's relationship with democratic institutions.
 """)
 
 st.divider()
 
 # ============================================================
-# DATA
+# PROJECT AT A GLANCE
 # ============================================================
 
-st.header("Data source")
+st.header("Project at a glance")
 
-st.markdown("""
-The project uses the:
+c1, c2, c3 = st.columns(3)
 
-**German Longitudinal Election Study (GLES 2025)**  
-Post-Election Cross-Section  
-Study number: **ZA10100**
+with c1:
+    with st.container(border=True):
+        st.markdown("### 📊 Data")
+        st.markdown("""
+German Longitudinal Election Study
 
-The GLES is one of Germany's main scientific infrastructures for the study
-of elections, political attitudes and electoral behaviour.
+**GLES 2025**
+
+Post-Election Cross-Section
+""")
+
+with c2:
+    with st.container(border=True):
+        st.markdown("### 🧩 Main concept")
+        st.markdown("""
+**Feeling Left Behind**
+
+Economic attention  
+Recognition  
+Services  
+Voice
+""")
+
+with c3:
+    with st.container(border=True):
+        st.markdown("### 🏛️ Outcomes")
+        st.markdown("""
+Institutional Trust  
+Democratic Satisfaction  
+Party Representation
 """)
 
 st.divider()
 
 # ============================================================
-# ANALYTICAL APPROACH
+# APPROACH
 # ============================================================
 
-st.header("Analytical approach")
+st.header("From survey data to public-facing evidence")
+
+c1, c2, c3, c4 = st.columns(4)
+
+with c1:
+    with st.container(border=True):
+        st.markdown("### 1️⃣")
+        st.markdown("**Data preparation**")
+
+with c2:
+    with st.container(border=True):
+        st.markdown("### 2️⃣")
+        st.markdown("**Index construction**")
+
+with c3:
+    with st.container(border=True):
+        st.markdown("### 3️⃣")
+        st.markdown("**Statistical analysis**")
+
+with c4:
+    with st.container(border=True):
+        st.markdown("### 4️⃣")
+        st.markdown("**Data communication**")
 
 st.markdown("""
-The project includes:
+The analytical workflow includes:
 
-- data cleaning and preprocessing;
-- construction of composite indices;
-- Cronbach's Alpha;
-- Exploratory Factor Analysis;
-- Spearman correlations;
-- Multiple Linear Regression;
-- standardized coefficients;
-- Variance Inflation Factor diagnostics;
-- HC3 robust standard errors;
-- interactive Streamlit visualization.
+**Python · Pandas · Statistical modelling · Reliability analysis ·
+Factor analysis · Regression diagnostics · Plotly · Streamlit**
 """)
 
 st.divider()
@@ -72,48 +100,78 @@ st.header("Author")
 st.markdown("""
 ### Ricardo Martins Batista
 
+**Sociologist · Programme Manager · Data Analyst**
+
 Berlin, Germany
+""")
 
-**Sociologist • Programme Manager • Data Analyst**
+st.markdown("""
+Areas of professional interest include:
 
-Professional interests include:
-
-- Democratic Participation
-- Public Policy
-- Sustainability
-- Social Impact
-- Data Analytics
-- Evidence-based decision making
+**Democratic Participation · Public Policy · Sustainability ·
+Social Impact · Data Analytics · Evidence-based Decision Making**
 """)
 
 st.divider()
 
 # ============================================================
-# PROJECT PURPOSE
+# PURPOSE
 # ============================================================
 
 st.header("Why this project?")
 
 st.markdown("""
-The project was designed not only as a statistical exercise, but as an
-example of how data analytics can help translate complex social questions
-into evidence that can be understood by both technical and non-technical
-audiences.
+The project combines **social science and data analytics**.
 
-A central goal of the dashboard is therefore to make the distinction between:
+Its purpose is not only to perform statistical analysis, but to demonstrate
+how complex social research can be transformed into evidence that is useful
+for both **technical and non-technical audiences**.
+""")
 
-**what the data show**
+c1, c2 = st.columns(2)
 
-and
+with c1:
+    with st.container(border=True):
+        st.markdown("### Scientific goal")
+        st.write(
+            "Test whether subjective social disconnection adds information "
+            "beyond traditional socioeconomic characteristics."
+        )
 
-**what the data allow us to conclude**
+with c2:
+    with st.container(border=True):
+        st.markdown("### Communication goal")
+        st.write(
+            "Make statistical findings understandable without requiring "
+            "the reader to be a statistician."
+        )
 
-clear and transparent.
+st.divider()
+
+# ============================================================
+# TRANSPARENCY
+# ============================================================
+
+st.header("Transparency")
+
+st.markdown("""
+The project distinguishes carefully between:
+
+### What the data show
+
+Statistical relationships between Feeling Left Behind and democratic attitudes.
+
+### What the data do not show
+
+Proof that Feeling Left Behind causes changes in trust, satisfaction
+or political representation.
 """)
 
 st.divider()
 
 st.caption("""
-The analyses use cross-sectional observational data and describe statistical
-associations rather than causal relationships.
+Source: German Longitudinal Election Study (GLES 2025),
+Post-Election Cross-Section, ZA10100.
+
+The analyses use cross-sectional observational data.
 """)

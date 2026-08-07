@@ -7,63 +7,24 @@ st.set_page_config(
 )
 
 # ============================================================
-# HOME PAGE
+# HOME
 # ============================================================
 
 def home():
 
-    st.title(
-        "🏛️ Feeling Left Behind: "
-        "A Hidden Dimension of Democratic Disconnection"
-    )
+    st.title("🏛️ Feeling Left Behind and Democracy in Germany")
 
     st.subheader(
         "How perceptions of social neglect relate to institutional trust, "
-        "democratic satisfaction and party representation in Germany"
+        "democratic satisfaction and party representation"
     )
 
-    st.divider()
-
-    # ========================================================
-    # MAIN QUESTION
-    # ========================================================
-
-    st.header("The question")
-
     st.markdown("""
-**Does feeling left behind help us understand people's relationship with
-democracy better than income, education and social class alone?**
+This project asks a simple question:
 
-This project uses data from the **German Longitudinal Election Study
-(GLES 2025)** to examine whether people who feel overlooked,
-unrecognized or underserved also evaluate democracy differently.
+### Does feeling overlooked or left behind tell us something about people's
+### relationship with democracy that income, education and social class do not?
 """)
-
-    st.divider()
-
-    # ========================================================
-    # KEY NUMBERS
-    # ========================================================
-
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
-        st.metric(
-            "Survey respondents",
-            "7,336"
-        )
-
-    with col2:
-        st.metric(
-            "Analytical sample",
-            "5,039"
-        )
-
-    with col3:
-        st.metric(
-            "Democratic outcomes studied",
-            "3"
-        )
 
     st.divider()
 
@@ -74,84 +35,67 @@ unrecognized or underserved also evaluate democracy differently.
     st.header("What did we find?")
 
     st.success("""
-### Feeling left behind is strongly connected to trust and democratic satisfaction.
+### Feeling Left Behind is strongly connected to trust and democratic satisfaction.
 
-After taking into account income, education, age, East/West Germany,
+Even after accounting for income, education, age, East/West Germany,
 migration background, political interest and perceived social class,
-the **Left Behind Index remained the strongest standardized predictor**
-of both:
+Feeling Left Behind remains strongly associated with:
 
-- **Institutional Trust**
-- **Democratic Satisfaction**
+**lower Institutional Trust** and **lower Democratic Satisfaction**.
 
-Its relationship with **Party Representation** was much weaker.
-""")
-
-    st.markdown("""
-This means that people's **subjective experience of being overlooked or
-left behind contains information that socioeconomic characteristics
-alone do not capture**.
+Its relationship with **Party Representation is much weaker**.
 """)
 
     st.divider()
 
     # ========================================================
-    # QUICK RESULTS
+    # KEY VISUAL NUMBERS
     # ========================================================
 
-    st.header("The result at a glance")
+    st.header("The main result at a glance")
 
-    c1, c2, c3 = st.columns(3)
+    col1, col2, col3 = st.columns(3)
 
-    with c1:
-        st.markdown("""
-### 🏛️ Institutional Trust
+    with col1:
+        with st.container(border=True):
+            st.markdown("### 🏛️ Institutional Trust")
+            st.metric(
+                "Variation explained",
+                "27.6%",
+                delta="+16.9 pp after adding Left Behind"
+            )
+            st.caption("Before Left Behind: 10.7%")
 
-Before Left Behind:
+    with col2:
+        with st.container(border=True):
+            st.markdown("### 🗳️ Democratic Satisfaction")
+            st.metric(
+                "Variation explained",
+                "22.2%",
+                delta="+12.6 pp after adding Left Behind"
+            )
+            st.caption("Before Left Behind: 9.6%")
 
-**10.7% explained**
+    with col3:
+        with st.container(border=True):
+            st.markdown("### 👥 Party Representation")
+            st.metric(
+                "Variation explained",
+                "5.3%",
+                delta="+1.4 pp after adding Left Behind"
+            )
+            st.caption("Before Left Behind: 3.9%")
 
-After Left Behind:
-
-## **27.6%**
-
-**+16.9 percentage points**
-""")
-
-    with c2:
-        st.markdown("""
-### 🗳️ Democratic Satisfaction
-
-Before Left Behind:
-
-**9.6% explained**
-
-After Left Behind:
-
-## **22.2%**
-
-**+12.6 percentage points**
-""")
-
-    with c3:
-        st.markdown("""
-### 👥 Party Representation
-
-Before Left Behind:
-
-**3.9% explained**
-
-After Left Behind:
-
-## **5.3%**
-
-**+1.4 percentage points**
+    st.info("""
+**How to read this:** the larger the increase, the more additional
+information Feeling Left Behind contributes to explaining differences
+between respondents.
 """)
 
     st.divider()
 
     # ========================================================
-    # WHAT LEFT BEHIND MEANS
+    # LEFT BEHIND CONCEPT
     # ========================================================
 
     st.header("What does 'Feeling Left Behind' mean?")
@@ -159,21 +103,68 @@ After Left Behind:
     st.markdown("""
 It does **not simply mean having a low income**.
 
-The index captures whether people feel that people like them:
+The index captures four different perceptions:
+""")
 
-- receive too little attention to their economic situation;
-- receive too little recognition for their work;
-- receive insufficient attention regarding infrastructure and basic services;
-- have less freedom to express their opinions publicly.
+    c1, c2, c3, c4 = st.columns(4)
 
-These four dimensions are combined into the project's
-**Left Behind Index**.
+    with c1:
+        with st.container(border=True):
+            st.markdown("### 💶 Economic attention")
+            st.write(
+                "Do people like me receive enough attention to their "
+                "economic situation?"
+            )
+
+    with c2:
+        with st.container(border=True):
+            st.markdown("### 👏 Recognition")
+            st.write(
+                "Is the work and contribution of people like me recognized?"
+            )
+
+    with c3:
+        with st.container(border=True):
+            st.markdown("### 🏥 Services")
+            st.write(
+                "Do people like me receive adequate access to basic "
+                "infrastructure and services?"
+            )
+
+    with c4:
+        with st.container(border=True):
+            st.markdown("### 🗣️ Voice")
+            st.write(
+                "Do people like me feel free to express their opinions publicly?"
+            )
+
+    st.markdown("""
+### Left Behind Index
+
+**1 — Lower feeling of being left behind**  
+`● ───── ● ───── ● ───── ● ───── ●`  
+**5 — Higher feeling of being left behind**
 """)
 
     st.info("""
-👉 Open **Results → Left Behind Index** for the complete explanation
-of the four questions and how the index was constructed.
+For the exact survey questions and how the index was calculated,
+open **Results → Left Behind Index**.
 """)
+
+    st.divider()
+
+    # ========================================================
+    # PROJECT NUMBERS
+    # ========================================================
+
+    st.header("About the analysis")
+
+    c1, c2, c3, c4 = st.columns(4)
+
+    c1.metric("Survey respondents", "7,336")
+    c2.metric("Analytical sample", "5,039")
+    c3.metric("Democratic outcomes", "3")
+    c4.metric("Regression models", "9")
 
     st.divider()
 
@@ -183,23 +174,42 @@ of the four questions and how the index was constructed.
 
     st.header("Explore the project")
 
-    st.markdown("""
-**📚 Research**  
-What was studied, which data were used and why these variables were selected.
+    c1, c2, c3 = st.columns(3)
 
-**📊 Results**  
-What the analysis found, what Feeling Left Behind means and how the
-three democratic outcomes were measured.
+    with c1:
+        with st.container(border=True):
+            st.markdown("### 📚 Research")
+            st.write(
+                "The research question, data, variables and logic of the analysis."
+            )
 
-**🔬 Methodology**  
-Index validation, regression models and statistical diagnostics.
+        with st.container(border=True):
+            st.markdown("### 📊 Results")
+            st.write(
+                "The main findings and the complete explanation of "
+                "Feeling Left Behind."
+            )
 
-**💡 Policy Implications**  
-What the findings may mean for democratic institutions and public policy.
+    with c2:
+        with st.container(border=True):
+            st.markdown("### 🔬 Methodology")
+            st.write(
+                "How the indices and regression models were tested and validated."
+            )
 
-**👤 About**  
-Project background and author.
-""")
+        with st.container(border=True):
+            st.markdown("### 💡 Policy Implications")
+            st.write(
+                "What the findings may mean for democratic institutions "
+                "and public policy."
+            )
+
+    with c3:
+        with st.container(border=True):
+            st.markdown("### 👤 About")
+            st.write(
+                "Project background, analytical approach and author."
+            )
 
     st.divider()
 
@@ -207,8 +217,8 @@ Project background and author.
 **Source:** German Longitudinal Election Study (GLES 2025),
 Post-Election Cross-Section, ZA10100.
 
-The analysis describes statistical associations and does not establish
-cause-and-effect relationships.
+Results describe statistical associations and should not be interpreted
+as evidence of cause and effect.
 """)
 
 

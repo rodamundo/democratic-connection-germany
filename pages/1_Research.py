@@ -3,41 +3,87 @@ import streamlit as st
 st.title("📚 Research")
 
 st.markdown("""
-## What is this project trying to understand?
+## The idea behind the project
 
-Many explanations of political dissatisfaction focus on people's
-**economic and social position**:
+Political dissatisfaction is often explained through people's
+**economic and social circumstances**.
 
-- income;
-- education;
-- age;
-- region;
-- social class.
+But people with similar income or education may experience society
+very differently.
 
-This project asks whether another dimension also matters:
-
-> **Do people who feel overlooked, unrecognized or left behind relate
-> differently to democratic institutions?**
+This project asks whether those subjective experiences also matter.
 """)
 
 st.divider()
 
 # ============================================================
-# RESEARCH QUESTION
+# QUESTION
 # ============================================================
 
-st.header("Research Question")
+st.header("The research question")
 
 st.info("""
-### To what extent does feeling left behind explain democratic attitudes
+### To what extent does Feeling Left Behind explain democratic attitudes
 ### beyond traditional socioeconomic characteristics?
 """)
 
 st.markdown("""
-The purpose is not to argue that income or education do not matter.
+In simpler terms:
 
-Instead, the analysis asks whether people's **subjective experience of
-their place in society adds information beyond these traditional factors**.
+> **If two people have similar income, education and social backgrounds,
+> could differences in whether they feel recognized and included help
+> explain why they relate differently to democracy?**
+""")
+
+st.divider()
+
+# ============================================================
+# RESEARCH LOGIC VISUAL
+# ============================================================
+
+st.header("The logic of the research")
+
+c1, c2, c3 = st.columns(3)
+
+with c1:
+    with st.container(border=True):
+        st.markdown("### 1️⃣ Traditional factors")
+        st.markdown("""
+Income  
+Education  
+Age  
+East / West Germany  
+Migration background  
+Political interest
+""")
+
+with c2:
+    with st.container(border=True):
+        st.markdown("### 2️⃣ Social position")
+        st.markdown("""
+Everything in Model 1
+
+**+**
+
+Subjective Social Class
+""")
+
+with c3:
+    with st.container(border=True):
+        st.markdown("### 3️⃣ Feeling Left Behind")
+        st.markdown("""
+Everything in Models 1 and 2
+
+**+**
+
+Left Behind Index
+""")
+
+st.markdown("""
+### The key comparison
+
+If the third model improves substantially, Feeling Left Behind is capturing
+information that traditional socioeconomic measures do not fully capture.
 """)
 
 st.divider()
@@ -48,24 +94,30 @@ st.divider()
 
 st.header("Where do the data come from?")
 
+c1, c2 = st.columns(2)
+
+with c1:
+    with st.container(border=True):
+        st.markdown("""
+### German Longitudinal Election Study
+
+**GLES 2025**
+
+Post-Election Cross-Section
+
+Study: **ZA10100**
+""")
+
+with c2:
+    with st.container(border=True):
+        st.metric("Original respondents", "7,336")
+        st.metric("Analytical sample", "5,039")
+
 st.markdown("""
-The analysis uses the:
+The survey was conducted after the **2025 German federal election**.
 
-### German Longitudinal Election Study — GLES 2025
-
-**Post-Election Cross-Section — ZA10100**
-
-The survey was conducted following the 2025 German federal election.
-
-The original dataset contains:
-
-## **7,336 respondents**
-
-After selecting the variables required for the regression analysis and
-using complete observations consistently across the models, the final
-analytical sample contains:
-
-## **5,039 respondents**
+For the regression comparison, the same analytical sample is used
+consistently across the models.
 """)
 
 st.divider()
@@ -74,26 +126,44 @@ st.divider()
 # CENTRAL CONCEPT
 # ============================================================
 
-st.header("The central concept: Feeling Left Behind")
+st.header("The central concept")
 
 st.markdown("""
-The project focuses on a subjective experience that is different from
-simply measuring someone's income.
+### Feeling Left Behind
 
-The GLES asks whether respondents feel that **people like them**:
+The project does not define being left behind only through material
+disadvantage.
 
-1. receive too little attention to their economic situation;
-2. receive too little recognition for their work;
-3. receive insufficient attention regarding access to basic services;
-4. are less free to express their opinions publicly.
-
-These four questions are combined into the **Left Behind Index**.
+Instead, it looks at whether people feel that **people like them**
+receive adequate attention, recognition, services and space to express
+their views.
 """)
 
+c1, c2, c3, c4 = st.columns(4)
+
+with c1:
+    with st.container(border=True):
+        st.markdown("### 💶")
+        st.markdown("**Economic attention**")
+
+with c2:
+    with st.container(border=True):
+        st.markdown("### 👏")
+        st.markdown("**Social recognition**")
+
+with c3:
+    with st.container(border=True):
+        st.markdown("### 🏥")
+        st.markdown("**Basic services**")
+
+with c4:
+    with st.container(border=True):
+        st.markdown("### 🗣️")
+        st.markdown("**Freedom of expression**")
+
 st.info("""
-The Results page contains a dedicated **Left Behind Index** tab explaining
-each survey question, the original response scale, the reversal of the
-scale and the construction of the final index.
+The four exact GLES questions and the construction of the index are
+shown in **Results → Left Behind Index**.
 """)
 
 st.divider()
@@ -102,96 +172,79 @@ st.divider()
 # OUTCOMES
 # ============================================================
 
-st.header("What democratic outcomes are studied?")
+st.header("What are we trying to explain?")
 
-col1, col2, col3 = st.columns(3)
+c1, c2, c3 = st.columns(3)
 
-with col1:
-    st.markdown("""
-### 🏛️ Institutional Trust
-
-**Question in simple terms:**
+with c1:
+    with st.container(border=True):
+        st.markdown("### 🏛️ Institutional Trust")
+        st.markdown("""
+**In simple terms:**
 
 Do people trust important public and political institutions?
 
-The analysis combines trust ratings for **eight institutions or groups**
-into one index.
+**Measurement:**  
+8 trust questions combined into one index.
 """)
 
-with col2:
-    st.markdown("""
-### 🗳️ Democratic Satisfaction
+with c2:
+    with st.container(border=True):
+        st.markdown("### 🗳️ Democratic Satisfaction")
+        st.markdown("""
+**In simple terms:**
 
-**Question in simple terms:**
+Are people satisfied with the way democracy works in Germany?
 
-Are people satisfied with how democracy works in Germany?
-
-This outcome comes from **one direct survey question**.
+**Measurement:**  
+1 direct survey question.
 """)
 
-with col3:
-    st.markdown("""
-### 👥 Party Representation
+with c3:
+    with st.container(border=True):
+        st.markdown("### 👥 Party Representation")
+        st.markdown("""
+**In simple terms:**
 
-**Question in simple terms:**
+Does any political party represent the respondent's views well?
 
-Do people feel that any political party represents their views well?
-
-This also comes from **one direct survey question**.
-""")
-
-st.divider()
-
-# ============================================================
-# EXPLANATORY VARIABLES
-# ============================================================
-
-st.header("What factors are compared?")
-
-st.markdown("""
-The analysis compares Feeling Left Behind with several more traditional
-characteristics:
-
-- **Household Income**
-- **Education**
-- **Age**
-- **East/West Germany**
-- **Migration Background**
-- **Political Interest**
-- **Subjective Social Class**
+**Measurement:**  
+1 direct Yes / No question.
 """)
 
 st.divider()
 
 # ============================================================
-# LOGIC
+# CONTROLS
 # ============================================================
 
-st.header("How is the research question tested?")
+st.header("What else does the analysis take into account?")
 
 st.markdown("""
-Three versions of the statistical model are estimated for each democratic
-outcome.
+To avoid confusing Feeling Left Behind with other characteristics,
+the regression models also account for:
 
-### Model 1 — Traditional characteristics
-
-Income, education, age, East/West Germany, migration background and
-political interest.
-
-### Model 2 — Adds Subjective Social Class
-
-This tests whether people's perceived position in society provides
-additional information.
-
-### Model 3 — Adds Feeling Left Behind
-
-The Left Behind Index is added last.
-
-This allows us to ask:
-
-> **Does Feeling Left Behind explain something that income, education
-> and social class do not?**
+**Household Income · Education · Age · East/West Germany ·
+Migration Background · Political Interest · Subjective Social Class**
 """)
+
+st.divider()
+
+# ============================================================
+# ANALYTICAL STRUCTURE
+# ============================================================
+
+st.header("How many analyses were performed?")
+
+c1, c2, c3 = st.columns(3)
+
+c1.metric("Outcomes", "3")
+c2.metric("Models per outcome", "3")
+c3.metric("Regression models", "9")
+
+st.caption(
+    "3 democratic outcomes × 3 model specifications = 9 regression models."
+)
 
 st.divider()
 
