@@ -87,8 +87,13 @@ Comparing the models shows how much additional information each new layer
 contributes.
 """)
 
+    # Display R² values as percentages in the table
     st.dataframe(
-        comparison,
+        comparison.style.format({
+            "Model 1": "{:.1%}",
+            "Model 2": "{:.1%}",
+            "Model 3": "{:.1%}"
+        }),
         hide_index=True,
         width="stretch"
     )
@@ -115,21 +120,24 @@ contributes.
     )
 
     fig.update_traces(
-        texttemplate="%{text:.3f}",
+        texttemplate="%{text:.1%}",
         textposition="outside",
         hovertemplate=(
             "<b>%{x}</b><br>"
             "%{fullData.name}<br>"
-            "R² = %{y:.3f}<extra></extra>"
+            "R² = %{y:.1%}<extra></extra>"
         )
     )
 
     fig.update_layout(
         height=550,
         xaxis_title="",
-        yaxis_title="Proportion of variation explained (R²)",
+        yaxis_title="Variation explained (R²)",
         legend_title="",
-        yaxis=dict(range=[0, 0.35])
+        yaxis=dict(
+            range=[0, 0.35],
+            tickformat=".0%"
+        )
     )
 
     st.plotly_chart(
