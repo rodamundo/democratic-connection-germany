@@ -1,105 +1,149 @@
 import streamlit as st
 
-st.set_page_config(
-    page_title="Policy Implications",
-    page_icon="💡",
-    layout="wide"
-)
-
 st.title("💡 Policy Implications")
 
 st.markdown("""
-The findings suggest that democratic disconnection cannot be understood
-through income or education alone.
+## What might these findings mean beyond the statistical analysis?
 
-The results indicate that **feeling left behind in society** is a stronger
-predictor of democratic attitudes than several traditional socioeconomic
-characteristics.
+The strongest result of the project is not simply that socioeconomic
+characteristics matter.
+
+It is that people's **perceptions of recognition, attention and social
+inclusion are strongly associated with how they relate to democratic
+institutions**.
 """)
 
 st.divider()
 
-st.info("""
-### Why focus on the Left Behind Index?
+# ============================================================
+# IMPLICATION 1
+# ============================================================
 
-The Left Behind Index demonstrated good psychometric properties:
-
-- **Cronbach's α = 0.753**
-- **One-factor structure (Eigenvalue = 2.323)**
-- **Low multicollinearity (all VIF values < 2)**
-
-These results support its use as a reliable measure of perceived social exclusion.
-""")
-
-st.divider()
-
-st.header("What this may mean for democratic organizations")
-
-col1, col2 = st.columns(2)
-
-with col1:
-
-    st.markdown("""
-### 1. Participation is not enough
-
-Creating opportunities for participation may have limited impact if
-citizens still feel ignored, excluded or disconnected from society.
-""")
-
-    st.markdown("""
-### 2. Recognition matters
-
-Democratic initiatives should consider whether people feel their
-experiences, identities and opinions are genuinely recognized.
-""")
-
-with col2:
-
-    st.markdown("""
-### 3. Different outcomes require different strategies
-
-The **Left Behind Index** is strongly associated with
-Institutional Trust and Democratic Satisfaction, while showing
-a substantially weaker relationship with Political Representation.
-
-Different democratic outcomes may therefore require different policy approaches.
-""")
-
-    st.markdown("""
-### 4. Go beyond socioeconomic targeting
-
-Income and education remain important indicators,
-but they do not fully identify people who feel left behind.
-""")
-
-st.divider()
-
-st.warning("""
-These findings represent **statistical associations**, not causal relationships.
-
-Although the Left Behind Index is strongly associated with democratic attitudes,
-this study does not demonstrate that improving the index would automatically
-increase democratic trust or democratic satisfaction.
-""")
-
-st.divider()
-
-st.header("Questions for policymakers")
+st.header("1. Economic policy may not be enough")
 
 st.markdown("""
-- How can democratic institutions identify people who feel left behind?
+Traditional approaches to political dissatisfaction often focus on
+economic inequality, employment or income.
 
-- Which public policies strengthen citizens' sense of recognition and belonging?
+These issues remain important.
 
-- How can participation processes become more inclusive?
+But this analysis suggests that democratic attitudes are also connected
+to whether people feel that **people like them receive attention and
+recognition from society**.
 
-- Which interventions improve democratic trust without increasing political polarization?
+This means that improving material conditions alone may not necessarily
+address every dimension of democratic disconnection.
 """)
 
 st.divider()
 
+# ============================================================
+# IMPLICATION 2
+# ============================================================
+
+st.header("2. Recognition matters")
+
+st.markdown("""
+One component of the Left Behind Index asks whether people feel that their
+work and contribution receive sufficient recognition.
+
+This highlights a dimension of public policy that is difficult to capture
+through economic indicators alone.
+
+Citizens may evaluate society not only according to what resources they
+receive, but also according to whether they believe their experiences,
+contributions and concerns are **seen and respected**.
+""")
+
+st.divider()
+
+# ============================================================
+# IMPLICATION 3
+# ============================================================
+
+st.header("3. Access to services may have democratic relevance")
+
+st.markdown("""
+The Left Behind Index also includes perceptions of access to:
+
+- doctors;
+- public transport;
+- schools;
+- banks;
+- postal services;
+- Internet infrastructure.
+
+Unequal or declining access to basic services may therefore matter not only
+as a service-delivery issue, but also as part of how citizens evaluate
+their relationship with society and democratic institutions.
+""")
+
+st.divider()
+
+# ============================================================
+# IMPLICATION 4
+# ============================================================
+
+st.header("4. Trust and representation are not the same problem")
+
+st.markdown("""
+Feeling Left Behind is strongly associated with:
+
+- Institutional Trust
+- Democratic Satisfaction
+
+But its relationship with Party Representation is considerably weaker.
+
+This suggests that democratic disconnection has **different dimensions**.
+
+Policies designed to strengthen institutional trust may therefore require
+different approaches from those designed to improve political
+representation.
+""")
+
+st.divider()
+
+# ============================================================
+# IMPLICATION 5
+# ============================================================
+
+st.header("5. Listening may matter as much as targeting")
+
+st.markdown("""
+The findings suggest a potential distinction between:
+
+### Who receives resources?
+
+and
+
+### Who feels heard, recognized and included?
+
+Public policy often measures the first through income, employment,
+infrastructure and service provision.
+
+The second is harder to quantify, but this project suggests that it may be
+particularly relevant to democratic trust and satisfaction.
+""")
+
+st.divider()
+
+# ============================================================
+# CAUTION
+# ============================================================
+
+st.warning("""
+## Important caution
+
+These results should **not** be interpreted as evidence that feeling left
+behind causes distrust or democratic dissatisfaction.
+
+The data are observational and cross-sectional.
+
+The findings identify meaningful relationships that may help guide further
+research and policy discussion, but they do not establish causal effects.
+""")
+
 st.caption("""
-The policy implications presented here are derived from the statistical analyses
-conducted in this project and should be interpreted as evidence-informed
-recommendations rather than causal conclusions.
+The policy interpretations presented here are based on statistical
+associations observed in the GLES 2025 data.
 """)

@@ -1,7 +1,7 @@
 import streamlit as st
 
 st.set_page_config(
-    page_title="Beyond Socioeconomic Status",
+    page_title="Feeling Left Behind and Democracy in Germany",
     page_icon="🏛️",
     layout="wide"
 )
@@ -11,78 +11,204 @@ st.set_page_config(
 # ============================================================
 
 def home():
-    st.title("🏛️ Beyond Socioeconomic Status")
+
+    st.title(
+        "🏛️ Feeling Left Behind: "
+        "A Hidden Dimension of Democratic Disconnection"
+    )
 
     st.subheader(
-        "How Feeling Left Behind Shapes Democratic Attitudes in Germany"
+        "How perceptions of social neglect relate to institutional trust, "
+        "democratic satisfaction and party representation in Germany"
     )
 
     st.divider()
 
+    # ========================================================
+    # MAIN QUESTION
+    # ========================================================
+
+    st.header("The question")
+
     st.markdown("""
-## Research Question
+**Does feeling left behind help us understand people's relationship with
+democracy better than income, education and social class alone?**
 
-**To what extent does feeling left behind explain democratic attitudes
-beyond traditional socioeconomic characteristics?**
-
-This project investigates whether people's perception of being left behind
-helps explain democratic attitudes more strongly than objective socioeconomic
-characteristics such as household income and education.
-
-The analysis uses data from the
-**German Longitudinal Election Study (GLES 2025)**.
+This project uses data from the **German Longitudinal Election Study
+(GLES 2025)** to examine whether people who feel overlooked,
+unrecognized or underserved also evaluate democracy differently.
 """)
 
     st.divider()
 
-    col1, col2, col3, col4 = st.columns(4)
+    # ========================================================
+    # KEY NUMBERS
+    # ========================================================
+
+    col1, col2, col3 = st.columns(3)
 
     with col1:
-        st.metric("Respondents", "7,336")
+        st.metric(
+            "Survey respondents",
+            "7,336"
+        )
 
     with col2:
-        st.metric("Analytical Sample", "5,039")
+        st.metric(
+            "Analytical sample",
+            "5,039"
+        )
 
     with col3:
-        st.metric("Regression Models", "9")
-
-    with col4:
-        st.metric("Composite Indices", "2")
+        st.metric(
+            "Democratic outcomes studied",
+            "3"
+        )
 
     st.divider()
 
+    # ========================================================
+    # MAIN FINDING
+    # ========================================================
+
+    st.header("What did we find?")
+
     st.success("""
-## Key Finding
+### Feeling left behind is strongly connected to trust and democratic satisfaction.
 
-The **Left Behind Index** remained the strongest standardized predictor of
-**Institutional Trust** and **Democratic Satisfaction**, even after
-controlling for household income, education, age, East/West Germany,
-migration background, political interest and Subjective Social Class.
+After taking into account income, education, age, East/West Germany,
+migration background, political interest and perceived social class,
+the **Left Behind Index remained the strongest standardized predictor**
+of both:
 
-Its association with **Political Representation** was substantially weaker.
+- **Institutional Trust**
+- **Democratic Satisfaction**
+
+Its relationship with **Party Representation** was much weaker.
+""")
+
+    st.markdown("""
+This means that people's **subjective experience of being overlooked or
+left behind contains information that socioeconomic characteristics
+alone do not capture**.
 """)
 
     st.divider()
 
+    # ========================================================
+    # QUICK RESULTS
+    # ========================================================
+
+    st.header("The result at a glance")
+
+    c1, c2, c3 = st.columns(3)
+
+    with c1:
+        st.markdown("""
+### 🏛️ Institutional Trust
+
+Before Left Behind:
+
+**10.7% explained**
+
+After Left Behind:
+
+## **27.6%**
+
+**+16.9 percentage points**
+""")
+
+    with c2:
+        st.markdown("""
+### 🗳️ Democratic Satisfaction
+
+Before Left Behind:
+
+**9.6% explained**
+
+After Left Behind:
+
+## **22.2%**
+
+**+12.6 percentage points**
+""")
+
+    with c3:
+        st.markdown("""
+### 👥 Party Representation
+
+Before Left Behind:
+
+**3.9% explained**
+
+After Left Behind:
+
+## **5.3%**
+
+**+1.4 percentage points**
+""")
+
+    st.divider()
+
+    # ========================================================
+    # WHAT LEFT BEHIND MEANS
+    # ========================================================
+
+    st.header("What does 'Feeling Left Behind' mean?")
+
     st.markdown("""
-## Explore the Project
+It does **not simply mean having a low income**.
 
-Use the navigation menu to explore:
+The index captures whether people feel that people like them:
 
-- 📚 **Research** — research design, variables and analytical sample
-- 📊 **Results** — regression models and key findings
-- 🔬 **Methodology** — index validation and regression diagnostics
-- 💡 **Policy Implications** — practical interpretation of the findings
-- 👤 **About** — project background and author
+- receive too little attention to their economic situation;
+- receive too little recognition for their work;
+- receive insufficient attention regarding infrastructure and basic services;
+- have less freedom to express their opinions publicly.
+
+These four dimensions are combined into the project's
+**Left Behind Index**.
+""")
+
+    st.info("""
+👉 Open **Results → Left Behind Index** for the complete explanation
+of the four questions and how the index was constructed.
+""")
+
+    st.divider()
+
+    # ========================================================
+    # NAVIGATION
+    # ========================================================
+
+    st.header("Explore the project")
+
+    st.markdown("""
+**📚 Research**  
+What was studied, which data were used and why these variables were selected.
+
+**📊 Results**  
+What the analysis found, what Feeling Left Behind means and how the
+three democratic outcomes were measured.
+
+**🔬 Methodology**  
+Index validation, regression models and statistical diagnostics.
+
+**💡 Policy Implications**  
+What the findings may mean for democratic institutions and public policy.
+
+**👤 About**  
+Project background and author.
 """)
 
     st.divider()
 
     st.caption("""
 **Source:** German Longitudinal Election Study (GLES 2025),
-Post-Election Cross-Section (ZA10100).
+Post-Election Cross-Section, ZA10100.
 
-Results describe **statistical associations rather than causal relationships**.
+The analysis describes statistical associations and does not establish
+cause-and-effect relationships.
 """)
 
 

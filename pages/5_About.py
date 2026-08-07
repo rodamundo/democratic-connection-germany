@@ -1,128 +1,119 @@
 import streamlit as st
 
-st.set_page_config(
-    page_title="About",
-    page_icon="👤",
-    layout="wide"
-)
-
 st.title("👤 About")
 
 st.markdown("""
-## Beyond Socioeconomic Status
+## About the project
 
-This project investigates whether **feeling left behind in society**
-helps explain democratic attitudes in Germany beyond traditional
-socioeconomic characteristics such as income and education.
+**Feeling Left Behind: A Hidden Dimension of Democratic Disconnection**
 
-The analysis combines survey data, statistical modelling and the
-construction of a novel composite indicator: the **Left Behind Index**.
+is a data analytics project examining whether subjective perceptions of
+social neglect help explain people's relationship with democracy in Germany.
+
+The project combines:
+
+- social science research;
+- survey analysis;
+- statistical modelling;
+- data visualization;
+- public-facing communication.
 """)
 
 st.divider()
 
-# ==========================================================
-# PROJECT
-# ==========================================================
-
-st.header("Project Overview")
-
-st.markdown("""
-The project was developed during a Data Analytics Bootcamp and combines
-social science theory with quantitative methods.
-
-The workflow included:
-
-- Data cleaning and preprocessing
-- Construction of composite indices
-- Reliability analysis (Cronbach's Alpha)
-- Exploratory Factor Analysis (EFA)
-- Correlation analysis
-- Multiple Linear Regression (OLS)
-- Multicollinearity diagnostics (VIF)
-- Robust regression using HC3 standard errors
-""")
-
-st.divider()
-
-# ==========================================================
+# ============================================================
 # DATA
-# ==========================================================
+# ============================================================
 
-st.header("Dataset")
+st.header("Data source")
 
 st.markdown("""
-**German Longitudinal Election Study (GLES) 2025**
+The project uses the:
 
-- Initial sample: **7,336 respondents**
-- Final analytical sample: **5,039 complete observations**
-- Country: Germany
-- Survey year: 2025
+**German Longitudinal Election Study (GLES 2025)**  
+Post-Election Cross-Section  
+Study number: **ZA10100**
+
+The GLES is one of Germany's main scientific infrastructures for the study
+of elections, political attitudes and electoral behaviour.
 """)
 
 st.divider()
 
-# ==========================================================
-# MAIN FINDING
-# ==========================================================
+# ============================================================
+# ANALYTICAL APPROACH
+# ============================================================
 
-st.header("Main Finding")
+st.header("Analytical approach")
 
-st.success("""
-After controlling for income, education, age, migration background,
-political interest and subjective social class, the **Left Behind Index**
-remained the strongest predictor of Institutional Trust and Democratic
-Satisfaction.
+st.markdown("""
+The project includes:
 
-This suggests that perceived social exclusion captures an important
-dimension of democratic attitudes beyond traditional socioeconomic variables.
+- data cleaning and preprocessing;
+- construction of composite indices;
+- Cronbach's Alpha;
+- Exploratory Factor Analysis;
+- Spearman correlations;
+- Multiple Linear Regression;
+- standardized coefficients;
+- Variance Inflation Factor diagnostics;
+- HC3 robust standard errors;
+- interactive Streamlit visualization.
 """)
 
 st.divider()
 
-# ==========================================================
-# LIMITATIONS
-# ==========================================================
-
-st.header("Limitations")
-
-st.warning("""
-This project is based on cross-sectional observational data.
-
-The analyses identify statistical associations and should not be interpreted
-as evidence of causal relationships.
-
-Future research could investigate whether the Left Behind Index predicts
-changes in democratic attitudes over time using longitudinal data.
-""")
-
-st.divider()
-
-# ==========================================================
+# ============================================================
 # AUTHOR
-# ==========================================================
+# ============================================================
 
 st.header("Author")
 
 st.markdown("""
-**Ricardo Martins Batista**
+### Ricardo Martins Batista
 
-Sociologist, Programme Manager and Data Analyst based in Berlin.
+Berlin, Germany
+
+**Sociologist • Programme Manager • Data Analyst**
 
 Professional interests include:
 
-- Democratic participation
+- Democratic Participation
+- Public Policy
 - Sustainability
-- Social impact
-- Public policy
-- Data analytics
+- Social Impact
+- Data Analytics
 - Evidence-based decision making
 """)
 
 st.divider()
 
-st.caption("""
-Developed as a portfolio project during the Data Analytics Bootcamp (2026).
+# ============================================================
+# PROJECT PURPOSE
+# ============================================================
 
-Built with Python, Pandas, Statsmodels, Streamlit and the German Longitudinal Election Study (GLES).
+st.header("Why this project?")
+
+st.markdown("""
+The project was designed not only as a statistical exercise, but as an
+example of how data analytics can help translate complex social questions
+into evidence that can be understood by both technical and non-technical
+audiences.
+
+A central goal of the dashboard is therefore to make the distinction between:
+
+**what the data show**
+
+and
+
+**what the data allow us to conclude**
+
+clear and transparent.
+""")
+
+st.divider()
+
+st.caption("""
+The analyses use cross-sectional observational data and describe statistical
+associations rather than causal relationships.
 """)

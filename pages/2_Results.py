@@ -2,44 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-st.set_page_config(
-    page_title="Results",
-    page_icon="📊",
-    layout="wide"
-)
-
-# ============================================================
-# HEADER
-# ============================================================
-
 st.title("📊 Results")
-
-st.markdown("""
-## What did we find?
-
-People who feel more **left behind** tend to have:
-
-- **lower trust in institutions**;
-- **lower satisfaction with how democracy works in Germany**;
-- and, to a much smaller extent, **a lower sense of being represented by a political party**.
-
-The important point is that these relationships remain even after taking
-into account people's **income, education, age, region, migration background,
-political interest and perceived social class**.
-""")
-
-st.success("""
-### Main takeaway
-
-**Feeling left behind adds much more explanatory power for Institutional Trust
-and Democratic Satisfaction than for Party Representation.**
-
-In other words, social disconnection appears to be particularly relevant to
-how people **trust and evaluate democracy**, rather than simply whether they
-feel represented by a political party.
-""")
-
-st.divider()
 
 # ============================================================
 # DATA
@@ -62,9 +25,37 @@ standardized_results = pd.DataFrame({
         "Democratic Satisfaction",
         "Party Representation"
     ],
-    "Left Behind β": [-0.459, 0.395, 0.128],
-    "Final R²": [0.276, 0.222, 0.053]
+    "Left Behind β": [-0.459, 0.395, 0.128]
 })
+
+# ============================================================
+# INTRODUCTION
+# ============================================================
+
+st.markdown("""
+## What did we find?
+
+People who feel more **left behind** tend to have:
+
+- **lower trust in institutions**;
+- **lower satisfaction with how democracy works in Germany**;
+- and, to a much smaller extent, **a lower sense of being represented
+  by a political party**.
+
+These relationships remain after accounting for income, education, age,
+East/West Germany, migration background, political interest and
+Subjective Social Class.
+""")
+
+st.success("""
+### Main takeaway
+
+Feeling Left Behind adds substantial explanatory power for
+**Institutional Trust** and **Democratic Satisfaction**, but much less
+for **Party Representation**.
+""")
+
+st.divider()
 
 # ============================================================
 # QUICK RESULT
@@ -72,57 +63,41 @@ standardized_results = pd.DataFrame({
 
 st.header("The result in one view")
 
-st.markdown("""
-The charts below compare how much of the differences between respondents
-can be statistically explained **before and after adding the Left Behind Index**.
-""")
+c1, c2, c3 = st.columns(3)
 
-col1, col2, col3 = st.columns(3)
-
-with col1:
+with c1:
     st.markdown("""
-### 🏛️ Do people trust institutions?
+### 🏛️ Institutional Trust
 
 **10.7% → 27.6%**
-
-after adding Feeling Left Behind
 
 **+16.9 percentage points**
 """)
 
-with col2:
+with c2:
     st.markdown("""
-### 🗳️ Are people satisfied with democracy?
+### 🗳️ Democratic Satisfaction
 
 **9.6% → 22.2%**
-
-after adding Feeling Left Behind
 
 **+12.6 percentage points**
 """)
 
-with col3:
+with c3:
     st.markdown("""
-### 👥 Do people feel represented by a party?
+### 👥 Party Representation
 
 **3.9% → 5.3%**
-
-after adding Feeling Left Behind
 
 **+1.4 percentage points**
 """)
 
 st.info("""
-### How should I read these percentages?
+These percentages show how much of the differences between respondents
+the statistical models can explain.
 
-They show how much of the differences between respondents the statistical
-model can explain.
-
-For example, the final model explains **27.6% of the observed differences
-in Institutional Trust**.
-
-The important information is not only the final percentage, but also
-**how much the model improves when Feeling Left Behind is added**.
+The key comparison is how much the percentage increases when
+**Feeling Left Behind is added**.
 """)
 
 st.divider()
@@ -131,8 +106,9 @@ st.divider()
 # TABS
 # ============================================================
 
-tab1, tab2, tab3, tab4 = st.tabs([
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "Overview",
+    "Left Behind Index",
     "Institutional Trust",
     "Democratic Satisfaction",
     "Party Representation"
@@ -144,161 +120,49 @@ tab1, tab2, tab3, tab4 = st.tabs([
 
 with tab1:
 
-    st.header("Understanding the analysis")
+    st.header("Understanding the results")
 
-    # --------------------------------------------------------
-    # LEFT BEHIND
-    # --------------------------------------------------------
-
-    st.subheader("What does 'Feeling Left Behind' mean?")
+    st.subheader("What does Feeling Left Behind mean?")
 
     st.markdown("""
-**Feeling left behind does not simply mean having a low income.**
+Feeling Left Behind does **not simply mean having a low income**.
 
-The GLES survey asked whether respondents felt that people like them
-receive enough **economic attention, social recognition, access to basic
-services and freedom to express their opinions**.
+It captures whether people feel that people like them are:
 
-The project combines four survey questions into one **Left Behind Index**.
+- economically overlooked;
+- socially unrecognized;
+- underserved by basic infrastructure and services;
+- constrained in expressing their views publicly.
 """)
 
     st.info("""
-### The four questions
-
-**1. Economic attention**
-
-“The economic situation of people like me receives too little attention
-from society.”
-
-**2. Social recognition**
-
-“People like me receive too little recognition from society for the work
-they do.”
-
-**3. Infrastructure and basic services**
-
-“Society pays too little attention to ensuring that people like me have
-access to basic infrastructures and services.”
-
-Examples in the questionnaire include doctors, banks, public transportation,
-schools, post offices and Internet access.
-
-**4. Freedom of expression**
-
-“People like me are no longer allowed to freely express their opinions
-in public.”
-""")
-
-    st.markdown("""
-Respondents originally answered from:
-
-**1 = Strongly agree**  
-to  
-**5 = Strongly disagree**
-
-Because agreement means a stronger feeling of being left behind, the scale
-was reversed for the analysis.
-
-The final index therefore runs conceptually from:
-
-**1 = lower feeling of being left behind**  
-to  
-**5 = higher feeling of being left behind**
-
-The final score is the **average of the four reversed answers**.
-""")
-
-    st.caption(
-        "GLES variables: q46a, q46b, q46c and q46d."
-    )
-
-    st.divider()
-
-    # --------------------------------------------------------
-    # OUTCOMES
-    # --------------------------------------------------------
-
-    st.subheader("What are we trying to explain?")
-
-    c1, c2, c3 = st.columns(3)
-
-    with c1:
-        st.markdown("""
-### 🏛️ Institutional Trust
-
-**Simple question:**
-
-Do people trust important institutions?
-
-The analysis combines respondents' trust in **eight political and public
-institutions**.
-""")
-
-    with c2:
-        st.markdown("""
-### 🗳️ Democratic Satisfaction
-
-**Simple question:**
-
-Are people satisfied with how democracy works in Germany?
-
-This comes from **one direct survey question**.
-""")
-
-    with c3:
-        st.markdown("""
-### 👥 Party Representation
-
-**Simple question:**
-
-Do people feel that a political party represents their views?
-
-This also comes from **one direct survey question**.
+Open the **Left Behind Index** tab for the four exact survey questions,
+response scale and construction of the index.
 """)
 
     st.divider()
-
-    # --------------------------------------------------------
-    # MODELS
-    # --------------------------------------------------------
 
     st.subheader("Why are there three models?")
 
     st.markdown("""
-Instead of putting every variable into the analysis at once, the project
-adds information in stages.
-
-This allows us to see whether **Feeling Left Behind adds something that
-income, education and social class do not already explain**.
+The variables are added in stages so that we can see whether Feeling
+Left Behind contributes information beyond socioeconomic characteristics.
 """)
 
     st.info("""
-### Model 1 — Traditional characteristics
+**Model 1 — Traditional characteristics**
 
-Includes:
+Income, education, age, East/West Germany, migration background and
+political interest.
 
-- household income;
-- education;
-- age;
-- East/West Germany;
-- migration background;
-- political interest.
+**Model 2 — + Subjective Social Class**
 
-### Model 2 — Adds Subjective Social Class
+Adds how respondents perceive their own position in society.
 
-Adds how respondents see their own position in society.
+**Model 3 — + Left Behind Index**
 
-### Model 3 — Adds Feeling Left Behind
-
-Adds the Left Behind Index.
-
-If Model 3 explains much more than Model 2, this means Feeling Left Behind
-provides important additional information.
+Adds the subjective experience of Feeling Left Behind.
 """)
-
-    st.divider()
-
-    st.subheader("What happens when Feeling Left Behind is added?")
 
     st.dataframe(
         comparison.style.format({
@@ -360,32 +224,19 @@ provides important additional information.
     st.success("""
 ### What does this graph tell us?
 
-Adding **Subjective Social Class** changes the models only slightly.
+Adding Subjective Social Class changes the models relatively little.
 
-The large change happens when **Feeling Left Behind** is introduced:
+The much larger change happens when **Feeling Left Behind** is added:
 
 - Institutional Trust: **10.7% → 27.6%**
 - Democratic Satisfaction: **9.6% → 22.2%**
 - Party Representation: **3.9% → 5.3%**
 
-So Feeling Left Behind adds substantial information about **trust and
-democratic satisfaction**, but much less about **party representation**.
+Feeling Left Behind therefore appears particularly relevant to
+**trust and satisfaction with democracy**.
 """)
-
-    # --------------------------------------------------------
-    # BETA
-    # --------------------------------------------------------
 
     with st.expander("Technical evidence: standardized coefficients"):
-
-        st.markdown("""
-The chart below shows the standardized coefficient of the Left Behind Index.
-
-The **larger the absolute value**, the stronger the relationship.
-
-The positive or negative sign depends on how each original survey response
-was coded.
-""")
 
         beta_fig = px.bar(
             standardized_results,
@@ -397,11 +248,7 @@ was coded.
 
         beta_fig.update_traces(
             texttemplate="%{text:.3f}",
-            textposition="outside",
-            hovertemplate=(
-                "<b>%{x}</b><br>"
-                "Standardized β = %{y:.3f}<extra></extra>"
-            )
+            textposition="outside"
         )
 
         beta_fig.add_hline(
@@ -422,52 +269,268 @@ was coded.
         )
 
 # ============================================================
-# INSTITUTIONAL TRUST
+# LEFT BEHIND INDEX
 # ============================================================
 
 with tab2:
+
+    st.header("🧩 Left Behind Index")
+
+    st.markdown("""
+## What does “Feeling Left Behind” mean?
+
+The central idea of this project is that people's democratic attitudes
+may depend not only on their objective socioeconomic position, but also
+on whether they **feel overlooked, unrecognized or excluded by society**.
+
+This is a **subjective perception**.
+
+It is not the same thing as poverty, income or social class.
+""")
+
+    st.divider()
+
+    st.subheader("The four survey questions")
+
+    st.markdown("""
+Respondents were asked:
+
+> **“To what extent do you agree with the following statements or not?”**
+""")
+
+    st.info("""
+### 1. Economic attention — q46a
+
+**“The economic situation of people like me receives too little attention
+from society.”**
+
+This captures whether respondents feel that the economic concerns of
+people like them are being overlooked.
+""")
+
+    st.info("""
+### 2. Social recognition — q46b
+
+**“People like me receive too little recognition from society for the
+work they do.”**
+
+This captures whether respondents feel that their contribution to society
+is sufficiently recognized.
+""")
+
+    st.info("""
+### 3. Infrastructure and basic services — q46c
+
+**“Society pays too little attention to ensuring that people like me
+have access to basic infrastructures and services.”**
+
+Examples in the questionnaire include:
+
+- post offices;
+- doctors;
+- banks;
+- public transportation;
+- schools;
+- Internet access.
+""")
+
+    st.info("""
+### 4. Freedom of expression — q46d
+
+**“People like me are no longer allowed to freely express their opinions
+in public.”**
+
+This captures perceived constraints on expressing one's views publicly.
+""")
+
+    st.divider()
+
+    st.subheader("How were the answers scored?")
+
+    st.markdown("""
+The original questionnaire uses:
+
+**1 = Strongly agree**  
+**2 = Agree**  
+**3 = Neither agree nor disagree**  
+**4 = Disagree**  
+**5 = Strongly disagree**
+
+Agreement represents a stronger feeling of being left behind.
+
+To make the final index easier to understand, the scale was therefore
+**reversed**.
+""")
+
+    st.code(
+        "reversed_score = 6 - original_score",
+        language="python"
+    )
+
+    st.markdown("""
+After reversing:
+
+**1 = lower feeling of being left behind**
+
+**5 = higher feeling of being left behind**
+
+So:
+
+### Higher Left Behind Index = stronger feeling of being left behind
+""")
+
+    st.divider()
+
+    st.subheader("How is the final score calculated?")
+
+    st.markdown("""
+For every respondent, the four reversed answers are averaged:
+
+**Economic attention**
+
++
+
+**Social recognition**
+
++
+
+**Infrastructure and services**
+
++
+
+**Freedom of expression**
+
+→ **Average**
+
+→ **Left Behind Index**
+""")
+
+    st.divider()
+
+    st.subheader("Why is this different from income?")
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.markdown("""
+### Income
+
+How much economic resources a household has.
+
+This is an **objective socioeconomic measure**.
+""")
+
+    with col2:
+        st.markdown("""
+### Subjective Social Class
+
+Where people believe they sit in the social hierarchy.
+
+This measures **perceived social position**.
+""")
+
+    with col3:
+        st.markdown("""
+### Feeling Left Behind
+
+Whether people feel that people like them receive attention,
+recognition, services and space to express themselves.
+
+This measures **subjective social disconnection**.
+""")
+
+    st.success("""
+### This distinction is central to the research
+
+Two people with similar income and education may feel very differently
+about whether society recognizes or pays attention to people like them.
+
+The analysis tests whether those differences are connected to democratic
+attitudes.
+""")
+
+    st.divider()
+
+    st.subheader("Can the four questions be combined?")
+
+    st.markdown("""
+The analysis tested whether the four questions behave consistently enough
+to represent one underlying concept.
+
+Results:
+
+- **Cronbach's α = 0.753**
+- **First-factor eigenvalue = 2.323**
+- clear one-factor structure
+
+These results support combining the four items into one Left Behind Index.
+""")
+
+    with st.expander("What does Cronbach's α = 0.753 mean?"):
+
+        st.markdown("""
+Cronbach's alpha measures whether several questions tend to measure a
+related underlying concept.
+
+A value of **0.753** indicates acceptable internal consistency.
+
+In practical terms, the four questions are sufficiently related to be
+summarized into one index, while still capturing different aspects of
+Feeling Left Behind.
+""")
+
+    st.warning("""
+The index measures respondents' **perceptions**.
+
+It does not establish whether society objectively provides too little
+attention, recognition, infrastructure or freedom of expression to a
+particular respondent.
+""")
+
+# ============================================================
+# INSTITUTIONAL TRUST
+# ============================================================
+
+with tab3:
 
     st.header("🏛️ Institutional Trust")
 
     st.markdown("""
 ### In simple terms
 
-**Do people trust the institutions around them?**
+**Do people trust important institutions?**
 """)
 
     st.subheader("What was actually asked?")
 
     st.markdown("""
-Respondents were asked:
+Respondents were asked how much they personally trust several institutions
+and groups.
 
-> **“For each of the following public institutions, organizations,
-> or groups of people, please indicate how much you personally trust them.”**
-
-The analysis combines responses for **eight institutions or groups**:
+The analysis uses eight:
 """)
 
     st.info("""
-- **Federal Government**
-- **Bundestag**
-- **Political Parties**
-- **Politicians**
-- **Police**
-- **Justice**
-- **Science**
-- **Public-Service Broadcasting**
+- Federal Government
+- Bundestag
+- Political Parties
+- Politicians
+- Police
+- Justice
+- Science
+- Public-Service Broadcasting
 """)
 
     st.markdown("""
-For every item, respondents used an 11-point scale:
+Each is rated from:
 
-**1 = Do not trust at all**  
+**1 = Do not trust at all**
+
+to
+
 **11 = Trust completely**
 
-The eight answers were averaged into a single **Institutional Trust Index**.
-
-The questionnaire also asks about trust in Social Media (`q79h`), but this
-item was excluded because it was treated as conceptually different from
-the public and political institutions used in this index.
+The eight answers are averaged into the **Institutional Trust Index**.
 """)
 
     st.caption(
@@ -476,17 +539,8 @@ the public and political institutions used in this index.
 
     st.divider()
 
-    # --------------------------------------------------------
-    # FINDING
-    # --------------------------------------------------------
-
-    st.subheader("What did we find?")
-
     st.success("""
 ## People who feel more left behind tend to trust institutions substantially less.
-
-This is the strongest relationship with Feeling Left Behind among the
-three democratic outcomes studied.
 """)
 
     c1, c2 = st.columns(2)
@@ -494,83 +548,44 @@ three democratic outcomes studied.
     with c1:
         st.metric(
             "Before adding Feeling Left Behind",
-            "10.7%",
-            help="Variation explained by Model 2."
+            "10.7%"
         )
 
     with c2:
         st.metric(
             "After adding Feeling Left Behind",
             "27.6%",
-            delta="+16.9 percentage points",
-            help="Variation explained by Model 3."
+            delta="+16.9 percentage points"
         )
 
     st.markdown("""
-### What does this mean?
+The model's explanatory power increases dramatically when Feeling Left
+Behind is added.
 
-Before Feeling Left Behind is considered, the model explains **10.7%**
-of the differences in Institutional Trust.
+The relationship remains after accounting for income, education, age,
+region, migration background, political interest and Subjective Social Class.
 
-After it is added, the model explains **27.6%**.
-
-That is a very substantial increase.
-
-The relationship remains even after accounting for:
-
-- household income;
-- education;
-- age;
-- East/West Germany;
-- migration background;
-- political interest;
-- Subjective Social Class.
-
-Importantly, **Household Income is not statistically significant in the
-final model**.
-
-This suggests that knowing someone's income alone does not tell us as much
-about institutional trust as knowing whether that person feels socially
-overlooked, unrecognized or left behind.
+**Household Income is not statistically significant in the final model.**
 """)
 
     with st.expander("Technical evidence"):
 
         c1, c2, c3 = st.columns(3)
 
-        c1.metric(
-            "Final R²",
-            "27.6%"
-        )
-
-        c2.metric(
-            "Standardized β",
-            "−0.459"
-        )
-
-        c3.metric(
-            "Statistical significance",
-            "p < .001"
-        )
-
-        st.markdown("""
-The negative coefficient means that higher scores on the Left Behind Index
-are associated with lower Institutional Trust.
-
-The standardized coefficient of **−0.459** indicates a comparatively strong
-relationship within this model.
-""")
+        c1.metric("Final R²", "27.6%")
+        c2.metric("Standardized β", "−0.459")
+        c3.metric("Significance", "p < .001")
 
     st.info("""
-These results describe a statistical association. They do not demonstrate
-that feeling left behind causes lower institutional trust.
+This is an association. The analysis does not demonstrate that Feeling
+Left Behind causes lower institutional trust.
 """)
 
 # ============================================================
 # DEMOCRATIC SATISFACTION
 # ============================================================
 
-with tab3:
+with tab4:
 
     st.header("🗳️ Democratic Satisfaction")
 
@@ -583,7 +598,7 @@ with tab3:
     st.subheader("What was actually asked?")
 
     st.markdown("""
-Respondents were asked one direct question:
+Respondents were asked:
 
 > **“How satisfied are you with the way democracy works in Germany?”**
 """)
@@ -599,28 +614,17 @@ Respondents were asked one direct question:
 """)
 
     st.markdown("""
-This is important for interpreting the results:
-
-**higher numbers mean greater dissatisfaction.**
+Higher values therefore mean **greater dissatisfaction**.
 """)
 
     st.caption(
-        "GLES variable: q119 — Democracy: Satisfaction."
+        "GLES variable: q119."
     )
 
     st.divider()
 
-    # --------------------------------------------------------
-    # FINDING
-    # --------------------------------------------------------
-
-    st.subheader("What did we find?")
-
     st.success("""
 ## People who feel more left behind tend to be less satisfied with how democracy works.
-
-Again, the relationship remains after accounting for socioeconomic,
-demographic and political characteristics.
 """)
 
     c1, c2 = st.columns(2)
@@ -628,73 +632,44 @@ demographic and political characteristics.
     with c1:
         st.metric(
             "Before adding Feeling Left Behind",
-            "9.6%",
-            help="Variation explained by Model 2."
+            "9.6%"
         )
 
     with c2:
         st.metric(
             "After adding Feeling Left Behind",
             "22.2%",
-            delta="+12.6 percentage points",
-            help="Variation explained by Model 3."
+            delta="+12.6 percentage points"
         )
 
     st.markdown("""
-### What does this mean?
+Adding Subjective Social Class raises explanatory power only from
+**8.5% to 9.6%**.
 
-Before Feeling Left Behind is introduced, the model explains **9.6%**
-of the differences in Democratic Satisfaction.
+Adding Feeling Left Behind raises it from **9.6% to 22.2%**.
 
-After adding it, the model explains **22.2%**.
-
-That is an increase of **12.6 percentage points**.
-
-By comparison, simply adding people's perceived social class increased
-the model only from **8.5% to 9.6%**.
-
-This suggests that the experience of feeling overlooked or left behind
-contains information about democratic dissatisfaction that is not captured
-simply by **income or social class**.
+This suggests that perceived social disconnection captures information
+about democratic dissatisfaction that socioeconomic position alone does not.
 """)
 
     with st.expander("Technical evidence"):
 
         c1, c2, c3 = st.columns(3)
 
-        c1.metric(
-            "Final R²",
-            "22.2%"
-        )
-
-        c2.metric(
-            "Standardized β",
-            "0.395"
-        )
-
-        c3.metric(
-            "Statistical significance",
-            "p < .001"
-        )
+        c1.metric("Final R²", "22.2%")
+        c2.metric("Standardized β", "0.395")
+        c3.metric("Significance", "p < .001")
 
         st.markdown("""
-The coefficient is positive because the original survey scale is coded so
-that higher values mean **greater dissatisfaction**.
-
-Therefore, β = **0.395** means that stronger feelings of being left behind
-are associated with less satisfaction with democracy.
-""")
-
-    st.info("""
-The analysis identifies an association. It does not establish that feeling
-left behind causes democratic dissatisfaction.
+The coefficient is positive because higher values of q119 represent
+**greater dissatisfaction**.
 """)
 
 # ============================================================
 # PARTY REPRESENTATION
 # ============================================================
 
-with tab4:
+with tab5:
 
     st.header("👥 Party Representation")
 
@@ -719,30 +694,15 @@ Respondents were asked:
 **2 = No**
 """)
 
-    st.markdown("""
-“Don't know” and missing responses were treated as missing values.
-
-Because **2 means No**, higher values indicate a greater lack of perceived
-party representation.
-""")
-
     st.caption(
-        "GLES variable: q141 — Political Parties: Representation of Interests."
+        "GLES variable: q141."
     )
 
     st.divider()
 
-    # --------------------------------------------------------
-    # FINDING
-    # --------------------------------------------------------
-
-    st.subheader("What did we find?")
-
     st.success("""
-## Feeling left behind is related to feeling less represented by political parties — but only weakly.
-
-This relationship is much smaller than the relationships found for
-Institutional Trust and Democratic Satisfaction.
+## Feeling Left Behind is related to lower perceived party representation,
+## but the relationship is much weaker.
 """)
 
     c1, c2 = st.columns(2)
@@ -750,76 +710,36 @@ Institutional Trust and Democratic Satisfaction.
     with c1:
         st.metric(
             "Before adding Feeling Left Behind",
-            "3.9%",
-            help="Variation explained by Model 2."
+            "3.9%"
         )
 
     with c2:
         st.metric(
             "After adding Feeling Left Behind",
             "5.3%",
-            delta="+1.4 percentage points",
-            help="Variation explained by Model 3."
+            delta="+1.4 percentage points"
         )
 
     st.markdown("""
-### What does this mean?
+Compare the increases:
 
-Adding Feeling Left Behind improves the model only from **3.9% to 5.3%**.
+- Institutional Trust: **+16.9 percentage points**
+- Democratic Satisfaction: **+12.6 percentage points**
+- Party Representation: **+1.4 percentage points**
 
-Compare that with:
+Political Interest is the strongest predictor in this model.
 
-- **+16.9 percentage points** for Institutional Trust;
-- **+12.6 percentage points** for Democratic Satisfaction;
-- only **+1.4 percentage points** here.
-
-**Political Interest**, rather than Feeling Left Behind, is the strongest
-predictor in this model.
-
-This tells us something important:
-
-**Feeling left behind is not a general explanation for every type of
-democratic disconnection.**
-
-It appears much more closely related to how people **trust institutions
-and evaluate democracy** than to whether a political party represents
-their views.
+This suggests that Feeling Left Behind is **not a general explanation for
+every form of democratic disconnection**.
 """)
 
     with st.expander("Technical evidence"):
 
         c1, c2, c3 = st.columns(3)
 
-        c1.metric(
-            "Final R²",
-            "5.3%"
-        )
-
-        c2.metric(
-            "Standardized β",
-            "0.128"
-        )
-
-        c3.metric(
-            "Statistical significance",
-            "p < .001"
-        )
-
-        st.markdown("""
-Because higher values on q141 mean answering “No”, the positive coefficient
-indicates that stronger feelings of being left behind are associated with a
-greater likelihood of reporting that no political party represents one's
-views well.
-
-The standardized coefficient (**0.128**) is much smaller than for the
-other two outcomes.
-""")
-
-    st.info("""
-The final model explains only a small proportion of differences in Party
-Representation. Most of those differences are therefore related to factors
-not captured by the variables included in this analysis.
-""")
+        c1.metric("Final R²", "5.3%")
+        c2.metric("Standardized β", "0.128")
+        c3.metric("Significance", "p < .001")
 
 # ============================================================
 # BIG PICTURE
@@ -829,106 +749,48 @@ st.divider()
 
 st.header("What does this tell us?")
 
-col1, col2, col3 = st.columns(3)
+c1, c2, c3 = st.columns(3)
 
-with col1:
+with c1:
     st.markdown("""
-### 1. Economic position is not the whole story
+### Economic position is not the whole story
 
-Income and education matter, but people's **perceptions of recognition,
-attention and social inclusion** provide substantial additional information
-about their democratic attitudes.
+Democratic attitudes are connected not only to material circumstances,
+but also to people's perceptions of recognition and social inclusion.
 """)
 
-with col2:
+with c2:
     st.markdown("""
-### 2. Feeling left behind is not simply social class
+### Feeling Left Behind is not simply social class
 
-Adding Subjective Social Class changes the models only slightly.
+Subjective Social Class adds relatively little explanatory power.
 
-The much larger change happens when the **Left Behind Index** is introduced.
+The Left Behind Index adds much more.
 """)
 
-with col3:
+with c3:
     st.markdown("""
-### 3. Democratic disconnection has different dimensions
+### Democratic disconnection has different dimensions
 
-Feeling left behind is strongly connected to **institutional trust and
-democratic satisfaction**, but much less to **party representation**.
+Feeling Left Behind is closely related to trust and satisfaction,
+but only weakly to Party Representation.
 """)
 
 st.warning("""
-### What we cannot conclude
+The data are cross-sectional.
 
-These data were collected at one point in time.
-
-The analysis can show that Feeling Left Behind and democratic attitudes
-are related, but it **cannot prove that one causes the other**.
+The analysis identifies relationships between variables but cannot
+demonstrate that Feeling Left Behind causes changes in democratic attitudes.
 """)
-
-# ============================================================
-# METHODOLOGICAL CONFIDENCE
-# ============================================================
-
-st.divider()
-
-with st.expander("Methodological confidence and diagnostics"):
-
-    st.markdown("""
-This section contains the technical checks supporting the analysis.
-It is not necessary to understand these statistics in order to interpret
-the substantive findings above.
-""")
-
-    c1, c2, c3, c4 = st.columns(4)
-
-    c1.metric(
-        "Analytical sample",
-        "5,039"
-    )
-
-    c2.metric(
-        "Left Behind α",
-        "0.753"
-    )
-
-    c3.metric(
-        "Institutional Trust α",
-        "0.889"
-    )
-
-    c4.metric(
-        "Predictor VIF",
-        "< 2"
-    )
-
-    st.markdown("""
-- The four Left Behind items showed acceptable internal consistency.
-- The Institutional Trust Index showed high internal consistency.
-- Factor analysis supported a clear one-factor structure for the Left Behind Index.
-- No meaningful multicollinearity was detected.
-- HC3 robust standard errors were used because regression diagnostics
-  indicated heteroscedasticity.
-""")
-
-# ============================================================
-# SOURCE
-# ============================================================
 
 st.divider()
 
 st.caption("""
-**Source:** German Longitudinal Election Study (GLES 2025),
+Source: German Longitudinal Election Study (GLES 2025),
 Post-Election Cross-Section, ZA10100.
 
-**Variables used**
-
 Left Behind Index: q46a–q46d  
-Institutional Trust Index: q79a–q79g and q79i  
+Institutional Trust: q79a–q79g and q79i  
 Democratic Satisfaction: q119  
 Party Representation: q141
-
-The analyses use cross-sectional observational data. Results describe
-statistical associations and should not be interpreted as evidence of
-cause and effect.
 """)

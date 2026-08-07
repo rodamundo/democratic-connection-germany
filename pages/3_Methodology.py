@@ -1,19 +1,13 @@
 import streamlit as st
 
-st.set_page_config(
-    page_title="Methodology",
-    page_icon="🔬",
-    layout="wide"
-)
-
 st.title("🔬 Methodology")
 
 st.markdown("""
-This project investigates whether **feeling left behind in society**
-helps explain democratic attitudes in Germany beyond traditional
-socioeconomic characteristics.
+This page documents the statistical decisions behind the analysis.
 
-The analysis was conducted using data from the **German Longitudinal Election Study (GLES) 2025**.
+The main Results page is designed to be understandable without technical
+knowledge. This page provides the additional methodological detail needed
+to evaluate the robustness of the analysis.
 """)
 
 st.divider()
@@ -24,15 +18,16 @@ st.divider()
 
 st.header("Data")
 
-c1, c2, c3 = st.columns(3)
-
-c1.metric("Dataset", "GLES 2025")
-c2.metric("Initial Sample", "7,336")
-c3.metric("Final Sample", "5,039")
-
 st.markdown("""
-The final analytical sample contains only complete observations for all
-variables included in the regression models.
+**Dataset:** German Longitudinal Election Study (GLES 2025)  
+**Study:** Post-Election Cross-Section  
+**Study number:** ZA10100
+
+**Initial sample:** 7,336 respondents  
+**Analytical sample:** 5,039 respondents
+
+The same analytical sample is used across the regression models to make
+model comparisons consistent.
 """)
 
 st.divider()
@@ -44,92 +39,233 @@ st.divider()
 st.header("Left Behind Index")
 
 st.markdown("""
-The main contribution of this project is the construction of the
-**Left Behind Index**.
+The index contains four GLES variables:
 
-The index combines four survey questions measuring whether respondents feel:
+- `q46a` — economic attention;
+- `q46b` — social recognition;
+- `q46c` — infrastructure and basic services;
+- `q46d` — freedom of expression.
 
-- Recognized by society
-- That politicians pay attention to people like them
-- They have access to good public services
-- Free to express their political opinions
+The original scale runs from:
 
-Responses were reverse-coded where necessary and averaged into a
-single continuous index.
+**1 = Strongly agree**  
+to  
+**5 = Strongly disagree**
+
+Because agreement represents greater social disconnection, each item was
+reversed using:
+
+`6 - original response`
+
+The four reversed items were then averaged.
 """)
 
-st.divider()
+col1, col2 = st.columns(2)
 
-# ============================================================
-# VALIDATION
-# ============================================================
+with col1:
+    st.metric(
+        "Cronbach's α",
+        "0.753"
+    )
 
-st.header("Index Validation")
-
-c1, c2, c3 = st.columns(3)
-
-c1.metric("Cronbach's α", "0.753")
-c2.metric("Eigenvalue (Factor 1)", "2.323")
-c3.metric("VIF", "< 2")
-
-st.success("""
-### Validation Summary
-
-✔ Good internal consistency (Cronbach's α = 0.753)
-
-✔ Exploratory Factor Analysis supported a one-factor structure.
-
-✔ No meaningful multicollinearity among predictors.
-
-✔ HC3 robust standard errors were used because
-heteroscedasticity was detected.
-""")
-
-st.divider()
-
-# ============================================================
-# REGRESSION MODELS
-# ============================================================
-
-st.header("Regression Models")
+with col2:
+    st.metric(
+        "Factor 1 eigenvalue",
+        "2.323"
+    )
 
 st.markdown("""
-Three nested Ordinary Least Squares (OLS) regression models were estimated.
+Cronbach's alpha indicates acceptable internal consistency.
+
+Exploratory Factor Analysis also supports a dominant one-factor structure,
+providing evidence that the four items can reasonably be summarized as
+one underlying construct.
+""")
+
+st.divider()
+
+# ============================================================
+# TRUST INDEX
+# ============================================================
+
+st.header("Institutional Trust Index")
+
+st.markdown("""
+The Institutional Trust Index uses:
+
+- `q79a` — Federal Government
+- `q79b` — Bundestag
+- `q79c` — Political Parties
+- `q79d` — Politicians
+- `q79e` — Police
+- `q79f` — Justice
+- `q79g` — Science
+- `q79i` — Public-Service Broadcasting
+
+Each item uses an 11-point trust scale.
+
+`q79h` — Social Media — was excluded because it was treated as
+conceptually different from the formal public and political institutions
+included in the index.
+
+The remaining eight variables were averaged.
+""")
+
+st.metric(
+    "Cronbach's α",
+    "0.889"
+)
+
+st.markdown("""
+The resulting value indicates high internal consistency.
+""")
+
+st.divider()
+
+# ============================================================
+# OUTCOMES
+# ============================================================
+
+st.header("Outcome variables")
+
+st.markdown("""
+### Institutional Trust
+
+Composite mean index based on eight trust items.
+
+### Democratic Satisfaction
+
+`q119`
+
+“How satisfied are you with the way democracy works in Germany?”
+
+Scale:
+
+1 = Very satisfied  
+2 = Fairly satisfied  
+3 = Not very satisfied  
+4 = Not at all satisfied
+
+### Party Representation
+
+`q141`
+
+“Do you think that any of the parties in Germany represent your personal
+political views well?”
+
+1 = Yes  
+2 = No
+""")
+
+st.divider()
+
+# ============================================================
+# REGRESSION DESIGN
+# ============================================================
+
+st.header("Regression design")
+
+st.markdown("""
+Nine OLS regression models were estimated:
+
+**3 outcomes × 3 model specifications**
 
 ### Model 1
 
-Traditional socioeconomic and demographic characteristics.
+Traditional socioeconomic and demographic characteristics:
 
-- Household income
+- Household Income
 - Education
 - Age
-- East / West Germany
-- Migration background
-- Political interest
+- East/West Germany
+- Migration Background
+- Political Interest
 
 ### Model 2
 
-Adds:
+Model 1 +
 
 - Subjective Social Class
 
 ### Model 3
 
-Adds:
+Model 2 +
 
 - Left Behind Index
 
-This hierarchical strategy allows us to evaluate the additional
-explanatory contribution of perceived social exclusion beyond
-traditional socioeconomic factors.
+This nested design makes it possible to examine how much additional
+explanatory power each new layer contributes.
 """)
 
 st.divider()
 
-st.caption("""
-Source: German Longitudinal Election Study (GLES) 2025.
+# ============================================================
+# DIAGNOSTICS
+# ============================================================
 
-Methodological validation included internal consistency analysis,
-exploratory factor analysis, multicollinearity diagnostics,
-and HC3 robust standard errors.
+st.header("Regression diagnostics")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.metric(
+        "Predictor VIF",
+        "< 2"
+    )
+
+with col2:
+    st.metric(
+        "Robust standard errors",
+        "HC3"
+    )
+
+st.markdown("""
+### Multicollinearity
+
+Variance Inflation Factors below 2 indicate no meaningful
+multicollinearity among the predictors.
+
+### Heteroscedasticity
+
+Regression diagnostics indicated heteroscedasticity.
+
+For this reason, statistical significance and confidence intervals are
+based on **HC3 robust standard errors**.
+""")
+
+st.divider()
+
+# ============================================================
+# LIMITATIONS
+# ============================================================
+
+st.header("Limitations")
+
+st.markdown("""
+### Cross-sectional data
+
+All variables were measured within the same survey period.
+
+The analysis therefore identifies statistical associations, not causal
+effects.
+
+### Subjective measures
+
+Feeling Left Behind captures respondents' perceptions.
+
+It does not objectively determine whether respondents actually receive
+insufficient recognition, services or political voice.
+
+### Model explanatory power
+
+Even the strongest model explains only part of the variation in democratic
+attitudes.
+
+Many other social, political and psychological factors are likely to
+contribute.
+""")
+
+st.caption("""
+Source: German Longitudinal Election Study (GLES 2025),
+Post-Election Cross-Section, ZA10100.
 """)
