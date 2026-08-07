@@ -6,6 +6,10 @@ st.set_page_config(
     layout="wide"
 )
 
+# ============================================================
+# HEADER
+# ============================================================
+
 st.title("🏛️ Beyond Socioeconomic Status")
 
 st.subheader(
@@ -13,6 +17,10 @@ st.subheader(
 )
 
 st.divider()
+
+# ============================================================
+# RESEARCH QUESTION
+# ============================================================
 
 st.markdown("""
 ## Research Question
@@ -28,10 +36,14 @@ The analysis uses data from the **German Longitudinal Election Study (GLES 2025)
 
 st.divider()
 
+# ============================================================
+# PROJECT OVERVIEW
+# ============================================================
+
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    st.metric("Respondents", "7,336")
+    st.metric("Initial Respondents", "7,336")
 
 with col2:
     st.metric("Analytical Sample", "5,039")
@@ -44,18 +56,26 @@ with col4:
 
 st.divider()
 
+# ============================================================
+# KEY FINDING
+# ============================================================
+
 st.success("""
 ## Key Finding
 
-The **Left Behind Index** remained the strongest predictor of
+The **Left Behind Index** remained the strongest standardized predictor of
 **Institutional Trust** and **Democratic Satisfaction**, even after
-controlling for household income, education, age, East/West Germany,
+accounting for household income, education, age, East/West Germany,
 migration background, political interest and Subjective Social Class.
 
 Its association with **Political Representation** was substantially weaker.
 """)
 
 st.divider()
+
+# ============================================================
+# NAVIGATION
+# ============================================================
 
 st.markdown("""
 ## Explore the Project
@@ -70,6 +90,10 @@ Use the navigation menu to explore:
 """)
 
 st.divider()
+
+# ============================================================
+# SOURCE AND LIMITATION
+# ============================================================
 
 st.caption("""
 **Source:** German Longitudinal Election Study (GLES 2025),
