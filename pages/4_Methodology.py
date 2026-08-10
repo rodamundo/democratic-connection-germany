@@ -2,13 +2,15 @@ import streamlit as st
 
 st.title("🔬 Methodology")
 
+st.subheader(
+    "How was the analysis built and tested?"
+)
+
 st.markdown("""
-## How was the analysis tested?
+This page contains the more technical details behind the analysis.
 
-This page contains the technical evidence behind the findings.
-
-You do **not** need to understand these statistics to follow the Results
-page. They are provided here for transparency and reproducibility.
+You do **not** need to understand these statistics to interpret the
+main Results page.
 """)
 
 st.divider()
@@ -24,44 +26,52 @@ c1, c2, c3, c4 = st.columns(4)
 with c1:
     with st.container(border=True):
         st.markdown("### 1️⃣")
-        st.markdown("**Clean data**")
-        st.caption("Handle survey missing values and prepare variables.")
+        st.markdown("**Prepare the data**")
+        st.caption(
+            "Clean survey responses and handle missing values."
+        )
 
 with c2:
     with st.container(border=True):
         st.markdown("### 2️⃣")
-        st.markdown("**Build indices**")
-        st.caption("Left Behind and Institutional Trust.")
+        st.markdown("**Construct indices**")
+        st.caption(
+            "Create Feeling Left Behind and Institutional Trust measures."
+        )
 
 with c3:
     with st.container(border=True):
         st.markdown("### 3️⃣")
-        st.markdown("**Validate**")
-        st.caption("Reliability, factor structure and diagnostics.")
+        st.markdown("**Validate measures**")
+        st.caption(
+            "Test reliability and factor structure."
+        )
 
 with c4:
     with st.container(border=True):
         st.markdown("### 4️⃣")
         st.markdown("**Model outcomes**")
-        st.caption("Nine OLS regression models.")
+        st.caption(
+            "Estimate and compare nine regression models."
+        )
 
 st.divider()
 
 # ============================================================
-# SAMPLE
+# DATA
 # ============================================================
 
 st.header("Data")
 
 c1, c2, c3 = st.columns(3)
 
-c1.metric("Original sample", "7,336")
+c1.metric("Original respondents", "7,336")
 c2.metric("Analytical sample", "5,039")
-c3.metric("Study", "ZA10100")
+c3.metric("Dataset", "ZA10100")
 
 st.markdown("""
-**Dataset:** German Longitudinal Election Study (GLES 2025)  
-**Design:** Post-Election Cross-Section
+**German Longitudinal Election Study (GLES 2025)**  
+Post-Election Cross-Section
 """)
 
 st.divider()
@@ -73,21 +83,23 @@ st.divider()
 st.header("Left Behind Index")
 
 st.markdown("""
-The index uses four questions:
+The index uses:
 
-`q46a` — Economic attention  
-`q46b` — Social recognition  
-`q46c` — Infrastructure and basic services  
-`q46d` — Freedom of expression
-""")
+- `q46a` — Economic attention
+- `q46b` — Social recognition
+- `q46c` — Infrastructure and services
+- `q46d` — Freedom of expression
 
-st.markdown("""
-The original scale is:
+The original scale runs from:
 
-**1 = Strongly agree → 5 = Strongly disagree**
+**1 = Strongly agree**
 
-Because agreement corresponds to greater Feeling Left Behind,
-the items are reversed:
+to
+
+**5 = Strongly disagree**
+
+Because agreement represents stronger Feeling Left Behind,
+the scale is reversed:
 """)
 
 st.code(
@@ -96,7 +108,7 @@ st.code(
 )
 
 st.markdown("""
-The final index is the **mean of the four reversed items**.
+The four reversed items are then averaged.
 """)
 
 c1, c2 = st.columns(2)
@@ -106,22 +118,18 @@ with c1:
         "Cronbach's α",
         "0.753"
     )
-    st.caption("Acceptable internal consistency")
+    st.caption(
+        "Acceptable internal consistency"
+    )
 
 with c2:
     st.metric(
         "Factor 1 eigenvalue",
         "2.323"
     )
-    st.caption("Supports a dominant common factor")
-
-with st.expander("What does this mean in plain language?"):
-
-    st.markdown("""
-The four questions are not identical, but they are related strongly enough
-to support treating them as different aspects of one broader concept:
-**Feeling Left Behind**.
-""")
+    st.caption(
+        "Supports a dominant common factor"
+    )
 
 st.divider()
 
@@ -132,21 +140,24 @@ st.divider()
 st.header("Institutional Trust Index")
 
 st.markdown("""
-Eight GLES variables are averaged:
+The index combines eight questions:
 
-`q79a` Federal Government  
-`q79b` Bundestag  
-`q79c` Political Parties  
-`q79d` Politicians  
-`q79e` Police  
-`q79f` Justice  
-`q79g` Science  
-`q79i` Public-Service Broadcasting
+- `q79a` — Federal Government
+- `q79b` — Bundestag
+- `q79c` — Political Parties
+- `q79d` — Politicians
+- `q79e` — Police
+- `q79f` — Justice
+- `q79g` — Science
+- `q79i` — Public-Service Broadcasting
+
+The responses are averaged into one Institutional Trust score.
 """)
 
 st.info("""
-`q79h` — Social Media — is excluded because it was treated as conceptually
-different from the public and political institutions included in the index.
+`q79h` — Social Media — was excluded because it was treated as
+conceptually different from the public and political institutions
+used in the index.
 """)
 
 st.metric(
@@ -154,12 +165,52 @@ st.metric(
     "0.889"
 )
 
-st.caption("High internal consistency")
+st.caption(
+    "High internal consistency"
+)
 
 st.divider()
 
 # ============================================================
-# MODEL STRUCTURE
+# OUTCOMES
+# ============================================================
+
+st.header("Outcome variables")
+
+with st.container(border=True):
+    st.markdown("""
+### Institutional Trust
+
+Mean index based on eight trust questions.
+""")
+
+with st.container(border=True):
+    st.markdown("""
+### Democratic Satisfaction — `q119`
+
+“How satisfied are you with the way democracy works in Germany?”
+
+1 = Very satisfied  
+2 = Fairly satisfied  
+3 = Not very satisfied  
+4 = Not at all satisfied
+""")
+
+with st.container(border=True):
+    st.markdown("""
+### Party Representation — `q141`
+
+“Do you think that any of the parties in Germany represent your
+personal political views well?”
+
+1 = Yes  
+2 = No
+""")
+
+st.divider()
+
+# ============================================================
+# REGRESSION
 # ============================================================
 
 st.header("Regression design")
@@ -220,6 +271,7 @@ with c1:
             "Predictor VIF",
             "< 2"
         )
+
         st.markdown("""
 No meaningful multicollinearity was detected among the predictors.
 """)
@@ -230,6 +282,7 @@ with c2:
             "Standard errors",
             "HC3"
         )
+
         st.markdown("""
 Robust standard errors were used because diagnostics indicated
 heteroscedasticity.
@@ -241,33 +294,36 @@ st.divider()
 # LIMITATIONS
 # ============================================================
 
-st.header("What are the limitations?")
+st.header("Limitations")
 
 with st.container(border=True):
+
     st.markdown("""
 ### Cross-sectional data
 
 All variables were measured within the same survey period.
 
-The analysis therefore cannot establish which variable causes another.
+The analysis therefore identifies associations rather than causal effects.
 """)
 
 with st.container(border=True):
+
     st.markdown("""
 ### Subjective perceptions
 
-The Left Behind Index measures what respondents **feel or perceive**.
+Feeling Left Behind measures respondents' perceptions.
 
-It does not objectively determine whether society neglects a particular
+It does not objectively establish whether society neglects a particular
 person or group.
 """)
 
 with st.container(border=True):
+
     st.markdown("""
 ### Partial explanation
 
-Even the strongest model explains only part of the differences between
-respondents.
+Even the strongest model explains only part of the differences in
+democratic attitudes.
 
 Other political, social and psychological factors also matter.
 """)

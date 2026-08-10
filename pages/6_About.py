@@ -5,15 +5,15 @@ st.title("👤 About")
 st.markdown("""
 ## About the project
 
-**Feeling Left Behind and Democracy in Germany** is a data analytics project
-examining whether subjective perceptions of social neglect help explain
-people's relationship with democratic institutions.
+**Feeling Left Behind and Democracy in Germany** is a data analytics
+project examining whether subjective perceptions of social disconnection
+help explain people's relationship with democratic institutions.
 """)
 
 st.divider()
 
 # ============================================================
-# PROJECT AT A GLANCE
+# PROJECT
 # ============================================================
 
 st.header("Project at a glance")
@@ -22,7 +22,9 @@ c1, c2, c3 = st.columns(3)
 
 with c1:
     with st.container(border=True):
+
         st.markdown("### 📊 Data")
+
         st.markdown("""
 German Longitudinal Election Study
 
@@ -33,7 +35,9 @@ Post-Election Cross-Section
 
 with c2:
     with st.container(border=True):
-        st.markdown("### 🧩 Main concept")
+
+        st.markdown("### 🧩 Central concept")
+
         st.markdown("""
 **Feeling Left Behind**
 
@@ -45,7 +49,9 @@ Voice
 
 with c3:
     with st.container(border=True):
+
         st.markdown("### 🏛️ Outcomes")
+
         st.markdown("""
 Institutional Trust  
 Democratic Satisfaction  
@@ -55,10 +61,49 @@ Party Representation
 st.divider()
 
 # ============================================================
-# APPROACH
+# INTERDISCIPLINARY APPROACH
 # ============================================================
 
-st.header("From survey data to public-facing evidence")
+st.header("Why this project?")
+
+st.markdown("""
+This project brings together **social science, programme thinking and
+data analytics** to examine a public-policy question through empirical data.
+
+The goal is not only to run statistical models, but also to translate
+the results into evidence that can be understood by people without a
+technical background.
+""")
+
+c1, c2 = st.columns(2)
+
+with c1:
+    with st.container(border=True):
+
+        st.markdown("### 🔬 Analytical goal")
+
+        st.write(
+            "Test whether subjective social disconnection provides "
+            "information beyond traditional socioeconomic characteristics."
+        )
+
+with c2:
+    with st.container(border=True):
+
+        st.markdown("### 💬 Communication goal")
+
+        st.write(
+            "Make statistical evidence understandable without requiring "
+            "the reader to be a statistician."
+        )
+
+st.divider()
+
+# ============================================================
+# WORKFLOW
+# ============================================================
+
+st.header("From survey data to evidence")
 
 c1, c2, c3, c4 = st.columns(4)
 
@@ -83,10 +128,10 @@ with c4:
         st.markdown("**Data communication**")
 
 st.markdown("""
-The analytical workflow includes:
+**Tools and methods**
 
-**Python · Pandas · Statistical modelling · Reliability analysis ·
-Factor analysis · Regression diagnostics · Plotly · Streamlit**
+Python · Pandas · Statistical modelling · Reliability analysis ·
+Factor analysis · Regression diagnostics · Plotly · Streamlit
 """)
 
 st.divider()
@@ -106,45 +151,15 @@ Berlin, Germany
 """)
 
 st.markdown("""
-Areas of professional interest include:
+Professional interests:
 
-**Democratic Participation · Public Policy · Sustainability ·
-Social Impact · Data Analytics · Evidence-based Decision Making**
+- Democratic Participation
+- Public Policy
+- Sustainability
+- Social Impact
+- Data Analytics
+- Evidence-based Decision Making
 """)
-
-st.divider()
-
-# ============================================================
-# PURPOSE
-# ============================================================
-
-st.header("Why this project?")
-
-st.markdown("""
-The project combines **social science and data analytics**.
-
-Its purpose is not only to perform statistical analysis, but to demonstrate
-how complex social research can be transformed into evidence that is useful
-for both **technical and non-technical audiences**.
-""")
-
-c1, c2 = st.columns(2)
-
-with c1:
-    with st.container(border=True):
-        st.markdown("### Scientific goal")
-        st.write(
-            "Test whether subjective social disconnection adds information "
-            "beyond traditional socioeconomic characteristics."
-        )
-
-with c2:
-    with st.container(border=True):
-        st.markdown("### Communication goal")
-        st.write(
-            "Make statistical findings understandable without requiring "
-            "the reader to be a statistician."
-        )
 
 st.divider()
 
@@ -154,18 +169,27 @@ st.divider()
 
 st.header("Transparency")
 
-st.markdown("""
-The project distinguishes carefully between:
+c1, c2 = st.columns(2)
 
-### What the data show
+with c1:
+    with st.container(border=True):
 
-Statistical relationships between Feeling Left Behind and democratic attitudes.
+        st.markdown("### What the data show")
 
-### What the data do not show
+        st.write(
+            "Statistical relationships between Feeling Left Behind "
+            "and different democratic attitudes."
+        )
 
-Proof that Feeling Left Behind causes changes in trust, satisfaction
-or political representation.
-""")
+with c2:
+    with st.container(border=True):
+
+        st.markdown("### What the data do not show")
+
+        st.write(
+            "Proof that Feeling Left Behind causes changes in trust, "
+            "satisfaction or party representation."
+        )
 
 st.divider()
 
