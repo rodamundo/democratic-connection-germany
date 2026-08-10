@@ -252,7 +252,14 @@ Left Behind Index
 """)
 
 st.info("""
-Three outcomes × three specifications = **nine OLS regression models**.
+Three outcomes × three specifications = **nine regression models**.
+
+- **Institutional Trust** and **Democratic Satisfaction** are estimated
+  with **OLS regression** (continuous / near-continuous outcomes).
+- **Party Representation** is a binary outcome (Yes/No), so it is
+  estimated with **logistic regression** instead. Its model fit is
+  reported as Pseudo R² (McFadden), which is not on the same numeric
+  scale as the OLS R² used for the other two outcomes.
 """)
 
 st.divider()
@@ -284,8 +291,8 @@ with c2:
         )
 
         st.markdown("""
-Robust standard errors were used because diagnostics indicated
-heteroscedasticity.
+Robust standard errors were used for the OLS models because
+diagnostics indicated heteroscedasticity.
 """)
 
 st.divider()
@@ -326,6 +333,18 @@ Even the strongest model explains only part of the differences in
 democratic attitudes.
 
 Other political, social and psychological factors also matter.
+""")
+
+with st.container(border=True):
+
+    st.markdown("""
+### Different metrics across outcomes
+
+Because Party Representation required logistic regression, its
+Pseudo R² cannot be compared numerically to the OLS R² reported for
+Institutional Trust and Democratic Satisfaction. Only the relative
+pattern — the size of the gain after adding Feeling Left Behind — is
+comparable across outcomes.
 """)
 
 st.divider()

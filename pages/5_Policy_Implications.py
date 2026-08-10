@@ -149,8 +149,13 @@ c2.metric(
 
 c3.metric(
     "Party Representation",
-    "+1.4 pp"
+    "+1.2 pp"
 )
+
+st.caption("""
+First two values are OLS R² gains; Party Representation is a Pseudo R²
+gain from logistic regression and is not on the same numeric scale.
+""")
 
 st.markdown("""
 Feeling Left Behind adds far more explanatory power for

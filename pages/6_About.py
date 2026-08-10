@@ -131,7 +131,8 @@ st.markdown("""
 **Tools and methods**
 
 Python · Pandas · Statistical modelling · Reliability analysis ·
-Factor analysis · Regression diagnostics · Plotly · Streamlit
+Factor analysis · Regression diagnostics (OLS and logistic regression) ·
+Plotly · Streamlit
 """)
 
 st.divider()

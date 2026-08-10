@@ -235,6 +235,8 @@ c3.metric("Total regression models", "9")
 
 st.caption("""
 3 democratic outcomes × 3 model specifications = 9 regression models.
+Two outcomes (Institutional Trust, Democratic Satisfaction) use OLS.
+Party Representation, a binary outcome, uses logistic regression.
 """)
 
 st.divider()

@@ -71,7 +71,7 @@ characteristics alone do not fully capture**.
                 delta="+16.9 pp"
             )
             st.caption(
-                "Before adding Feeling Left Behind: 10.7%"
+                "Before adding Feeling Left Behind: 10.7%. OLS R²."
             )
 
     with col2:
@@ -83,19 +83,21 @@ characteristics alone do not fully capture**.
                 delta="+12.6 pp"
             )
             st.caption(
-                "Before adding Feeling Left Behind: 9.6%"
+                "Before adding Feeling Left Behind: 9.6%. OLS R²."
             )
 
     with col3:
         with st.container(border=True):
             st.markdown("### 👥 Party Representation")
             st.metric(
-                "Variation explained",
-                "5.3%",
-                delta="+1.4 pp"
+                "Pseudo R² (McFadden)",
+                "4.6%",
+                delta="+1.2 pp"
             )
             st.caption(
-                "Before adding Feeling Left Behind: 3.9%"
+                "Before adding Feeling Left Behind: 3.4%. "
+                "Logistic regression (binary outcome) — not directly "
+                "comparable in scale to the OLS R² above."
             )
 
     st.info("""
@@ -103,6 +105,12 @@ characteristics alone do not fully capture**.
 
 They show how much of the **differences between respondents** can be
 statistically explained by the variables included in each model.
+
+**Note:** Party Representation is a binary outcome (Yes/No), so it was
+modeled with logistic regression instead of OLS. Its Pseudo R² is a
+different statistic and should not be compared numerically to the R²
+of the other two outcomes — only the relative pattern (the gain from
+adding Feeling Left Behind) is meaningful across all three.
 """)
 
     st.divider()
