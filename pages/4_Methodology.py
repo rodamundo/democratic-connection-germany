@@ -74,6 +74,21 @@ st.markdown("""
 Post-Election Cross-Section
 """)
 
+st.warning("""
+### A note on sampling weights
+
+GLES provides sampling weights (e.g. `w_ipfges`) to correct for known
+deviations between the sample and the general population, including
+the deliberate oversampling of respondents in East Germany.
+
+**The regression models in this project were estimated without
+applying these weights.** Results should therefore be read as
+associations within the analytical sample itself, not as
+weighted estimates representative of the general German population.
+This is particularly relevant for any comparison between East and
+West Germany.
+""")
+
 st.divider()
 
 # ============================================================
@@ -311,6 +326,19 @@ with st.container(border=True):
 All variables were measured within the same survey period.
 
 The analysis therefore identifies associations rather than causal effects.
+""")
+
+with st.container(border=True):
+
+    st.markdown("""
+### Possible reverse causality
+
+The direction of the relationship cannot be established from
+cross-sectional data alone. It is plausible that low institutional
+trust or dissatisfaction with democracy leads people to *report*
+feeling left behind, rather than Feeling Left Behind causing lower
+trust or satisfaction. Longitudinal or experimental data would be
+needed to distinguish between these directions.
 """)
 
 with st.container(border=True):

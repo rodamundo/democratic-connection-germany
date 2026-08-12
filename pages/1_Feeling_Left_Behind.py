@@ -1,4 +1,6 @@
 import streamlit as st
+import pandas as pd
+import plotly.express as px
 
 st.title("🧩 Feeling Left Behind")
 
@@ -371,6 +373,187 @@ The factor analysis also found a clear dominant factor.
 
 Together, these results support summarizing the four questions
 with one Left Behind Index.
+""")
+
+st.divider()
+
+# ============================================================
+# WHO FEELS MORE LEFT BEHIND?
+# ============================================================
+
+st.header("Who feels more left behind?")
+
+st.markdown("""
+Before looking at how Feeling Left Behind relates to democratic
+attitudes, it helps to see how the index itself varies across simple
+demographic groups. These are **descriptive averages**, not the
+regression models used elsewhere in this project — they show patterns
+in the raw index, not adjusted associations.
+""")
+
+region_df = pd.DataFrame({
+    "Region": ["West Germany", "East Germany"],
+    "Left Behind Index": [2.73, 2.48]
+})
+
+age_df = pd.DataFrame({
+    "Age group": ["16-29", "30-44", "45-59", "60+"],
+    "Left Behind Index": [2.56, 2.64, 2.58, 2.52]
+})
+
+migration_df = pd.DataFrame({
+    "Migration background": ["No migration background", "Migration background"],
+    "Left Behind Index": [2.56, 2.65]
+})
+
+class_df = pd.DataFrame({
+    "Subjective Social Class": [
+        "Lower class", "Working class", "Lower middle class",
+        "Middle class", "Upper middle class", "Upper class"
+    ],
+    "Left Behind Index": [3.26, 3.13, 2.81, 2.42, 2.14, 1.89]
+})
+
+income_df = pd.DataFrame({
+    "Income group": [
+        "< €500", "€500–749", "€750–999", "€1,000–1,249",
+        "€1,250–1,499", "€1,500–1,999", "€2,000–2,499",
+        "€2,500–2,999", "€3,000–3,999", "€4,000–4,999",
+        "€5,000–7,499", "€7,500–9,999", "€10,000+"
+    ],
+    "Left Behind Index": [
+        3.05, 2.69, 3.00, 3.01, 2.96, 2.81,
+        2.78, 2.65, 2.58, 2.46, 2.28, 2.10, 2.01
+    ]
+})
+
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
+    "By Social Class",
+    "By Income",
+    "By Region",
+    "By Age",
+    "By Migration Background"
+])
+
+with tab1:
+
+    st.subheader("Subjective Social Class")
+
+    fig = px.bar(
+        class_df,
+        x="Subjective Social Class",
+        y="Left Behind Index",
+        text="Left Behind Index",
+        title="Left Behind Index by Subjective Social Class"
+    )
+    fig.update_traces(texttemplate="%{text:.2f}", textposition="outside")
+    fig.update_layout(height=420, yaxis=dict(range=[0, 4]))
+    st.plotly_chart(fig, width="stretch")
+
+    st.success("""
+People who place themselves in a lower subjective social class report
+a much stronger sense of being left behind — a clear, steady gradient
+from the lowest to the highest class category.
+""")
+
+with tab2:
+
+    st.subheader("Household Income")
+
+    fig = px.bar(
+        income_df,
+        x="Income group",
+        y="Left Behind Index",
+        text="Left Behind Index",
+        title="Left Behind Index by Household Net Monthly Income"
+    )
+    fig.update_traces(texttemplate="%{text:.2f}", textposition="outside")
+    fig.update_layout(
+        height=460,
+        yaxis=dict(range=[0, 4]),
+        xaxis=dict(tickangle=-40)
+    )
+    st.plotly_chart(fig, width="stretch")
+
+    st.success("""
+A similar gradient appears for income: respondents in lower income
+groups report higher Left Behind scores, decreasing fairly steadily
+toward higher income groups.
+""")
+
+with tab3:
+
+    st.subheader("East vs. West Germany")
+
+    fig = px.bar(
+        region_df,
+        x="Region",
+        y="Left Behind Index",
+        text="Left Behind Index",
+        title="Left Behind Index by Region"
+    )
+    fig.update_traces(texttemplate="%{text:.2f}", textposition="outside")
+    fig.update_layout(height=420, yaxis=dict(range=[0, 3.2]))
+    st.plotly_chart(fig, width="stretch")
+
+    st.warning("""
+**This result runs against a common assumption.** Respondents in
+**West Germany** report a slightly *higher* average Left Behind score
+than respondents in **East Germany**, not the reverse. Feeling left
+behind, as measured here, does not simply track the East/West divide
+often discussed in German politics.
+""")
+
+with tab4:
+
+    st.subheader("Age Group")
+
+    fig = px.bar(
+        age_df,
+        x="Age group",
+        y="Left Behind Index",
+        text="Left Behind Index",
+        title="Left Behind Index by Age Group"
+    )
+    fig.update_traces(texttemplate="%{text:.2f}", textposition="outside")
+    fig.update_layout(height=420, yaxis=dict(range=[0, 3.2]))
+    st.plotly_chart(fig, width="stretch")
+
+    st.info("""
+Differences across age groups are small. Feeling Left Behind does not
+appear to be primarily a generational phenomenon in this sample.
+""")
+
+with tab5:
+
+    st.subheader("Migration Background")
+
+    fig = px.bar(
+        migration_df,
+        x="Migration background",
+        y="Left Behind Index",
+        text="Left Behind Index",
+        title="Left Behind Index by Migration Background"
+    )
+    fig.update_traces(texttemplate="%{text:.2f}", textposition="outside")
+    fig.update_layout(height=420, yaxis=dict(range=[0, 3.2]))
+    st.plotly_chart(fig, width="stretch")
+
+    st.info("""
+Respondents with a migration background report a slightly higher
+average score, but the difference is modest compared to the gradients
+seen for social class and income.
+""")
+
+st.caption("""
+Figures are simple group averages of the Left Behind Index in the
+analytical sample, calculated after removing non-response codes
+(e.g. "don't know", "no answer") for each demographic variable.
+GLES variables and categories: ostwest (region), age,
+migration_background, d38 (subjective social class — official GLES
+categories from Lower class to Upper class), d63 (household net
+monthly income — official GLES brackets from under €500 to
+€10,000+).
 """)
 
 st.divider()

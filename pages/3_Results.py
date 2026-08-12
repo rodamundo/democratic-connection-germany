@@ -40,10 +40,15 @@ st.header("What did this project add?")
 
 st.markdown("""
 The **GLES 2025 survey already asks people** about their income,
-education, social position, democratic attitudes and whether they
-feel left behind.
+education, social position and democratic attitudes.
 
-This project asks a different question:
+It also asks four separate questions about whether people feel
+economically overlooked, unrecognized, underserved and unable to
+express themselves — but it does not combine them into a single
+measure.
+
+This project builds that missing measure — the **Left Behind Index** —
+validates it statistically, and asks:
 
 > ### If we already know someone's socioeconomic characteristics,
 > ### does knowing **how left behind they feel** help us better understand
@@ -108,113 +113,6 @@ with c2:
 in Institutional Trust between respondents.”**
 """)
 
-st.info("""
-### A simple example
-
-For Institutional Trust:
-
-**Before adding Feeling Left Behind:**  
-the model accounts for **10.7%** of the differences between respondents.
-
-**After adding Feeling Left Behind:**  
-the model accounts for **27.6%**.
-
-So knowing how left behind people feel adds a substantial amount
-of information to the model.
-""")
-
-st.divider()
-
-
-# ============================================================
-# RESULT AT A GLANCE
-# ============================================================
-
-st.header("The result at a glance")
-
-c1, c2, c3 = st.columns(3)
-
-with c1:
-
-    with st.container(border=True):
-
-        st.markdown("### 🏛️ Institutional Trust")
-
-        st.metric(
-            "Additional explanatory power",
-            "+16.9 pp"
-        )
-
-        st.markdown("""
-**Before Feeling Left Behind:**  
-10.7%
-
-**After Feeling Left Behind:**  
-### 27.6%
-""")
-
-        st.caption("OLS R²")
-
-
-with c2:
-
-    with st.container(border=True):
-
-        st.markdown("### 🗳️ Democratic Satisfaction")
-
-        st.metric(
-            "Additional explanatory power",
-            "+12.6 pp"
-        )
-
-        st.markdown("""
-**Before Feeling Left Behind:**  
-9.6%
-
-**After Feeling Left Behind:**  
-### 22.2%
-""")
-
-        st.caption("OLS R²")
-
-
-with c3:
-
-    with st.container(border=True):
-
-        st.markdown("### 👥 Party Representation")
-
-        st.metric(
-            "Additional model fit",
-            "+1.2 pp"
-        )
-
-        st.markdown("""
-**Before Feeling Left Behind:**  
-3.4%
-
-**After Feeling Left Behind:**  
-### 4.6%
-""")
-
-        st.caption(
-            "McFadden Pseudo R² · Logistic regression"
-        )
-
-
-st.warning("""
-### Important
-
-The Party Representation model uses **logistic regression** because
-the outcome is Yes/No.
-
-Its **Pseudo R² is not numerically comparable** with the OLS R² values
-for Institutional Trust and Democratic Satisfaction.
-
-The important point is the pattern: adding Feeling Left Behind improves
-this model too, but much less.
-""")
-
 st.divider()
 
 
@@ -226,7 +124,9 @@ st.header("What changes when Feeling Left Behind is added?")
 
 st.markdown("""
 The chart below compares each model **before and after we tell it how
-left behind each respondent feels**.
+left behind each respondent feels**. For Institutional Trust, this
+means the model's fit moves from **10.7%** to **27.6%** — an increase
+of nearly 17 percentage points.
 """)
 
 gain_long = gain_data.melt(
@@ -288,7 +188,17 @@ and
 
 **Democratic Satisfaction:** 9.6% → 22.2%
 
-The change is much smaller for **Party Representation**.
+The change is much smaller for **Party Representation**: 3.4% → 4.6%.
+This last outcome uses a different statistic (Pseudo R² from logistic
+regression, since it is a Yes/No question) — not directly comparable
+in scale to the other two, but the pattern of a modest gain still holds.
+""")
+
+st.warning("""
+The percentages above are **not** the share of people who trust
+institutions or are satisfied with democracy. They show how much of
+the **differences between respondents** each model can statistically
+account for.
 """)
 
 st.divider()
