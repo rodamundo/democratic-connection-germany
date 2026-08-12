@@ -13,6 +13,60 @@ st.set_page_config(
 
 
 # ============================================================
+# HELPER: PUZZLE VISUAL
+# ============================================================
+
+def puzzle_visual(explained, label, value, total=100):
+    """
+    Didactic visual:
+    100 squares represent all observed variation.
+    Filled squares approximate the share accounted for by the model.
+    """
+
+    filled = round(explained)
+    empty = total - filled
+
+    squares = (
+        "<span style='color:#2E86DE;'>■</span>" * filled +
+        "<span style='color:#D9D9D9;'>■</span>" * empty
+    )
+
+    st.markdown(
+        f"""
+        <div style="
+            border:1px solid #dddddd;
+            border-radius:12px;
+            padding:18px;
+            margin-bottom:12px;
+        ">
+            <div style="font-size:19px;font-weight:700;margin-bottom:6px;">
+                {label}
+            </div>
+
+            <div style="
+                font-size:20px;
+                line-height:1.25;
+                letter-spacing:2px;
+                word-break:break-all;
+                margin-bottom:10px;
+            ">
+                {squares}
+            </div>
+
+            <div style="font-size:18px;font-weight:700;">
+                ≈ {round(explained)} of 100 pieces
+            </div>
+
+            <div style="font-size:14px;color:#777777;">
+                Statistical value: {value}
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+
+# ============================================================
 # HOME
 # ============================================================
 
@@ -25,9 +79,9 @@ def home():
     )
 
     st.markdown("""
-This project explores whether people's **social and economic position**
-is enough to understand democratic disconnection in Germany, or whether
-another dimension also matters:
+This project asks whether people's **economic and social position**
+is enough to understand democratic disconnection, or whether another
+dimension also matters:
 
 ### **How people experience their place in society.**
 """)
@@ -42,9 +96,9 @@ another dimension also matters:
     st.header("1. What are we trying to understand?")
 
     st.markdown("""
-The project looks at **three different democratic outcomes**.
+People do not all relate to democracy in the same way.
 
-Importantly, they are not all measured in the same way.
+This project examines **three different outcomes**.
 """)
 
     c1, c2, c3 = st.columns(3)
@@ -55,18 +109,16 @@ Importantly, they are not all measured in the same way.
             st.markdown("### 🏛️ Institutional Trust")
 
             st.markdown("""
-Respondents rated **eight institutions**.
+Respondents rated **eight institutions** from:
 
 **1 = Do not trust at all**
 
+to
+
 **11 = Trust completely**
 
-The eight ratings are averaged into one trust score for each person.
+The ratings are averaged into one trust score for each person.
 """)
-
-            st.caption(
-                "There is no cut-off between 'trusting' and 'not trusting'."
-            )
 
     with c2:
         with st.container(border=True):
@@ -78,16 +130,12 @@ Respondents answered:
 
 **1 = Very satisfied**
 
-**2 = Fairly satisfied**
-
-**3 = Not very satisfied**
+to
 
 **4 = Not at all satisfied**
-""")
 
-            st.caption(
-                "Higher values mean greater dissatisfaction."
-            )
+Higher values mean greater dissatisfaction.
+""")
 
     with c3:
         with st.container(border=True):
@@ -95,27 +143,24 @@ Respondents answered:
             st.markdown("### 👥 Party Representation")
 
             st.markdown("""
-Respondents were asked whether any political party represents
-their political views well.
+Respondents were asked:
+
+**Does any political party represent your views well?**
 
 **Yes / No**
 """)
 
-            st.caption(
-                "This is the only binary outcome."
-            )
-
     st.info("""
-### What are the models trying to explain?
+### There is an important difference
 
-For **Institutional Trust** and **Democratic Satisfaction**, the analysis
-does not divide people into two groups.
+For **Institutional Trust** and **Democratic Satisfaction**, people are
+not divided into “trust” / “no trust” groups.
 
-Instead, it asks:
+They have different scores.
 
-> **Why do respondents have different scores?**
+The question is:
 
-For **Party Representation**, the outcome really is Yes/No.
+> **Why do some people have higher scores and others lower scores?**
 """)
 
     st.divider()
@@ -125,13 +170,7 @@ For **Party Representation**, the outcome really is Yes/No.
     # 2. MODELS
     # ========================================================
 
-    st.header("2. How is the question tested?")
-
-    st.markdown("""
-The analysis builds three models.
-
-Each model adds another layer of information about the same respondents.
-""")
+    st.header("2. What information might help us understand those differences?")
 
     c1, c2, c3 = st.columns(3)
 
@@ -162,8 +201,6 @@ Everything in Model 1
 ### +
 
 🪜 **Subjective Social Class**
-
-Where respondents believe they belong in the social hierarchy.
 """)
 
     with c3:
@@ -180,12 +217,11 @@ Everything in Model 2
 🧩 **Left Behind Index**
 """)
 
-    st.info("""
-The central question is:
+    st.markdown("""
+The logic is simple:
 
-> **Does knowing how left behind someone feels add useful information
-> beyond income, education, age, region, migration background,
-> political interest and social class?**
+> **If adding new information makes the model much better at understanding
+> why people's scores differ, that information is adding something useful.**
 """)
 
     st.divider()
@@ -198,11 +234,8 @@ The central question is:
     st.header("3. What is Feeling Left Behind?")
 
     st.markdown("""
-Even if two people have similar income and education, they may experience
-their place in society very differently.
-
-The GLES contains four questions about whether **people like the respondent**
-feel sufficiently considered by society.
+The GLES contains four questions about whether respondents feel that
+**people like them** are sufficiently considered by society.
 """)
 
     c1, c2, c3, c4 = st.columns(4)
@@ -236,102 +269,91 @@ feel sufficiently considered by society.
             )
 
     st.markdown("""
-The four answers are converted into one score for each respondent.
+The four answers are averaged into one score for each person:
 """)
 
-    c1, c2, c3 = st.columns([1, 1.5, 1])
+    c1, c2, c3 = st.columns([1, 1.3, 1])
 
     with c1:
-        st.metric(
-            "Lower Feeling Left Behind",
-            "1"
-        )
+        st.metric("Lower Feeling Left Behind", "1")
 
     with c2:
         st.markdown("""
 ### 4 answers
-
 ### ↓
-
 ### Average
-
 ### ↓
-
 ## 🧩 Left Behind Index
 """)
 
     with c3:
-        st.metric(
-            "Higher Feeling Left Behind",
-            "5"
-        )
+        st.metric("Higher Feeling Left Behind", "5")
 
     st.info("""
-There is **no threshold** separating people into
-“left behind” and “not left behind”.
+There is **no cut-off** between “left behind” and “not left behind”.
 
-Each respondent simply receives a score between approximately **1 and 5**.
-
-The analysis then asks whether democratic attitudes tend to change
-as this score changes.
+The index measures **degrees** of Feeling Left Behind.
 """)
 
     st.divider()
 
 
     # ========================================================
-    # 4. HOW TO READ R²
+    # 4. PUZZLE EXPLANATION
     # ========================================================
 
-    st.header("4. Before the results: what does '27.6%' actually mean?")
+    st.header("4. What do the percentages actually mean?")
 
     st.markdown("""
-This is easiest to understand with **Institutional Trust**.
+This is the part that can be difficult to understand statistically,
+so here is a visual analogy.
 
-Each of the 5,039 respondents has a different trust score.
+Imagine all the differences in **Institutional Trust scores**
+between respondents as a **100-piece puzzle**.
 
-Imagine that:
+### 🧩 100 pieces = all the observed differences in trust scores
 
-### **100% = all the observed differences in trust scores between respondents**
-
-The models try to understand why those scores differ.
+The model tries to account for as many of those differences as possible
+using the information we give it.
 """)
 
-    c1, c2 = st.columns(2)
+    puzzle_visual(
+        8.8,
+        "Model 1 — Traditional Factors",
+        "R² = 8.8%"
+    )
 
-    with c1:
-        with st.container(border=True):
+    puzzle_visual(
+        10.7,
+        "Model 2 — + Subjective Social Class",
+        "R² = 10.7%"
+    )
 
-            st.markdown("### ❌ 27.6% does NOT mean")
+    puzzle_visual(
+        27.6,
+        "Model 3 — + Feeling Left Behind",
+        "R² = 27.6%"
+    )
 
-            st.markdown("""
-- 27.6% of people trust institutions
-- trust increased by 27.6%
-- Feeling Left Behind alone explains 27.6%
+    st.success("""
+### What changed?
+
+Traditional factors account for roughly **9 of 100 pieces**.
+
+Adding Subjective Social Class moves this to roughly **11 of 100**.
+
+Adding Feeling Left Behind moves it to roughly **28 of 100**.
+
+### Feeling Left Behind does not complete the puzzle.
+
+But it adds substantially more information than Social Class alone.
 """)
 
-    with c2:
-        with st.container(border=True):
+    st.caption("""
+The puzzle is a teaching analogy.
 
-            st.markdown("### ✅ 27.6% means")
-
-            st.markdown("""
-The **complete Model 3** can statistically account for:
-
-### **27.6% of the observed differences in Institutional Trust scores between respondents.**
-""")
-
-    st.markdown("""
-For Institutional Trust:
-
-**Model 1:** 8.8% of the observed differences accounted for
-
-**Model 2:** 10.7%
-
-**Model 3:** 27.6%
-
-So adding Feeling Left Behind increases the model's explanatory power
-by **16.9 percentage points compared with Model 2**.
+Statistically, R² measures the share of observed variation in the outcome
+that the model can account for. The pieces do not represent 100 separate causes.
 """)
 
     st.divider()
@@ -341,11 +363,7 @@ by **16.9 percentage points compared with Model 2**.
     # 5. RESULTS
     # ========================================================
 
-    st.header("5. What happens when Feeling Left Behind is added?")
-
-    st.markdown("""
-For the two outcomes measured as scores, the pattern is clear:
-""")
+    st.header("5. Does the same pattern appear elsewhere?")
 
     c1, c2 = st.columns(2)
 
@@ -355,15 +373,15 @@ For the two outcomes measured as scores, the pattern is clear:
             st.markdown("### 🏛️ Institutional Trust")
 
             st.markdown("""
-**Traditional Factors:** 8.8%
+Model 1: **8.8%**
 
-**+ Social Class:** 10.7%
+Model 2: **10.7%**
 
-**+ Feeling Left Behind:** **27.6%**
+Model 3: **27.6%**
 """)
 
             st.metric(
-                "Gain after adding Feeling Left Behind",
+                "Gain after Feeling Left Behind",
                 "+16.9 pp"
             )
 
@@ -373,74 +391,58 @@ For the two outcomes measured as scores, the pattern is clear:
             st.markdown("### 🗳️ Democratic Satisfaction")
 
             st.markdown("""
-**Traditional Factors:** 8.5%
+Model 1: **8.5%**
 
-**+ Social Class:** 9.6%
+Model 2: **9.6%**
 
-**+ Feeling Left Behind:** **22.2%**
+Model 3: **22.2%**
 """)
 
             st.metric(
-                "Gain after adding Feeling Left Behind",
+                "Gain after Feeling Left Behind",
                 "+12.6 pp"
             )
 
     st.success("""
-### Main pattern
+For both outcomes, adding Subjective Social Class changes relatively little.
 
-Adding Subjective Social Class changes the models only slightly.
-
-Adding **Feeling Left Behind** produces a much larger improvement,
-especially for Institutional Trust and Democratic Satisfaction.
+Adding **Feeling Left Behind** changes the model much more.
 """)
 
     st.divider()
 
 
     # ========================================================
-    # PARTY REPRESENTATION SEPARATE
+    # PARTY
     # ========================================================
 
     st.header("6. Party Representation is different")
 
     st.markdown("""
-Party Representation is a **Yes/No outcome**.
-
-Because of that, it requires **logistic regression** and uses
-**McFadden Pseudo R²**, not the same R² used above.
+Party Representation is **Yes / No**, so it uses logistic regression
+rather than the same R² measure used above.
 """)
 
     c1, c2, c3 = st.columns(3)
 
-    c1.metric(
-        "Traditional Factors",
-        "3.4%"
-    )
-
-    c2.metric(
-        "+ Social Class",
-        "3.4%"
-    )
-
-    c3.metric(
-        "+ Feeling Left Behind",
-        "4.6%",
-        delta="+1.2 pp"
-    )
+    c1.metric("Traditional Factors", "3.4%")
+    c2.metric("+ Social Class", "3.4%")
+    c3.metric("+ Feeling Left Behind", "4.6%", delta="+1.2 pp")
 
     st.warning("""
-These percentages should **not be numerically compared** with the
-27.6% and 22.2% above.
+These are **McFadden Pseudo R² values**.
 
-The useful conclusion is simply that Feeling Left Behind improves
-the Party Representation model much less.
+Do not interpret them as “pieces of the puzzle explained” in exactly
+the same way as the R² values above.
+
+The important message is that the improvement is much smaller.
 """)
 
     st.divider()
 
 
     # ========================================================
-    # 7. CONCLUSION
+    # CONCLUSION
     # ========================================================
 
     st.header("7. What does this tell us?")
@@ -448,14 +450,10 @@ the Party Representation model much less.
     st.success("""
 ### Socioeconomic position does not tell the whole story.
 
-Income, education, age, region and social class help explain some
-differences in democratic attitudes.
+Income, education, age, region and social class provide useful information.
 
-But for **Institutional Trust** and **Democratic Satisfaction**,
-knowing how left behind people feel adds substantial information.
-
-The much weaker pattern for **Party Representation** suggests that
-democratic disconnection has different dimensions.
+But for **Institutional Trust** and **Democratic Satisfaction**, knowing
+how left behind people feel adds substantially more information.
 """)
 
     st.markdown("""
@@ -467,19 +465,10 @@ democratic disconnection has different dimensions.
     st.warning("""
 The analysis identifies **associations, not causation**.
 
-It cannot establish whether Feeling Left Behind causes lower trust
-or dissatisfaction, or whether people who already distrust institutions
-are more likely to report feeling left behind.
+It cannot establish which direction the relationship runs.
 """)
 
     st.divider()
-
-
-    # ========================================================
-    # PROJECT
-    # ========================================================
-
-    st.header("About the analysis")
 
     c1, c2, c3, c4 = st.columns(4)
 
@@ -489,7 +478,7 @@ are more likely to report feeling left behind.
     c4.metric("Regression models", "9")
 
     st.caption("""
-**Source:** German Longitudinal Election Study (GLES 2025),
+Source: German Longitudinal Election Study (GLES 2025),
 Post-Election Cross-Section, ZA10100.
 """)
 
