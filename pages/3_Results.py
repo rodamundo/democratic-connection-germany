@@ -23,13 +23,21 @@ versus
 **Model 2 — Traditional factors + Feeling Left Behind**
 """)
 
+
 st.info("""
-### Two statistical questions
+### Two simple questions
 
-**R² / Pseudo R²** → How does model fit change?
+**1. Does Feeling Left Behind add useful information?**
 
-**Coefficient / Odds Ratio** → In which direction is LBI associated
-with the outcome?
+We compare the model **before and after adding LBI**.
+
+**2. What happens as Feeling Left Behind increases?**
+
+We examine whether **trust, satisfaction and representation
+tend to increase or decrease**.
+
+*The technical measures behind these comparisons are R² / Pseudo R²
+and regression coefficients / Odds Ratios.*
 """)
 
 st.divider()
@@ -443,9 +451,7 @@ The improvement for **Party Representation** is much smaller.
 st.subheader("B. In which direction is LBI associated with each outcome?")
 
 st.markdown("""
-Model fit tells us one thing.
-
-The **coefficient or Odds Ratio** tells us another:
+Now we ask a different question:
 
 > **As Feeling Left Behind increases, what tends to happen?**
 """)
@@ -535,12 +541,16 @@ of saying that a party represents their views well.
 
 
 st.info("""
-These three effect statistics should **not** be compared numerically
-with one another.
+### A technical detail
 
-The first two are OLS coefficients.
+The numbers shown above are not all measured on the same scale.
 
-The third is an Odds Ratio from logistic regression.
+Trust and Satisfaction use OLS coefficients.
+
+Party Representation uses an Odds Ratio from logistic regression.
+
+That is why the three effect numbers should not be compared
+directly with one another.
 """)
 
 st.divider()
@@ -896,15 +906,15 @@ that Feeling Left Behind is substantively important.
 """)
 
 st.info("""
-### The analysis therefore considers several pieces of evidence together:
+### We therefore look at several pieces of evidence together:
 
-**1. R² change**
+**1. Does model fit change?**
 
-**2. Adjusted R² for the OLS models**
+**2. Does Adjusted R² also improve?**
 
-**3. The LBI coefficient / Odds Ratio**
+**3. In which direction is LBI associated with the outcome?**
 
-**4. Statistical significance**
+**4. Is that association statistically significant?**
 """)
 
 
