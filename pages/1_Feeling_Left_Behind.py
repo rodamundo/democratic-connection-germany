@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
+
 st.title("🧩 Feeling Left Behind")
 
 st.subheader(
@@ -24,6 +25,7 @@ as having a low income or belonging to a particular social class**.
 
 st.divider()
 
+
 # ============================================================
 # THREE DIFFERENT CONCEPTS
 # ============================================================
@@ -34,46 +36,59 @@ c1, c2, c3 = st.columns(3)
 
 with c1:
     with st.container(border=True):
+
         st.markdown("### 💰 Household Income")
+
         st.markdown("""
 **What resources do I have?**
 
 Measures the economic resources available to a household.
 """)
+
         st.caption("Objective socioeconomic position")
+
 
 with c2:
     with st.container(border=True):
+
         st.markdown("### 🪜 Subjective Social Class")
+
         st.markdown("""
 **Where do I see myself in society?**
 
 Measures where people believe they sit in the social hierarchy.
 """)
+
         st.caption("Perceived social position")
+
 
 with c3:
     with st.container(border=True):
+
         st.markdown("### 🧩 Feeling Left Behind")
+
         st.markdown("""
 **Do I feel that people like me are seen and considered?**
 
 Measures perceived attention, recognition, services and voice.
 """)
+
         st.caption("Subjective social disconnection")
+
 
 st.success("""
 ### Why does this distinction matter?
 
-Two people with similar income and education may still feel very
-differently about whether society recognizes, listens to or provides
-adequately for people like them.
+Two people with similar income, education or perceived social position
+may still feel very differently about whether society recognizes,
+listens to or provides adequately for people like them.
 
-The research tests whether these differences are connected to
-democratic attitudes.
+The research tests whether Feeling Left Behind is associated with
+democratic attitudes beyond traditional characteristics.
 """)
 
 st.divider()
+
 
 # ============================================================
 # FOUR DIMENSIONS
@@ -136,6 +151,7 @@ Examples provided by the survey include:
 **Variable:** `q46c`
 """)
 
+
 with c2:
 
     with st.container(border=True):
@@ -172,7 +188,9 @@ with c2:
 **Variable:** `q46d`
 """)
 
+
 st.divider()
+
 
 # ============================================================
 # ORIGINAL SCALE
@@ -186,22 +204,14 @@ Each question originally uses the same five-point scale:
 
 c1, c2, c3, c4, c5 = st.columns(5)
 
-with c1:
-    st.metric("1", "Strongly agree")
-
-with c2:
-    st.metric("2", "Agree")
-
-with c3:
-    st.metric("3", "Neither")
-
-with c4:
-    st.metric("4", "Disagree")
-
-with c5:
-    st.metric("5", "Strongly disagree")
+c1.metric("1", "Strongly agree")
+c2.metric("2", "Agree")
+c3.metric("3", "Neither")
+c4.metric("4", "Disagree")
+c5.metric("5", "Strongly disagree")
 
 st.divider()
+
 
 # ============================================================
 # REVERSING SCALE
@@ -237,6 +247,7 @@ c1, c2 = st.columns(2)
 
 with c1:
     with st.container(border=True):
+
         st.markdown("""
 ### 1
 
@@ -245,8 +256,10 @@ with c1:
 Respondent tends to disagree with the statements.
 """)
 
+
 with c2:
     with st.container(border=True):
+
         st.markdown("""
 ### 5
 
@@ -255,6 +268,7 @@ with c2:
 Respondent tends to agree with the statements.
 """)
 
+
 st.success("""
 ### The final interpretation is simple:
 
@@ -262,6 +276,7 @@ st.success("""
 """)
 
 st.divider()
+
 
 # ============================================================
 # INDEX CREATION
@@ -291,6 +306,7 @@ with c4:
         st.markdown("### 🗣️")
         st.markdown("**Voice**")
 
+
 st.markdown("""
 ## ↓
 
@@ -301,8 +317,9 @@ The four reversed answers are **averaged for each respondent**.
 # 🧩 Left Behind Index
 """)
 
+
 st.markdown("""
-The resulting score ranges conceptually from approximately:
+The resulting score ranges conceptually from:
 
 ### **1 — Lower Feeling Left Behind**
 
@@ -312,6 +329,7 @@ to
 """)
 
 st.divider()
+
 
 # ============================================================
 # EXAMPLE
@@ -340,6 +358,7 @@ feeling of being left behind.
 """)
 
 st.divider()
+
 
 # ============================================================
 # VALIDATION
@@ -377,6 +396,7 @@ with one Left Behind Index.
 
 st.divider()
 
+
 # ============================================================
 # WHO FEELS MORE LEFT BEHIND?
 # ============================================================
@@ -385,11 +405,15 @@ st.header("Who feels more left behind?")
 
 st.markdown("""
 Before looking at how Feeling Left Behind relates to democratic
-attitudes, it helps to see how the index itself varies across simple
-demographic groups. These are **descriptive averages**, not the
-regression models used elsewhere in this project — they show patterns
-in the raw index, not adjusted associations.
+attitudes, it helps to see how the index itself varies across
+different groups.
+
+These are **descriptive averages**, not the regression models used
+elsewhere in the project.
+
+They describe patterns in the raw index rather than adjusted effects.
 """)
+
 
 region_df = pd.DataFrame({
     "Region": ["West Germany", "East Germany"],
@@ -402,38 +426,74 @@ age_df = pd.DataFrame({
 })
 
 migration_df = pd.DataFrame({
-    "Migration background": ["No migration background", "Migration background"],
+    "Migration background": [
+        "No migration background",
+        "Migration background"
+    ],
     "Left Behind Index": [2.56, 2.65]
 })
 
 class_df = pd.DataFrame({
     "Subjective Social Class": [
-        "Lower class", "Working class", "Lower middle class",
-        "Middle class", "Upper middle class", "Upper class"
+        "Lower class",
+        "Working class",
+        "Lower middle class",
+        "Middle class",
+        "Upper middle class",
+        "Upper class"
     ],
-    "Left Behind Index": [3.26, 3.13, 2.81, 2.42, 2.14, 1.89]
+    "Left Behind Index": [
+        3.26,
+        3.13,
+        2.81,
+        2.42,
+        2.14,
+        1.89
+    ]
 })
 
 income_df = pd.DataFrame({
     "Income group": [
-        "< €500", "€500–749", "€750–999", "€1,000–1,249",
-        "€1,250–1,499", "€1,500–1,999", "€2,000–2,499",
-        "€2,500–2,999", "€3,000–3,999", "€4,000–4,999",
-        "€5,000–7,499", "€7,500–9,999", "€10,000+"
+        "< €500",
+        "€500–749",
+        "€750–999",
+        "€1,000–1,249",
+        "€1,250–1,499",
+        "€1,500–1,999",
+        "€2,000–2,499",
+        "€2,500–2,999",
+        "€3,000–3,999",
+        "€4,000–4,999",
+        "€5,000–7,499",
+        "€7,500–9,999",
+        "€10,000+"
     ],
     "Left Behind Index": [
-        3.05, 2.69, 3.00, 3.01, 2.96, 2.81,
-        2.78, 2.65, 2.58, 2.46, 2.28, 2.10, 2.01
+        3.05,
+        2.69,
+        3.00,
+        3.01,
+        2.96,
+        2.81,
+        2.78,
+        2.65,
+        2.58,
+        2.46,
+        2.28,
+        2.10,
+        2.01
     ]
 })
 
+
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
-    "By Social Class",
+    "By Subjective Social Class",
     "By Income",
     "By Region",
     "By Age",
     "By Migration Background"
 ])
+
 
 with tab1:
 
@@ -446,15 +506,28 @@ with tab1:
         text="Left Behind Index",
         title="Left Behind Index by Subjective Social Class"
     )
-    fig.update_traces(texttemplate="%{text:.2f}", textposition="outside")
-    fig.update_layout(height=420, yaxis=dict(range=[0, 4]))
-    st.plotly_chart(fig, width="stretch")
+
+    fig.update_traces(
+        texttemplate="%{text:.2f}",
+        textposition="outside"
+    )
+
+    fig.update_layout(
+        height=420,
+        yaxis=dict(range=[0, 4])
+    )
+
+    st.plotly_chart(
+        fig,
+        width="stretch"
+    )
 
     st.success("""
 People who place themselves in a lower subjective social class report
 a much stronger sense of being left behind — a clear, steady gradient
 from the lowest to the highest class category.
 """)
+
 
 with tab2:
 
@@ -467,19 +540,29 @@ with tab2:
         text="Left Behind Index",
         title="Left Behind Index by Household Net Monthly Income"
     )
-    fig.update_traces(texttemplate="%{text:.2f}", textposition="outside")
+
+    fig.update_traces(
+        texttemplate="%{text:.2f}",
+        textposition="outside"
+    )
+
     fig.update_layout(
         height=460,
         yaxis=dict(range=[0, 4]),
         xaxis=dict(tickangle=-40)
     )
-    st.plotly_chart(fig, width="stretch")
+
+    st.plotly_chart(
+        fig,
+        width="stretch"
+    )
 
     st.success("""
 A similar gradient appears for income: respondents in lower income
 groups report higher Left Behind scores, decreasing fairly steadily
 toward higher income groups.
 """)
+
 
 with tab3:
 
@@ -492,17 +575,32 @@ with tab3:
         text="Left Behind Index",
         title="Left Behind Index by Region"
     )
-    fig.update_traces(texttemplate="%{text:.2f}", textposition="outside")
-    fig.update_layout(height=420, yaxis=dict(range=[0, 3.2]))
-    st.plotly_chart(fig, width="stretch")
+
+    fig.update_traces(
+        texttemplate="%{text:.2f}",
+        textposition="outside"
+    )
+
+    fig.update_layout(
+        height=420,
+        yaxis=dict(range=[0, 3.2])
+    )
+
+    st.plotly_chart(
+        fig,
+        width="stretch"
+    )
 
     st.warning("""
-**This result runs against a common assumption.** Respondents in
-**West Germany** report a slightly *higher* average Left Behind score
-than respondents in **East Germany**, not the reverse. Feeling left
-behind, as measured here, does not simply track the East/West divide
-often discussed in German politics.
+**This result runs against a common assumption.**
+
+Respondents in **West Germany** report a slightly higher average
+Left Behind score than respondents in **East Germany**, not the reverse.
+
+Feeling Left Behind, as measured here, does not simply track the
+East/West divide often discussed in German politics.
 """)
+
 
 with tab4:
 
@@ -515,14 +613,29 @@ with tab4:
         text="Left Behind Index",
         title="Left Behind Index by Age Group"
     )
-    fig.update_traces(texttemplate="%{text:.2f}", textposition="outside")
-    fig.update_layout(height=420, yaxis=dict(range=[0, 3.2]))
-    st.plotly_chart(fig, width="stretch")
+
+    fig.update_traces(
+        texttemplate="%{text:.2f}",
+        textposition="outside"
+    )
+
+    fig.update_layout(
+        height=420,
+        yaxis=dict(range=[0, 3.2])
+    )
+
+    st.plotly_chart(
+        fig,
+        width="stretch"
+    )
 
     st.info("""
-Differences across age groups are small. Feeling Left Behind does not
-appear to be primarily a generational phenomenon in this sample.
+Differences across age groups are small.
+
+Feeling Left Behind does not appear to be primarily a
+generational phenomenon in this sample.
 """)
+
 
 with tab5:
 
@@ -535,28 +648,43 @@ with tab5:
         text="Left Behind Index",
         title="Left Behind Index by Migration Background"
     )
-    fig.update_traces(texttemplate="%{text:.2f}", textposition="outside")
-    fig.update_layout(height=420, yaxis=dict(range=[0, 3.2]))
-    st.plotly_chart(fig, width="stretch")
+
+    fig.update_traces(
+        texttemplate="%{text:.2f}",
+        textposition="outside"
+    )
+
+    fig.update_layout(
+        height=420,
+        yaxis=dict(range=[0, 3.2])
+    )
+
+    st.plotly_chart(
+        fig,
+        width="stretch"
+    )
 
     st.info("""
 Respondents with a migration background report a slightly higher
-average score, but the difference is modest compared to the gradients
-seen for social class and income.
+average score, but the difference is modest compared with the
+gradients seen for Subjective Social Class and income.
 """)
 
+
 st.caption("""
-Figures are simple group averages of the Left Behind Index in the
-analytical sample, calculated after removing non-response codes
-(e.g. "don't know", "no answer") for each demographic variable.
-GLES variables and categories: ostwest (region), age,
-migration_background, d38 (subjective social class — official GLES
-categories from Lower class to Upper class), d63 (household net
-monthly income — official GLES brackets from under €500 to
-€10,000+).
+Figures are simple group averages of the Left Behind Index,
+calculated after removing non-response codes for each demographic
+variable.
+
+Subjective Social Class is shown here as a **descriptive comparison**.
+It is not a separate regression stage in the final two-model design.
+
+GLES variables: ostwest, age, migration_background,
+d38 (Subjective Social Class), and d63 (household net monthly income).
 """)
 
 st.divider()
+
 
 # ============================================================
 # WHAT THE INDEX DOES NOT MEAN
@@ -568,7 +696,9 @@ c1, c2 = st.columns(2)
 
 with c1:
     with st.container(border=True):
+
         st.markdown("### ✅ What it measures")
+
         st.markdown("""
 Respondents' **perceptions** of:
 
@@ -578,15 +708,19 @@ Respondents' **perceptions** of:
 - freedom of expression.
 """)
 
+
 with c2:
     with st.container(border=True):
+
         st.markdown("### ⚠️ What it does not prove")
+
         st.markdown("""
 It does not objectively establish that society actually neglects
 a particular respondent or group.
 
 It measures **perceived social disconnection**.
 """)
+
 
 st.divider()
 

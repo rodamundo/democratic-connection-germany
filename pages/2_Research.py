@@ -27,8 +27,8 @@ st.info("""
 # Research question
 
 ### Does Feeling Left Behind help us understand people's relationship
-### with democracy beyond traditional socioeconomic factors and
-### Subjective Social Class?
+### with democracy beyond traditional socioeconomic, demographic
+### and political characteristics?
 """)
 
 st.divider()
@@ -46,10 +46,6 @@ In this project, it does **not** mean one single thing.
 We study three different outcomes.
 """)
 
-
-# ------------------------------------------------------------
-# TRUST
-# ------------------------------------------------------------
 
 with st.container(border=True):
 
@@ -94,8 +90,6 @@ to
     st.markdown("""
 ### How does this become one outcome?
 
-For each respondent:
-
 **8 trust ratings**
 
 # ↓
@@ -111,10 +105,6 @@ For each respondent:
 **11 = very high overall trust**
 """)
 
-
-# ------------------------------------------------------------
-# SATISFACTION
-# ------------------------------------------------------------
 
 with st.container(border=True):
 
@@ -142,15 +132,11 @@ This is based on **one survey response**:
 Unlike Institutional Trust, this outcome is **not an average
 of several questions**.
 
-And the direction is reversed:
+The direction is also reversed:
 
 ### Higher score = greater dissatisfaction
 """)
 
-
-# ------------------------------------------------------------
-# REPRESENTATION
-# ------------------------------------------------------------
 
 with st.container(border=True):
 
@@ -162,17 +148,14 @@ with st.container(border=True):
 Whether respondents feel that **any political party represents
 their personal political views well**.
 
-The response is simply:
+The response is:
 
 # YES / NO
 """)
 
     st.info("""
-This outcome has only two possible values.
-
-That is why Party Representation is analyzed using
-**logistic regression**, rather than the OLS regression used
-for the other two outcomes.
+Because Party Representation is binary, it is analyzed using
+**logistic regression** rather than OLS.
 """)
 
 
@@ -199,13 +182,11 @@ st.divider()
 st.header("3. What might explain differences between respondents?")
 
 st.markdown("""
-Now that the outcomes are defined, we can ask why respondents
-have different scores or responses.
-
-The analysis considers three layers of information.
+The final analysis compares **two layers of information**.
 """)
 
-c1, c2, c3 = st.columns(3)
+c1, c2 = st.columns(2)
+
 
 with c1:
     with st.container(border=True):
@@ -226,27 +207,28 @@ with c1:
 🗳️ Political Interest
 """)
 
+
 with c2:
     with st.container(border=True):
 
-        st.markdown("### 2️⃣ Subjective position")
-
-        st.markdown("""
-🪜 **Subjective Social Class**
-
-Where respondents believe they stand in the social hierarchy.
-""")
-
-with c3:
-    with st.container(border=True):
-
-        st.markdown("### 3️⃣ Subjective experience")
+        st.markdown("### 2️⃣ Subjective social experience")
 
         st.markdown("""
 🧩 **Feeling Left Behind**
 
-Whether respondents feel that people like them are seen,
-recognized, served and heard.
+Whether respondents feel that people like them are:
+
+- economically considered;
+- recognized;
+- adequately served;
+- able to express their views.
+""")
+
+
+st.info("""
+Subjective Social Class is still explored descriptively in the
+Feeling Left Behind section, but it is **not a separate stage in
+the final regression design**.
 """)
 
 st.divider()
@@ -259,11 +241,11 @@ st.divider()
 st.header("4. How are these explanations tested?")
 
 st.markdown("""
-The information is added step by step using
-**three nested regression models**.
+The analysis uses **two nested models**.
 """)
 
-c1, c2, c3 = st.columns(3)
+c1, c2 = st.columns(2)
+
 
 with c1:
     with st.container(border=True):
@@ -286,6 +268,7 @@ Income
 + Political Interest
 """)
 
+
 with c2:
     with st.container(border=True):
 
@@ -296,27 +279,15 @@ with c2:
 
 # +
 
-### Subjective Social Class
+### 🧩 Feeling Left Behind
 """)
 
-with c3:
-    with st.container(border=True):
-
-        st.markdown("## MODEL 3")
-
-        st.markdown("""
-### Model 2
-
-# +
-
-### Feeling Left Behind
-""")
 
 st.success("""
-### Why do this step by step?
+### Why compare these two models?
 
-Because we want to know whether each new layer adds information
-that the previous model did not capture.
+Because the central research question is whether
+**Feeling Left Behind adds information beyond traditional factors**.
 """)
 
 st.divider()
@@ -327,10 +298,6 @@ st.divider()
 # ============================================================
 
 st.header("5. Outcomes and models are different things")
-
-st.markdown("""
-This distinction is central to understanding the project.
-""")
 
 c1, c2 = st.columns(2)
 
@@ -349,6 +316,7 @@ with c1:
 👥 Party Representation
 """)
 
+
 with c2:
     with st.container(border=True):
 
@@ -359,16 +327,15 @@ with c2:
 
 **Model 1** → Traditional factors
 
-**Model 2** → + Social Class
-
-**Model 3** → + Feeling Left Behind
+**Model 2** → Traditional factors + Feeling Left Behind
 """)
+
 
 st.divider()
 
 
 # ============================================================
-# 6. 3 x 3
+# 6. DESIGN
 # ============================================================
 
 st.header("6. The complete research design")
@@ -378,15 +345,15 @@ Each model is estimated separately for each outcome.
 """)
 
 st.markdown("""
-| Outcome ↓ | Model 1 | Model 2 | Model 3 |
-|---|---|---|---|
-| 🏛️ Institutional Trust | Traditional factors | + Social Class | + LBI |
-| 🗳️ Democratic Satisfaction | Traditional factors | + Social Class | + LBI |
-| 👥 Party Representation | Traditional factors | + Social Class | + LBI |
+| Outcome ↓ | Model 1 | Model 2 |
+|---|---|---|
+| 🏛️ Institutional Trust | Traditional factors | + LBI |
+| 🗳️ Democratic Satisfaction | Traditional factors | + LBI |
+| 👥 Party Representation | Traditional factors | + LBI |
 """)
 
 st.success("""
-# 3 outcomes × 3 models = 9 regressions
+# 3 outcomes × 2 models = 6 regressions
 """)
 
 st.divider()
@@ -399,9 +366,7 @@ st.divider()
 st.header("7. What is the central test?")
 
 st.markdown("""
-The most important comparison is between **Model 2 and Model 3**.
-
-Model 2 already contains:
+Model 1 already contains:
 
 - Household Income
 - Education
@@ -409,9 +374,8 @@ Model 2 already contains:
 - Region
 - Migration Background
 - Political Interest
-- Subjective Social Class
 
-Then Model 3 adds:
+Then Model 2 adds one new construct:
 
 # 🧩 Feeling Left Behind
 """)
@@ -419,9 +383,9 @@ Then Model 3 adds:
 st.info("""
 ### Central question
 
-If we already know all those characteristics about a respondent,
-does knowing **how left behind they feel** help us understand
-their democratic attitudes better?
+If we already know these traditional characteristics about a respondent,
+does knowing **how left behind they feel** help us understand their
+democratic attitudes better?
 """)
 
 st.divider()
@@ -434,6 +398,7 @@ st.divider()
 st.header("8. What relationships do we expect?")
 
 c1, c2, c3 = st.columns(3)
+
 
 with c1:
     with st.container(border=True):
@@ -448,6 +413,7 @@ Feeling Left Behind ↑
 Institutional Trust ↓
 """)
 
+
 with c2:
     with st.container(border=True):
 
@@ -461,6 +427,7 @@ Feeling Left Behind ↑
 Democratic Dissatisfaction ↑
 """)
 
+
 with c3:
     with st.container(border=True):
 
@@ -473,6 +440,7 @@ Feeling Left Behind ↑
 
 Party Representation ↓
 """)
+
 
 st.warning("""
 These are hypotheses about **statistical associations**.

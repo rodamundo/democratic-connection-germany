@@ -11,8 +11,8 @@ st.subheader(
 st.info("""
 ### Methodological sequence
 
-**Respondent answers → outcomes and predictors → regression →
-coefficients → R² / Pseudo R² → interpretation**
+**Respondent answers → outcomes and predictors → two regression models →
+coefficients → model fit → interpretation**
 """)
 
 st.divider()
@@ -37,9 +37,20 @@ c1.metric(
 )
 
 c2.metric(
-    "Analytical sample",
-    "5,039"
+    "Outcome-specific samples",
+    "5,096–5,676"
 )
+
+st.info("""
+The final regressions use **complete-case samples**.
+
+The two models for a given outcome are estimated on exactly the
+same respondents so that changes in model fit can be compared fairly.
+
+- Institutional Trust: **N = 5,653**
+- Democratic Satisfaction: **N = 5,676**
+- Party Representation: **N = 5,096**
+""")
 
 st.divider()
 
@@ -48,11 +59,7 @@ st.divider()
 # 2. OUTCOMES
 # ============================================================
 
-st.header("2. First: how are the three outcomes measured?")
-
-st.markdown("""
-These are the variables that the regression tries to explain.
-""")
+st.header("2. How are the three outcomes measured?")
 
 c1, c2, c3 = st.columns(3)
 
@@ -63,15 +70,17 @@ with c1:
         st.markdown("### 🏛️ Institutional Trust")
 
         st.markdown("""
-Respondents rate trust in **eight institutions** on a
-**1–11 scale**.
+Respondents rate trust in **eight institutions** from
+**1 to 11**.
 
 The ratings are combined using their **mean**.
 
 ### 8 answers → mean → Trust score
 """)
 
-        st.caption("Analyzed using multiple OLS regression.")
+        st.caption(
+            "Analyzed using multiple OLS regression."
+        )
 
 
 with c2:
@@ -88,12 +97,12 @@ to
 
 **4 = Not at all satisfied**
 
-### 1 answer → Satisfaction measure
-
-Higher values therefore indicate greater dissatisfaction.
+Higher values indicate greater dissatisfaction.
 """)
 
-        st.caption("Analyzed using multiple OLS regression.")
+        st.caption(
+            "Analyzed using multiple OLS regression."
+        )
 
 
 with c3:
@@ -105,12 +114,12 @@ with c3:
 One survey question asks whether any political party
 represents the respondent's views well.
 
-### 1 answer → Yes / No
-
-There is no average or continuous representation score.
+### Yes / No
 """)
 
-        st.caption("Analyzed using binary logistic regression.")
+        st.caption(
+            "Analyzed using binary logistic regression."
+        )
 
 
 st.divider()
@@ -122,6 +131,7 @@ st.divider()
 
 st.header("3. What information is used to explain the outcomes?")
 
+
 variable_table = pd.DataFrame({
     "Variable": [
         "Household Income",
@@ -130,18 +140,25 @@ variable_table = pd.DataFrame({
         "East / West Germany",
         "Migration Background",
         "Political Interest",
-        "Subjective Social Class",
         "Feeling Left Behind"
     ],
+    "Role": [
+        "Traditional factor",
+        "Traditional factor",
+        "Traditional factor",
+        "Traditional factor",
+        "Traditional factor",
+        "Traditional factor",
+        "New predictor tested in Model 2"
+    ],
     "How it is represented": [
-        "Respondent's reported household-income information",
+        "Reported household-income category",
         "Education level/category",
         "Respondent's age",
         "Geographical category",
         "Migration-background category",
         "Survey measure of political interest",
-        "Respondent's perceived social position",
-        "Mean of four Feeling Left Behind questions"
+        "Mean of four Feeling Left Behind items"
     ]
 })
 
@@ -151,21 +168,31 @@ st.dataframe(
     hide_index=True
 )
 
-st.info("""
-The regression does **not** average income, education, age and the
-other traditional variables into one socioeconomic index.
 
-They remain **separate variables**.
+st.info("""
+The traditional variables remain **separate predictors**.
+
+They are not averaged into one socioeconomic score.
+""")
+
+st.caption("""
+Subjective Social Class is explored descriptively in the Feeling Left Behind
+section, but it is not included as a separate stage in the final regression design.
 """)
 
 st.divider()
 
 
 # ============================================================
-# 4. HOW REGRESSION USES DIFFERENT VARIABLES
+# 4. REGRESSION
 # ============================================================
 
-st.header("4. How does the regression use these values?")
+st.header("4. What does multiple regression do?")
+
+st.markdown("""
+Multiple regression examines how several predictors are associated
+with an outcome **at the same time**.
+""")
 
 c1, c2 = st.columns(2)
 
@@ -176,17 +203,9 @@ with c1:
         st.markdown("### 🔢 Numerical / ordered information")
 
         st.markdown("""
-For variables such as age or ordered measures, the model asks:
+For variables such as age, the model asks:
 
 > **When this value changes, does the outcome also tend to change?**
-
-Example:
-
-Different ages
-
-# ↓
-
-Different patterns of Institutional Trust?
 """)
 
 
@@ -198,40 +217,30 @@ with c2:
         st.markdown("""
 For categorical variables, the model compares groups.
 
-Example:
+For example:
 
-East Germany
-
-**versus**
-
-West Germany
-
-# ↓
-
-Is there a systematic difference in Institutional Trust?
+**East Germany versus West Germany**
 """)
 
 
-st.markdown("""
-The regression evaluates these relationships **simultaneously**.
+st.success("""
+### The important idea
 
-This means that the estimated relationship for one variable is
-calculated while the other variables in the model are also taken
-into account.
+The relationship for each predictor is estimated while the other
+variables in the model are also taken into account.
 """)
 
 st.divider()
 
 
 # ============================================================
-# 5. LEFT BEHIND INDEX
+# 5. LBI
 # ============================================================
 
 st.header("5. How is the Left Behind Index calculated?")
 
 st.markdown("""
-Unlike the traditional variables, Feeling Left Behind is a
-**composite index constructed in this project**.
+Feeling Left Behind is a **composite index constructed in this project**.
 
 It combines four GLES survey items.
 """)
@@ -243,6 +252,7 @@ c2.markdown("### 👏 Recognition")
 c3.markdown("### 🏥 Services")
 c4.markdown("### 🗣️ Voice")
 
+
 st.markdown("""
 ### For each respondent:
 
@@ -250,12 +260,13 @@ st.markdown("""
 
 # ↓
 
-### Mean of the four responses
+### Mean of the four reversed responses
 
 # ↓
 
 # Left Behind Index: 1–5
 """)
+
 
 c1, c2 = st.columns(2)
 
@@ -269,6 +280,7 @@ c2.metric(
     "Higher Feeling Left Behind"
 )
 
+
 st.info("""
 There is **no threshold** separating “left behind” and
 “not left behind”.
@@ -280,12 +292,12 @@ st.divider()
 
 
 # ============================================================
-# 6. THREE MODELS
+# 6. TWO MODELS
 # ============================================================
 
-st.header("6. How are the three models constructed?")
+st.header("6. How are the two models constructed?")
 
-c1, c2, c3 = st.columns(3)
+c1, c2 = st.columns(2)
 
 
 with c1:
@@ -302,7 +314,7 @@ Household Income
 
 + Age
 
-+ East / West
++ East / West Germany
 
 + Migration Background
 
@@ -316,97 +328,111 @@ with c2:
         st.markdown("## Model 2")
 
         st.markdown("""
-### Model 1
+### Everything in Model 1
 
 # +
 
-### Subjective Social Class
-""")
-
-
-with c3:
-    with st.container(border=True):
-
-        st.markdown("## Model 3")
-
-        st.markdown("""
-### Model 2
-
-# +
-
-### Left Behind Index
+### 🧩 Left Behind Index
 """)
 
 
 st.success("""
-### Why build the models this way?
+### Why two models?
 
-Because each model contains everything from the previous model.
+The project's central question is whether **Feeling Left Behind adds
+explanatory information beyond traditional factors**.
 
-We can therefore observe how much **additional information**
-is gained when a new variable is added.
+Model 1 provides the baseline.
+
+Model 2 adds the LBI.
 """)
 
 st.divider()
 
 
 # ============================================================
-# 7. NINE REGRESSIONS
+# 7. SIX REGRESSIONS
 # ============================================================
 
 st.header("7. How many regressions are estimated?")
 
 st.markdown("""
-The three model specifications are applied separately to
-each outcome.
+Both model specifications are applied separately to each outcome.
 """)
 
 st.markdown("""
-| Outcome | Model 1 | Model 2 | Model 3 |
-|---|---|---|---|
-| Institutional Trust | OLS | OLS | OLS |
-| Democratic Satisfaction | OLS | OLS | OLS |
-| Party Representation | Logistic | Logistic | Logistic |
+| Outcome | Model 1 | Model 2 |
+|---|---|---|
+| Institutional Trust | OLS | OLS |
+| Democratic Satisfaction | OLS | OLS |
+| Party Representation | Logistic | Logistic |
 """)
 
 st.success("""
-# 3 outcomes × 3 models = 9 regressions
+# 3 outcomes × 2 models = 6 regressions
 """)
 
 st.divider()
 
 
 # ============================================================
-# 8. OLS
+# 8. SAME SAMPLE
 # ============================================================
 
-st.header("8. Institutional Trust and Democratic Satisfaction")
+st.header("8. Why use the same sample within each comparison?")
 
 st.markdown("""
-Because these outcomes are modeled as numerical measures,
-the analysis uses **multiple Ordinary Least Squares (OLS) regression**.
+Adding LBI means that some respondents with missing LBI information
+could otherwise disappear only from Model 2.
+
+That would make Model 1 and Model 2 use different groups of people.
 """)
 
 st.info("""
-### What does multiple regression do?
+### To avoid this:
 
-It estimates how each predictor is statistically associated with
-the outcome while accounting for the other predictors in the model.
+For each outcome, the data are restricted first to respondents with
+valid information for **all variables needed in Model 2**.
+
+Then both models are estimated on this same sample.
+""")
+
+st.success("""
+This means that the change from Model 1 to Model 2 reflects
+the change in predictors — **not a change in who is being analyzed**.
 """)
 
 st.divider()
 
 
 # ============================================================
-# 9. COEFFICIENT
+# 9. OLS
 # ============================================================
 
-st.header("9. What does the coefficient tell us?")
+st.header("9. Institutional Trust and Democratic Satisfaction")
 
 st.markdown("""
-The coefficient tells us the **direction and estimated size of the
-relationship** between a predictor and the outcome, holding the
-other included variables constant.
+These two outcomes are modeled using
+**multiple Ordinary Least Squares (OLS) regression**.
+""")
+
+st.info("""
+OLS estimates how each predictor is associated with the outcome
+while accounting for the other predictors included in the model.
+""")
+
+st.divider()
+
+
+# ============================================================
+# 10. COEFFICIENT
+# ============================================================
+
+st.header("10. What does the coefficient tell us?")
+
+st.markdown("""
+The coefficient tells us the **direction and estimated size
+of an association**, holding the other variables constant.
 """)
 
 c1, c2 = st.columns(2)
@@ -433,38 +459,39 @@ Predictor ↑
 Outcome ↓
 """)
 
+
 st.markdown("""
-For example, in the Institutional Trust model:
+For Institutional Trust:
+
+### LBI coefficient = −0.994
+
+So:
 
 # LBI ↑ → Trust ↓
-
-because the estimated LBI coefficient is negative.
 """)
 
 st.divider()
 
 
 # ============================================================
-# 10. R-SQUARED
+# 11. R2
 # ============================================================
 
-st.header("10. What does R² mean?")
+st.header("11. What does R² mean?")
 
 st.info("""
-# R² = explanatory power of the complete OLS model
+# R² = proportion of observed outcome variation accounted for by the model
 """)
 
 st.markdown("""
 Respondents have different outcome scores.
 
-For example, some respondents have high Institutional Trust
-and others have low Institutional Trust.
-
 R² asks:
 
-> **How much of these observed differences between respondents
-> can the variables in the complete model account for?**
+> **How much of those observed differences can the variables in
+> the model statistically account for?**
 """)
+
 
 st.markdown("""
 ### Institutional Trust
@@ -473,94 +500,160 @@ st.markdown("""
 
 Traditional factors
 
-→ **R² = 8.8%**
+→ **R² = 8.46%**
 
-↓
+# ↓
 
 **Model 2**
 
-+ Subjective Social Class
-
-→ **R² = 10.7%**
-
-↓
-
-**Model 3**
-
 + Feeling Left Behind
 
-→ **R² = 27.6%**
+→ **R² = 26.29%**
 """)
+
 
 st.success("""
 ### Correct interpretation
 
-After Feeling Left Behind is added, the **complete Model 3**
-accounts for **27.6% of the observed variation in Institutional Trust**.
+The complete Model 2 accounts for **26.29% of the observed
+variation in Institutional Trust**.
+
+The increase after LBI is added is:
+
+### 26.29% − 8.46% = +17.83 percentage points
 """)
+
 
 st.warning("""
 ### Do not say:
 
-“Feeling Left Behind explains 27.6%.”
+“Feeling Left Behind alone explains 26.29%.”
 
-The 27.6% belongs to the **entire Model 3**.
-
-What we can attribute to adding Feeling Left Behind is the increase:
-
-### 27.6% − 10.7% = +16.9 percentage points
+That percentage belongs to the **complete Model 2**.
 """)
 
 st.divider()
 
 
 # ============================================================
-# 11. COEFFICIENT VS R2
+# 12. R2 CAUTION
 # ============================================================
 
-st.header("11. Coefficient and R² answer different questions")
+st.header("12. Why must R² be used carefully?")
 
-comparison = pd.DataFrame({
+st.markdown("""
+Ordinary R² will not decrease when an additional predictor is added.
+
+Therefore, simply observing that Model 2 has a higher R² than Model 1
+is **not enough by itself** to establish that LBI is important.
+""")
+
+st.info("""
+### We therefore look at several pieces of evidence together:
+
+**R² change**
+
++
+
+**Adjusted R²**
+
++
+
+**LBI coefficient**
+
++
+
+**p-value**
+""")
+
+
+c1, c2 = st.columns(2)
+
+with c1:
+    with st.container(border=True):
+
+        st.markdown("### 🏛️ Institutional Trust")
+
+        st.markdown("""
+R²:
+
+**8.46% → 26.29%**
+
+Adjusted R²:
+
+**8.37% → 26.20%**
+""")
+
+
+with c2:
+    with st.container(border=True):
+
+        st.markdown("### 🗳️ Democratic Satisfaction")
+
+        st.markdown("""
+R²:
+
+**7.97% → 21.20%**
+
+Adjusted R²:
+
+**7.87% → 21.10%**
+""")
+
+
+st.success("""
+Because Adjusted R² penalizes unnecessary predictors, the fact that
+the improvement remains almost unchanged provides additional evidence
+that the gain is not merely a mechanical consequence of adding
+one variable.
+""")
+
+st.divider()
+
+
+# ============================================================
+# 13. COEFFICIENT VS R2
+# ============================================================
+
+st.header("13. Coefficient and R² answer different questions")
+
+
+comparison_table = pd.DataFrame({
     "Statistic": [
         "Coefficient",
-        "R²"
+        "R²",
+        "Adjusted R²"
     ],
     "Question": [
-        "How is this predictor associated with the outcome?",
-        "How much variation does the complete model account for?"
+        "How is a predictor associated with the outcome?",
+        "How much observed variation does the complete model account for?",
+        "How much variation does the model account for after penalizing added predictors?"
     ],
-    "Institutional Trust example": [
-        "Higher LBI → lower trust",
-        "Model 3 explanatory power = 27.6%"
+    "Trust example": [
+        "LBI coefficient = −0.994",
+        "Model 2 R² = 26.29%",
+        "Model 2 Adjusted R² = 26.20%"
     ]
 })
 
 st.dataframe(
-    comparison,
+    comparison_table,
     width="stretch",
     hide_index=True
 )
-
-st.success("""
-### Easy rule
-
-**Coefficient = direction and strength of an association**
-
-**R² = explanatory power of the complete model**
-""")
 
 st.divider()
 
 
 # ============================================================
-# 12. P-VALUE
+# 14. P-VALUE
 # ============================================================
 
-st.header("12. What does the p-value tell us?")
+st.header("14. What does the p-value tell us?")
 
 st.markdown("""
 The p-value helps evaluate the statistical evidence for an
-estimated relationship.
+estimated association.
 
 In this project:
 
@@ -570,20 +663,20 @@ is used as the threshold for statistical significance.
 """)
 
 st.warning("""
-Statistical significance does not tell us that an effect is large,
-important or causal.
+Statistical significance does not tell us that an effect is
+causal, large or important.
 
-It addresses a different question from effect size and R².
+It answers a different question from model fit and effect size.
 """)
 
 st.divider()
 
 
 # ============================================================
-# 13. LOGISTIC REGRESSION
+# 15. LOGISTIC REGRESSION
 # ============================================================
 
-st.header("13. Why is Party Representation different?")
+st.header("15. Why is Party Representation different?")
 
 st.markdown("""
 Party Representation has only two possible outcomes:
@@ -596,18 +689,18 @@ Instead, the analysis uses **binary logistic regression**.
 """)
 
 st.markdown("""
-The logistic regression estimates how the predictors are associated
-with the **odds of answering Yes** to Party Representation.
+The logistic regression estimates how predictors are associated
+with the **odds of answering Yes**.
 """)
 
 st.divider()
 
 
 # ============================================================
-# 14. ODDS RATIO
+# 16. ODDS RATIO
 # ============================================================
 
-st.header("14. How do we interpret Party Representation?")
+st.header("16. How do we interpret Party Representation?")
 
 st.markdown("""
 An intuitive statistic from logistic regression is the
@@ -631,29 +724,30 @@ c3.metric(
     "Lower odds"
 )
 
+
 st.success("""
 ### Feeling Left Behind result
 
-**Odds Ratio = 0.706**
+**Odds Ratio = 0.705**
 
-Holding the other included variables constant, a one-point increase
+Holding the other variables constant, a one-point increase
 in the Left Behind Index is associated with approximately
-**29% lower odds** of saying that a political party represents
-the respondent's views well.
+**29.5% lower odds** of saying that a political party
+represents the respondent's views well.
 """)
 
 st.caption(
-    "Calculation: 1 − 0.706 = 0.294, approximately 29%."
+    "Calculation: 1 − 0.7052 = 0.2948, approximately 29.5%."
 )
 
 st.divider()
 
 
 # ============================================================
-# 15. PSEUDO R2
+# 17. PSEUDO R2
 # ============================================================
 
-st.header("15. Why does Party Representation use Pseudo R²?")
+st.header("17. Why does Party Representation use Pseudo R²?")
 
 st.markdown("""
 Standard OLS R² is not used for logistic regression.
@@ -665,19 +759,18 @@ For Party Representation, the analysis reports
 st.warning("""
 Pseudo R² is **not the same statistic** as OLS R².
 
-Therefore, the Party Representation value should not be directly
-compared numerically with the R² values for Institutional Trust
-and Democratic Satisfaction.
+Therefore, the Party Representation values should not be directly
+compared numerically with Trust or Satisfaction.
 """)
 
 st.divider()
 
 
 # ============================================================
-# 16. COMPLETE METHOD
+# 18. COMPLETE METHOD
 # ============================================================
 
-st.header("16. The complete method")
+st.header("18. The complete method")
 
 st.markdown("""
 ### Survey respondents
@@ -694,41 +787,41 @@ st.markdown("""
 
 # ↓
 
-### Measure traditional characteristics
+### Model 1
 
 Income · Education · Age · Region · Migration · Political Interest
 
 # ↓
 
-### Add Subjective Social Class
-
-🪜
-
-# ↓
-
 ### Construct Left Behind Index
 
-4 questions → mean → 1–5 score
+4 questions → reversed scale → mean → 1–5 score
 
 # ↓
 
-### Estimate Model 1, Model 2 and Model 3
+### Model 2
 
-for each of the three outcomes
-
-# ↓
-
-### 9 regressions
+Model 1 + Feeling Left Behind
 
 # ↓
 
-### Read the results
+### Estimate both models for each outcome
 
-**Coefficient → direction / strength**
+# ↓
+
+### 6 regressions
+
+# ↓
+
+### Read the evidence together
+
+**Coefficient → direction / estimated association**
 
 **p-value → statistical evidence**
 
-**R² → explanatory power of OLS model**
+**R² → OLS model fit**
+
+**Adjusted R² → penalized OLS model fit**
 
 **Odds Ratio → logistic association**
 
@@ -739,27 +832,29 @@ st.divider()
 
 
 # ============================================================
-# 17. 30 SECOND ANSWER
+# 19. 30 SECOND ANSWER
 # ============================================================
 
-st.header("17. How to explain the methodology in 30 seconds")
+st.header("19. How to explain the methodology in 30 seconds")
 
 st.info("""
 “I study three democratic outcomes: Institutional Trust,
 Democratic Satisfaction and Party Representation.
 
-I then estimate three nested models for each outcome.
+For each outcome, I compare two models.
+
 Model 1 contains traditional socioeconomic, demographic and
-political factors. Model 2 adds Subjective Social Class.
-Model 3 adds the Left Behind Index, which is the mean of four
-survey items.
+political factors.
 
-Trust and Satisfaction are analyzed with multiple OLS regression,
-while Party Representation is Yes/No and therefore uses logistic
-regression.
+Model 2 adds the Feeling Left Behind Index, constructed as the
+mean of four survey items.
 
-I compare the models to see how much additional explanatory
-information Feeling Left Behind provides.”
+Trust and Satisfaction use multiple OLS regression.
+Party Representation is Yes/No, so it uses logistic regression.
+
+I compare model fit, but I do not rely on R² alone. For the OLS
+models I also look at Adjusted R², and for all outcomes I examine
+the LBI association and its statistical significance.”
 """)
 
 st.divider()
@@ -769,14 +864,14 @@ st.divider()
 # LIMITATION
 # ============================================================
 
-st.header("18. Important limitation")
+st.header("20. Important limitation")
 
 st.warning("""
 ### Association ≠ causation
 
 The GLES data used here are cross-sectional.
 
-The regression can identify statistical associations, but it
+The regressions can identify statistical associations, but they
 cannot demonstrate that Feeling Left Behind causes lower trust,
 greater dissatisfaction or lower political representation.
 """)

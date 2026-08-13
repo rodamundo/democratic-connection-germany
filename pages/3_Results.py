@@ -14,27 +14,29 @@ st.subheader(
 )
 
 st.markdown("""
-The results are presented separately for the three democratic outcomes.
+The analysis compares two models for each democratic outcome:
 
-For each one, we ask two different questions:
+**Model 1 — Traditional factors**
 
-1. **Does adding Feeling Left Behind improve the model's explanatory power?**
-2. **In which direction is Feeling Left Behind associated with the outcome?**
+versus
+
+**Model 2 — Traditional factors + Feeling Left Behind**
 """)
 
 st.info("""
-### Two statistics — two different questions
+### Two statistical questions
 
-**R² / Pseudo R²** → How much explanatory information does the model contain?
+**R² / Pseudo R²** → How does model fit change?
 
-**Coefficient / Odds Ratio** → In which direction is Feeling Left Behind associated with the outcome?
+**Coefficient / Odds Ratio** → In which direction is LBI associated
+with the outcome?
 """)
 
 st.divider()
 
 
 # ============================================================
-# DATA — SINGLE SOURCE OF TRUTH FOR THIS PAGE
+# DATA
 # ============================================================
 
 comparison = pd.DataFrame({
@@ -44,67 +46,31 @@ comparison = pd.DataFrame({
         "Party Representation"
     ],
     "Model 1": [
-        0.088,
-        0.085,
-        0.0337
+        0.0846,
+        0.0797,
+        0.0333
     ],
     "Model 2": [
-        0.107,
-        0.096,
-        0.0343
-    ],
-    "Model 3": [
-        0.276,
-        0.222,
-        0.0462
-    ]
-})
-
-gain_data = pd.DataFrame({
-    "Outcome": [
-        "Institutional Trust",
-        "Democratic Satisfaction",
-        "Party Representation"
-    ],
-    "Before LBI": [
-        0.107,
-        0.096,
-        0.0343
-    ],
-    "After LBI": [
-        0.276,
-        0.222,
-        0.0462
+        0.2629,
+        0.2120,
+        0.0465
     ]
 })
 
 
 # ============================================================
-# 1. REMIND THE READER WHAT WE ARE EXPLAINING
+# 1. OUTCOMES
 # ============================================================
 
 st.header("1. What exactly are we trying to explain?")
 
-st.markdown("""
-Before looking at percentages, remember that these are
-**three different democratic outcomes**.
-""")
-
-
-# ------------------------------------------------------------
-# TRUST
-# ------------------------------------------------------------
 
 with st.container(border=True):
 
     st.markdown("## 🏛️ Institutional Trust")
 
     st.markdown("""
-### The question
-
-**How much does a respondent trust important institutions?**
-
-Each respondent rated **8 institutions** from:
+Respondents rated **8 institutions** from:
 
 **1 = Do not trust at all**
 
@@ -142,20 +108,13 @@ to
 """)
 
 
-# ------------------------------------------------------------
-# SATISFACTION
-# ------------------------------------------------------------
-
 with st.container(border=True):
 
     st.markdown("## 🗳️ Democratic Satisfaction")
 
     st.markdown("""
-### The question
-
-**How satisfied are respondents with the way democracy works in Germany?**
-
-One survey response:
+Respondents were asked how satisfied they are with
+the way democracy works in Germany.
 
 **1 = Very satisfied**
 
@@ -167,8 +126,6 @@ One survey response:
 """)
 
     st.warning("""
-### Important direction
-
 Higher values mean **greater dissatisfaction**.
 
 So:
@@ -177,28 +134,20 @@ So:
 """)
 
 
-# ------------------------------------------------------------
-# REPRESENTATION
-# ------------------------------------------------------------
-
 with st.container(border=True):
 
     st.markdown("## 👥 Party Representation")
 
     st.markdown("""
-### The question
-
-**Does any political party represent the respondent's personal
-political views well?**
-
-The answer is:
+Respondents were asked whether any political party represents
+their personal political views well.
 
 # Yes / No
 """)
 
     st.info("""
-Because this outcome is binary, it is analyzed with
-**logistic regression** rather than OLS.
+Because this outcome is binary, it is analyzed using
+**binary logistic regression** rather than OLS.
 """)
 
 
@@ -206,16 +155,15 @@ st.divider()
 
 
 # ============================================================
-# 2. REMIND THE READER WHAT THE MODELS ARE
+# 2. MODELS
 # ============================================================
 
-st.header("2. What are Model 1, Model 2 and Model 3?")
+st.header("2. What are the two models?")
 
-c1, c2, c3 = st.columns(3)
+c1, c2 = st.columns(2)
 
 
 with c1:
-
     with st.container(border=True):
 
         st.markdown("## Model 1")
@@ -238,28 +186,12 @@ with c1:
 
 
 with c2:
-
     with st.container(border=True):
 
         st.markdown("## Model 2")
 
         st.markdown("""
-### Model 1
-
-# +
-
-### 🪜 Subjective Social Class
-""")
-
-
-with c3:
-
-    with st.container(border=True):
-
-        st.markdown("## Model 3")
-
-        st.markdown("""
-### Model 2
+### Everything in Model 1
 
 # +
 
@@ -267,38 +199,25 @@ with c3:
 """)
 
 
-st.info("""
-The models are **nested**.
+st.success("""
+### The comparison is simple
 
-Everything in Model 1 remains in Model 2.
+**What do traditional factors tell us?**
 
-Everything in Model 2 remains in Model 3.
+# ↓
 
-This allows us to see what additional information is gained
-when each new layer is introduced.
+**What changes when Feeling Left Behind is added?**
 """)
 
 st.divider()
 
 
 # ============================================================
-# 3. MODEL FIT ACROSS ALL THREE OUTCOMES
+# 3. MODEL FIT
 # ============================================================
 
-st.header("3. How does explanatory power change across the models?")
+st.header("3. What changes when Feeling Left Behind is added?")
 
-st.markdown("""
-For Institutional Trust and Democratic Satisfaction, the values below
-are **OLS R²**.
-
-For Party Representation, they are **McFadden Pseudo R²**
-from logistic regression.
-""")
-
-
-# ------------------------------------------------------------
-# TABLE
-# ------------------------------------------------------------
 
 display_table = pd.DataFrame({
     "Outcome": [
@@ -307,19 +226,19 @@ display_table = pd.DataFrame({
         "👥 Party Representation"
     ],
     "Model 1": [
-        "8.8%",
-        "8.5%",
-        "3.37%"
+        "8.46%",
+        "7.97%",
+        "3.33%"
     ],
-    "Model 2": [
-        "10.7%",
-        "9.6%",
-        "3.43%"
+    "Model 2 (+ LBI)": [
+        "26.29%",
+        "21.20%",
+        "4.65%"
     ],
-    "Model 3": [
-        "27.6%",
-        "22.2%",
-        "4.62%"
+    "Change": [
+        "+17.83 pp",
+        "+13.23 pp",
+        "+1.32 pp"
     ]
 })
 
@@ -331,54 +250,44 @@ st.dataframe(
 
 
 st.caption("""
-Institutional Trust and Democratic Satisfaction: OLS R².
+Institutional Trust and Democratic Satisfaction use OLS R².
 
-Party Representation: McFadden Pseudo R².
-
-Two decimal places are shown for Party Representation because
-3.37% and 3.43% would both appear as 3.4% if rounded to one decimal.
+Party Representation uses McFadden Pseudo R² and should not be
+directly compared numerically with the other two outcomes.
 """)
 
 
-# ------------------------------------------------------------
-# VISUAL GRAPH
-# ------------------------------------------------------------
+# ============================================================
+# GRAPH
+# ============================================================
 
 plot_data = pd.DataFrame({
     "Outcome": [
         "Institutional Trust",
         "Institutional Trust",
-        "Institutional Trust",
         "Democratic Satisfaction",
         "Democratic Satisfaction",
-        "Democratic Satisfaction",
-        "Party Representation",
         "Party Representation",
         "Party Representation"
     ],
     "Model": [
-        "Model 1",
-        "Model 2",
-        "Model 3",
-        "Model 1",
-        "Model 2",
-        "Model 3",
-        "Model 1",
-        "Model 2",
-        "Model 3"
+        "Traditional Factors",
+        "+ Feeling Left Behind",
+        "Traditional Factors",
+        "+ Feeling Left Behind",
+        "Traditional Factors",
+        "+ Feeling Left Behind"
     ],
     "Model Fit": [
-        0.088,
-        0.107,
-        0.276,
-        0.085,
-        0.096,
-        0.222,
-        0.0337,
-        0.0343,
-        0.0462
+        0.0846,
+        0.2629,
+        0.0797,
+        0.2120,
+        0.0333,
+        0.0465
     ]
 })
+
 
 fig = px.bar(
     plot_data,
@@ -387,7 +296,7 @@ fig = px.bar(
     color="Model",
     barmode="group",
     text="Model Fit",
-    title="How Model Fit Changes as Information Is Added"
+    title="What Changes When Feeling Left Behind Is Added?"
 )
 
 fig.update_traces(
@@ -407,7 +316,7 @@ fig.update_layout(
     yaxis_title="Model fit",
     legend_title="",
     yaxis=dict(
-        range=[0, 0.32],
+        range=[0, 0.31],
         tickformat=".0%"
     )
 )
@@ -421,54 +330,38 @@ st.plotly_chart(
 st.warning("""
 ### Important
 
-The Party Representation bars use **Pseudo R²**, while Trust and
-Satisfaction use ordinary **OLS R²**.
+Party Representation uses **McFadden Pseudo R²**.
 
-Therefore, their absolute heights should not be directly compared
-as if they were the same statistic.
+Trust and Satisfaction use ordinary **OLS R²**.
 
-The meaningful comparison is primarily **within each outcome**
-as Model 1 → Model 2 → Model 3.
+The meaningful comparison is therefore primarily **within each outcome**:
+before and after Feeling Left Behind is added.
 """)
 
 st.divider()
 
 
 # ============================================================
-# 4. VISUAL SUMMARY OF THE LBI
+# 4. LBI VISUAL SUMMARY
 # ============================================================
 
 st.header("4. What does Feeling Left Behind add?")
 
-st.markdown("""
-There are **two parts** to the answer.
 
-First, we can see how much model fit increases when LBI is added.
-
-Then, separately, we can see the **direction of the relationship**
-between LBI and each democratic outcome.
-""")
-
-
-# ============================================================
-# 4A. ADDITIONAL EXPLANATORY INFORMATION
-# ============================================================
-
-st.subheader("A. How much additional explanatory information appears after adding LBI?")
+st.subheader("A. Change in model fit")
 
 c1, c2, c3 = st.columns(3)
 
 
 with c1:
-
     with st.container(border=True):
 
         st.markdown("### 🏛️ Institutional Trust")
 
         st.markdown("""
-Model 2
+Traditional factors
 
-# 10.7%
+# 8.46%
 
 # ↓
 
@@ -476,29 +369,24 @@ Model 2
 
 # ↓
 
-Model 3
-
-# 27.6%
+# 26.29%
 """)
 
         st.metric(
-            "Increase in explanatory power",
-            "+16.9 pp"
+            "Increase in R²",
+            "+17.83 pp"
         )
-
-        st.caption("OLS R²")
 
 
 with c2:
-
     with st.container(border=True):
 
         st.markdown("### 🗳️ Democratic Satisfaction")
 
         st.markdown("""
-Model 2
+Traditional factors
 
-# 9.6%
+# 7.97%
 
 # ↓
 
@@ -506,29 +394,24 @@ Model 2
 
 # ↓
 
-Model 3
-
-# 22.2%
+# 21.20%
 """)
 
         st.metric(
-            "Increase in explanatory power",
-            "+12.6 pp"
+            "Increase in R²",
+            "+13.23 pp"
         )
-
-        st.caption("OLS R²")
 
 
 with c3:
-
     with st.container(border=True):
 
         st.markdown("### 👥 Party Representation")
 
         st.markdown("""
-Model 2
+Traditional factors
 
-# 3.43%
+# 3.33%
 
 # ↓
 
@@ -536,41 +419,35 @@ Model 2
 
 # ↓
 
-Model 3
-
-# 4.62%
+# 4.65%
 """)
 
         st.metric(
-            "Increase in model fit",
-            "+1.19 pp"
+            "Increase in Pseudo R²",
+            "+1.32 pp"
         )
-
-        st.caption("McFadden Pseudo R²")
 
 
 st.success("""
-### What stands out?
-
-The increase after adding Feeling Left Behind is particularly large
-for **Institutional Trust** and **Democratic Satisfaction**.
+The increase is particularly large for **Institutional Trust**
+and **Democratic Satisfaction**.
 
 The improvement for **Party Representation** is much smaller.
 """)
 
 
 # ============================================================
-# 4B. DIRECTION
+# DIRECTION
 # ============================================================
 
-st.subheader("B. In which direction is Feeling Left Behind associated with each outcome?")
+st.subheader("B. In which direction is LBI associated with each outcome?")
 
 st.markdown("""
-Now forget R² for a moment.
+Model fit tells us one thing.
 
-The question here is simply:
+The **coefficient or Odds Ratio** tells us another:
 
-> **As Feeling Left Behind increases, what tends to happen to each outcome?**
+> **As Feeling Left Behind increases, what tends to happen?**
 """)
 
 
@@ -578,7 +455,6 @@ c1, c2, c3 = st.columns(3)
 
 
 with c1:
-
     with st.container(border=True):
 
         st.markdown("""
@@ -586,26 +462,25 @@ with c1:
 
 # ↓
 
-## 🏛️ Institutional Trust ↓
+## 🏛️ Trust ↓
 """)
 
         st.markdown("""
 People who feel more left behind tend to report
-**lower trust in institutions**.
+**lower Institutional Trust**.
 """)
 
         st.metric(
-            "Standardized LBI coefficient",
-            "−0.459"
+            "LBI coefficient",
+            "−0.994"
         )
 
         st.caption(
-            "OLS standardized β · p < .001"
+            "OLS coefficient · p < .001"
         )
 
 
 with c2:
-
     with st.container(border=True):
 
         st.markdown("""
@@ -618,22 +493,21 @@ with c2:
 
         st.markdown("""
 People who feel more left behind tend to be
-**less satisfied with how democracy works**.
+**less satisfied with democracy**.
 """)
 
         st.metric(
-            "Standardized LBI coefficient",
-            "+0.395"
+            "LBI coefficient",
+            "+0.353"
         )
 
         st.caption(
-            "OLS standardized β · p < .001. "
-            "Positive because higher q119 values mean greater dissatisfaction."
+            "OLS coefficient · p < .001. Positive because higher "
+            "q119 values mean greater dissatisfaction."
         )
 
 
 with c3:
-
     with st.container(border=True):
 
         st.markdown("""
@@ -641,7 +515,7 @@ with c3:
 
 # ↓
 
-## 👥 Party Representation ↓
+## 👥 Representation ↓
 """)
 
         st.markdown("""
@@ -651,50 +525,29 @@ of saying that a party represents their views well.
 
         st.metric(
             "Odds Ratio",
-            "0.706"
+            "0.705"
         )
 
         st.caption(
-            "Logistic regression · approximately 29% lower odds "
-            "per one-point increase in LBI · p < .001"
+            "Approximately 29.5% lower odds per one-point "
+            "increase in LBI · p < .001"
         )
 
 
 st.info("""
-### Why isn't there one bar chart comparing these three numbers?
+These three effect statistics should **not** be compared numerically
+with one another.
 
-Because they are **not measured on the same statistical scale**.
+The first two are OLS coefficients.
 
-Trust and Satisfaction use standardized OLS coefficients.
-
-Party Representation uses logistic regression and an Odds Ratio.
-
-Putting −0.459, +0.395 and 0.706 into one bar chart would make
-the visual comparison misleading.
-""")
-
-
-st.success("""
-### The visual takeaway
-
-**More Feeling Left Behind is associated with:**
-
-🏛️ **less Institutional Trust**
-
-🗳️ **less Democratic Satisfaction**
-
-👥 **lower odds of Party Representation**
-
-The relationship exists across all three outcomes, but the
-increase in model explanatory power is much larger for
-Trust and Democratic Satisfaction.
+The third is an Odds Ratio from logistic regression.
 """)
 
 st.divider()
 
 
 # ============================================================
-# 5. INSTITUTIONAL TRUST DETAIL
+# 5. INSTITUTIONAL TRUST
 # ============================================================
 
 st.header("5. 🏛️ Institutional Trust")
@@ -702,7 +555,7 @@ st.header("5. 🏛️ Institutional Trust")
 st.markdown("""
 ### What was actually measured?
 
-Respondents rated their trust in:
+Average trust across:
 
 - Federal Government
 - Bundestag
@@ -714,43 +567,28 @@ Respondents rated their trust in:
 - Public-Service Broadcasting
 
 Each rating ranges from **1 to 11**.
-
-The eight ratings are averaged into one Institutional Trust score.
 """)
 
 
-c1, c2, c3 = st.columns(3)
+c1, c2 = st.columns(2)
 
 c1.metric(
     "Model 1 R²",
-    "8.8%"
+    "8.46%"
 )
 
 c2.metric(
     "Model 2 R²",
-    "10.7%"
+    "26.29%",
+    "+17.83 pp"
 )
-
-c3.metric(
-    "Model 3 R²",
-    "27.6%"
-)
-
-
-st.markdown("""
-Adding Subjective Social Class increases explanatory power from
-**8.8% to 10.7%**.
-
-Adding Feeling Left Behind then increases it from
-**10.7% to 27.6%**.
-""")
 
 
 st.success("""
 ### Main interpretation
 
 Feeling Left Behind adds substantial explanatory information
-for differences in Institutional Trust between respondents.
+for differences in Institutional Trust.
 """)
 
 
@@ -761,51 +599,54 @@ st.error("""
 
 with st.expander("Technical evidence"):
 
-    c1, c2, c3 = st.columns(3)
+    c1, c2, c3, c4 = st.columns(4)
 
     c1.metric(
-        "Final R²",
-        "27.6%"
+        "Model 2 R²",
+        "26.29%"
     )
 
     c2.metric(
-        "Standardized β",
-        "−0.459"
+        "Adjusted R²",
+        "26.20%"
     )
 
     c3.metric(
+        "LBI coefficient",
+        "−0.994"
+    )
+
+    c4.metric(
         "p-value",
         "< .001"
     )
 
-    st.caption(
-        "Method: multiple OLS regression."
-    )
+    st.caption("""
+N = 5,653.
+
+Method: multiple OLS regression.
+
+Model 1 Adjusted R² = 8.37%.
+""")
 
 
 st.divider()
 
 
 # ============================================================
-# 6. DEMOCRATIC SATISFACTION DETAIL
+# 6. SATISFACTION
 # ============================================================
 
 st.header("6. 🗳️ Democratic Satisfaction")
 
 st.markdown("""
-### What was actually measured?
-
 Respondents were asked:
 
 > **“How satisfied are you with the way democracy works in Germany?”**
 
-The response scale is:
-
 **1 = Very satisfied**
 
-**2 = Fairly satisfied**
-
-**3 = Not very satisfied**
+to
 
 **4 = Not at all satisfied**
 
@@ -813,45 +654,32 @@ Higher values therefore mean **greater dissatisfaction**.
 """)
 
 
-c1, c2, c3 = st.columns(3)
+c1, c2 = st.columns(2)
 
 c1.metric(
     "Model 1 R²",
-    "8.5%"
+    "7.97%"
 )
 
 c2.metric(
     "Model 2 R²",
-    "9.6%"
+    "21.20%",
+    "+13.23 pp"
 )
-
-c3.metric(
-    "Model 3 R²",
-    "22.2%"
-)
-
-
-st.markdown("""
-Adding Subjective Social Class increases explanatory power from
-**8.5% to 9.6%**.
-
-Adding Feeling Left Behind then increases it from
-**9.6% to 22.2%**.
-""")
 
 
 st.success("""
 ### Main interpretation
 
 Feeling Left Behind adds substantial explanatory information
-for differences in democratic satisfaction between respondents.
+for differences in Democratic Satisfaction.
 """)
 
 
 st.error("""
 # LBI ↑ → Democratic Dissatisfaction ↑
 
-or, more intuitively:
+or:
 
 # LBI ↑ → Democratic Satisfaction ↓
 """)
@@ -859,27 +687,36 @@ or, more intuitively:
 
 with st.expander("Technical evidence"):
 
-    c1, c2, c3 = st.columns(3)
+    c1, c2, c3, c4 = st.columns(4)
 
     c1.metric(
-        "Final R²",
-        "22.2%"
+        "Model 2 R²",
+        "21.20%"
     )
 
     c2.metric(
-        "Standardized β",
-        "+0.395"
+        "Adjusted R²",
+        "21.10%"
     )
 
     c3.metric(
+        "LBI coefficient",
+        "+0.353"
+    )
+
+    c4.metric(
         "p-value",
         "< .001"
     )
 
     st.caption("""
+N = 5,676.
+
 Method: multiple OLS regression.
 
-The positive coefficient reflects the coding of q119:
+Model 1 Adjusted R² = 7.87%.
+
+The positive LBI coefficient reflects the coding of q119:
 higher values mean greater dissatisfaction.
 """)
 
@@ -888,20 +725,16 @@ st.divider()
 
 
 # ============================================================
-# 7. PARTY REPRESENTATION DETAIL
+# 7. PARTY REPRESENTATION
 # ============================================================
 
 st.header("7. 👥 Party Representation")
 
 st.markdown("""
-### What was actually measured?
-
 Respondents were asked:
 
 > **“Do you think that any of the parties in Germany represent your
 > personal political views well?”**
-
-Responses:
 
 # Yes / No
 """)
@@ -909,45 +742,30 @@ Responses:
 
 st.info("""
 Because the outcome is binary, Party Representation is modeled
-using **binary logistic regression** rather than OLS.
+using **binary logistic regression**.
 """)
 
 
-c1, c2, c3 = st.columns(3)
+c1, c2 = st.columns(2)
 
 c1.metric(
     "Model 1 Pseudo R²",
-    "3.37%"
+    "3.33%"
 )
 
 c2.metric(
     "Model 2 Pseudo R²",
-    "3.43%"
+    "4.65%",
+    "+1.32 pp"
 )
-
-c3.metric(
-    "Model 3 Pseudo R²",
-    "4.62%"
-)
-
-
-st.markdown("""
-Adding Subjective Social Class produces only a very small change:
-
-**3.37% → 3.43%**
-
-Adding Feeling Left Behind increases model fit to:
-
-**4.62%**
-""")
 
 
 st.success("""
 ### Main interpretation
 
 Feeling Left Behind is statistically associated with
-Party Representation, but it adds much less model fit here than
-for Institutional Trust or Democratic Satisfaction.
+Party Representation, but it adds much less model fit here
+than for Trust or Satisfaction.
 """)
 
 
@@ -961,13 +779,13 @@ with st.expander("Technical evidence"):
     c1, c2, c3 = st.columns(3)
 
     c1.metric(
-        "Final Pseudo R²",
-        "4.62%"
+        "Model 2 Pseudo R²",
+        "4.65%"
     )
 
     c2.metric(
         "Odds Ratio",
-        "0.706"
+        "0.705"
     )
 
     c3.metric(
@@ -976,13 +794,18 @@ with st.expander("Technical evidence"):
     )
 
     st.markdown("""
-Holding the other variables constant, each one-point increase in the
-Left Behind Index is associated with approximately **29% lower odds**
-of saying that a political party represents the respondent's views well.
+Holding the other variables constant, each one-point increase
+in the Left Behind Index is associated with approximately
+**29.5% lower odds** of saying that a political party represents
+the respondent's views well.
 """)
 
     st.caption("""
-Calculation: 1 − 0.706 = 0.294, approximately 29%.
+N = 5,096.
+
+Logit coefficient = −0.349.
+
+Calculation: 1 − 0.7052 = 0.2948, approximately 29.5%.
 
 Method: binary logistic regression.
 """)
@@ -997,26 +820,27 @@ st.divider()
 
 st.header("8. What is the overall result?")
 
+
 summary = pd.DataFrame({
     "Outcome": [
         "Institutional Trust",
         "Democratic Satisfaction",
         "Party Representation"
     ],
-    "Before LBI": [
-        "10.7%",
-        "9.6%",
-        "3.43%"
+    "Traditional factors": [
+        "8.46%",
+        "7.97%",
+        "3.33%"
     ],
-    "After LBI": [
-        "27.6%",
-        "22.2%",
-        "4.62%"
+    "+ LBI": [
+        "26.29%",
+        "21.20%",
+        "4.65%"
     ],
-    "Gain after LBI": [
-        "+16.9 pp",
-        "+12.6 pp",
-        "+1.19 pp"
+    "Gain": [
+        "+17.83 pp",
+        "+13.23 pp",
+        "+1.32 pp"
     ],
     "Direction": [
         "LBI ↑ → Trust ↓",
@@ -1033,9 +857,10 @@ st.dataframe(
 
 
 st.warning("""
-Party Representation uses McFadden Pseudo R², so its gain should
-not be treated as numerically equivalent to the OLS R² gains
-for the other two outcomes.
+Party Representation uses McFadden Pseudo R².
+
+Its gain should not be treated as numerically equivalent to the
+OLS R² gains for Trust and Satisfaction.
 """)
 
 
@@ -1058,22 +883,89 @@ st.divider()
 
 
 # ============================================================
-# 9. PLAIN LANGUAGE
+# 9. R2 CAUTION
 # ============================================================
 
-st.header("9. The result in plain language")
+st.header("9. Why not rely on R² alone?")
+
+st.markdown("""
+Ordinary R² naturally cannot decrease when a predictor is added.
+
+Therefore, an increase in R² by itself is not enough to establish
+that Feeling Left Behind is substantively important.
+""")
+
+st.info("""
+### The analysis therefore considers several pieces of evidence together:
+
+**1. R² change**
+
+**2. Adjusted R² for the OLS models**
+
+**3. The LBI coefficient / Odds Ratio**
+
+**4. Statistical significance**
+""")
+
+
+c1, c2 = st.columns(2)
+
+with c1:
+    with st.container(border=True):
+
+        st.markdown("### 🏛️ Trust")
+
+        st.markdown("""
+R²:
+
+**8.46% → 26.29%**
+
+Adjusted R²:
+
+**8.37% → 26.20%**
+""")
+
+
+with c2:
+    with st.container(border=True):
+
+        st.markdown("### 🗳️ Satisfaction")
+
+        st.markdown("""
+R²:
+
+**7.97% → 21.20%**
+
+Adjusted R²:
+
+**7.87% → 21.10%**
+""")
+
+
+st.success("""
+The improvement remains almost unchanged after adjusting for
+the additional predictor.
+""")
+
+st.divider()
+
+
+# ============================================================
+# 10. PLAIN LANGUAGE
+# ============================================================
+
+st.header("10. The result in plain language")
 
 st.info("""
 Imagine two respondents who are similar in income, education, age,
-region, migration background, political interest and perceived
-social class.
+region, migration background and political interest.
 
 Knowing **how left behind they feel** still gives us substantial
 additional information about how much they trust institutions and
 how satisfied they are with democracy.
 
 For Party Representation, Feeling Left Behind is also related to
-the outcome, but it adds considerably less explanatory information.
+the outcome, but the improvement in model fit is considerably smaller.
 """)
 
 
@@ -1091,10 +983,9 @@ st.warning("""
 
 The results identify statistical relationships.
 
-Because the GLES data used here are cross-sectional, the analysis
-cannot establish that Feeling Left Behind **causes** lower
-Institutional Trust, lower Democratic Satisfaction or lower
-Party Representation.
+Because the GLES data are cross-sectional, the analysis cannot
+establish that Feeling Left Behind **causes** lower Institutional Trust,
+lower Democratic Satisfaction or lower Party Representation.
 """)
 
 
@@ -1102,5 +993,11 @@ st.caption("""
 Data source: German Longitudinal Election Study (GLES 2025),
 Post-Election Cross-Section, ZA10100.
 
-Analytical sample: 5,039 respondents.
+Complete-case samples are outcome-specific:
+
+Institutional Trust: N = 5,653
+
+Democratic Satisfaction: N = 5,676
+
+Party Representation: N = 5,096
 """)
