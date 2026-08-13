@@ -968,24 +968,59 @@ For Party Representation, Feeling Left Behind is also related to
 the outcome, but the improvement in model fit is considerably smaller.
 """)
 
-
 st.divider()
 
 
 # ============================================================
-# LIMITATION
+# 11. METHODOLOGICAL NOTES
 # ============================================================
 
-st.header("Important limitation")
+st.header("11. Important methodological notes")
+
+
+with st.container(border=True):
+
+    st.markdown("### ⚖️ Survey weights")
+
+    st.markdown("""
+The GLES dataset provides survey weights, including `w_ipfges`.
+
+These weights were **not applied to the regression models in this project**.
+
+The results should therefore be interpreted as statistical associations
+within the analytical sample rather than as weighted population estimates
+for the German electorate.
+""")
+
+
+with st.container(border=True):
+
+    st.markdown("### 🔄 Reverse causality")
+
+    st.markdown("""
+Because the data are cross-sectional, the direction of the relationship
+cannot be established.
+
+The results are consistent with:
+
+**Feeling Left Behind → lower trust / lower democratic satisfaction**
+
+but the reverse mechanism is also possible:
+
+**existing distrust or dissatisfaction → stronger perceptions of
+Feeling Left Behind**
+
+Both may also be influenced by other factors not included in the models.
+""")
+
 
 st.warning("""
 ### Association ≠ causation
 
-The results identify statistical relationships.
+The analysis identifies statistical relationships.
 
-Because the GLES data are cross-sectional, the analysis cannot
-establish that Feeling Left Behind **causes** lower Institutional Trust,
-lower Democratic Satisfaction or lower Party Representation.
+It cannot establish that Feeling Left Behind causes lower Institutional
+Trust, lower Democratic Satisfaction or lower Party Representation.
 """)
 
 

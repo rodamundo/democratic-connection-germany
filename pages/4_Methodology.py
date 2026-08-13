@@ -861,22 +861,105 @@ st.divider()
 
 
 # ============================================================
-# LIMITATION
+# 20. ADDITIONAL METHODOLOGICAL LIMITATIONS
 # ============================================================
 
-st.header("20. Important limitation")
+st.header("20. Additional methodological limitations")
+
+
+with st.container(border=True):
+
+    st.markdown("### ⚖️ Survey weights")
+
+    st.markdown("""
+The GLES dataset provides survey weights, including `w_ipfges`.
+
+These weights were **not applied to the regression models used
+in this project**.
+
+The results should therefore be interpreted as statistical
+associations within the analytical sample rather than as
+weighted population estimates for the German electorate.
+""")
+
+
+with st.container(border=True):
+
+    st.markdown("### 🔄 Reverse causality")
+
+    st.markdown("""
+Because the data are cross-sectional, the causal direction
+of the relationships cannot be established.
+
+The results are consistent with:
+
+**Feeling Left Behind → lower trust / lower democratic satisfaction**
+
+but the reverse process is also possible:
+
+**existing distrust or dissatisfaction → stronger perceptions
+of Feeling Left Behind**
+
+Both may also be influenced by other factors that are not
+included in the models.
+""")
+
+
+st.divider()
+
+
+# ============================================================
+# 21. IMPORTANT LIMITATION
+# ============================================================
+
+st.header("21. What can — and cannot — be concluded?")
+
+
+c1, c2 = st.columns(2)
+
+
+with c1:
+    with st.container(border=True):
+
+        st.markdown("### ✅ What the analysis shows")
+
+        st.markdown("""
+The analysis identifies **statistical associations** between
+Feeling Left Behind and the three democratic outcomes.
+
+It also shows how model fit changes when LBI is added to the
+traditional predictors.
+""")
+
+
+with c2:
+    with st.container(border=True):
+
+        st.markdown("### ❌ What the analysis does not show")
+
+        st.markdown("""
+The analysis does not establish that Feeling Left Behind
+**causes** lower trust, greater democratic dissatisfaction
+or lower Party Representation.
+
+It also does not establish the direction of causality.
+""")
+
 
 st.warning("""
 ### Association ≠ causation
 
-The GLES data used here are cross-sectional.
-
-The regressions can identify statistical associations, but they
-cannot demonstrate that Feeling Left Behind causes lower trust,
-greater dissatisfaction or lower political representation.
+Because the data are cross-sectional, we cannot determine whether
+Feeling Left Behind contributes to democratic disconnection,
+whether existing democratic disconnection contributes to stronger
+perceptions of being left behind, or whether both are influenced
+by other factors.
 """)
+
 
 st.caption("""
 Data source: German Longitudinal Election Study (GLES 2025),
 Post-Election Cross-Section, ZA10100.
+
+Regression models are unweighted (`w_ipfges` was not applied).
 """)
