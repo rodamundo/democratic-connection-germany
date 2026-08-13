@@ -1,247 +1,416 @@
 import streamlit as st
 
-st.title("📚 Research")
+
+st.title("🔎 Research")
 
 st.subheader(
-    "What are we trying to understand?"
+    "From the research question to the statistical comparison"
 )
 
+
+# ============================================================
+# 1. RESEARCH QUESTION
+# ============================================================
+
+st.header("1. Research question")
+
 st.markdown("""
-Political dissatisfaction is often explained through people's
-**economic and social circumstances**.
+Traditional explanations of democratic attitudes often focus on
+people's socioeconomic and demographic position.
 
-Income, education and social class clearly matter.
-
-But this project asks whether another dimension may also provide
-important information:
-
-> **How people experience their place in society.**
+This project asks whether this is enough.
 """)
-
-st.divider()
-
-# ============================================================
-# QUESTION
-# ============================================================
-
-st.header("The research question")
 
 st.info("""
-### To what extent does Feeling Left Behind explain democratic attitudes
-### beyond traditional socioeconomic characteristics?
-""")
+# Research question
 
-st.markdown("""
-In simpler terms:
-
-> **If two people have similar income, education and social backgrounds,
-> could differences in whether they feel recognized and included help
-> explain why they relate differently to democracy?**
+### Does Feeling Left Behind help us understand democratic attitudes
+### beyond income, education, demographic characteristics and
+### Subjective Social Class?
 """)
 
 st.divider()
 
+
 # ============================================================
-# DATA
+# 2. OUTCOMES
 # ============================================================
 
-st.header("Where do the data come from?")
-
-c1, c2 = st.columns(2)
-
-with c1:
-    with st.container(border=True):
-        st.markdown("""
-### German Longitudinal Election Study
-
-**GLES 2025**
-
-Post-Election Cross-Section
-
-Study number: **ZA10100**
-""")
-
-with c2:
-    with st.container(border=True):
-        st.metric(
-            "Original respondents",
-            "7,336"
-        )
-
-        st.metric(
-            "Analytical sample",
-            "5,039"
-        )
+st.header("2. What exactly are we trying to explain?")
 
 st.markdown("""
-The survey was conducted after the **2025 German federal election**.
+Before discussing predictors or regression models, we need to define
+the **three outcomes**.
 
-The same analytical sample is used consistently across the regression
-models so that comparisons between models remain meaningful.
-""")
-
-st.divider()
-
-# ============================================================
-# WHAT ARE DEMOCRATIC ATTITUDES?
-# ============================================================
-
-st.header("What do we mean by 'democratic attitudes'?")
-
-st.markdown("""
-The project does not treat democracy as one single attitude.
-
-Instead, it examines **three different dimensions**.
+An outcome is simply the thing we are trying to understand.
 """)
 
 c1, c2, c3 = st.columns(3)
 
+
 with c1:
     with st.container(border=True):
 
-        st.markdown("### 🏛️ Institutional Trust")
+        st.markdown("## 🏛️ Institutional Trust")
 
         st.markdown("""
-**Simple question:**
+### What does it mean?
 
-> Do people trust important public and political institutions?
+How much respondents trust important institutions.
 
-The analysis combines trust ratings for **eight institutions or groups**
-into one index.
+### How is it measured?
+
+Respondents rate **eight institutions** from:
+
+**1 = Do not trust at all**
+
+to
+
+**11 = Trust completely**
+
+The eight ratings are averaged into one
+**Institutional Trust score**.
 """)
+
+        st.markdown("""
+### Institutions
+
+- Federal Government
+- Bundestag
+- Political Parties
+- Politicians
+- Police
+- Justice
+- Science
+- Public-Service Broadcasting
+""")
+
+        st.caption("Numerical outcome → OLS regression")
+
 
 with c2:
     with st.container(border=True):
 
-        st.markdown("### 🗳️ Democratic Satisfaction")
+        st.markdown("## 🗳️ Democratic Satisfaction")
 
         st.markdown("""
-**Simple question:**
+### What does it mean?
 
-> Are people satisfied with how democracy works in Germany?
+How satisfied respondents are with the way democracy
+works in Germany.
 
-This outcome comes from **one direct survey question**.
+### How is it measured?
+
+One survey response:
+
+**1 = Very satisfied**
+
+**2 = Fairly satisfied**
+
+**3 = Not very satisfied**
+
+**4 = Not at all satisfied**
+
+Therefore:
+
+### Higher score = greater dissatisfaction
 """)
+
+        st.caption("Ordered numerical outcome → OLS regression")
+
 
 with c3:
     with st.container(border=True):
 
-        st.markdown("### 👥 Party Representation")
+        st.markdown("## 👥 Party Representation")
 
         st.markdown("""
-**Simple question:**
+### What does it mean?
 
-> Does any political party represent the person's political views well?
+Whether respondents believe that a political party
+represents their personal political views well.
 
-This outcome also comes from **one direct survey question**.
+### How is it measured?
+
+One survey question:
+
+# Yes / No
+
+There is no continuous representation score.
+""")
+
+        st.caption("Binary outcome → logistic regression")
+
+
+st.success("""
+### These are the outcomes
+
+They answer three different questions:
+
+**Do I trust institutions?**
+
+**Am I satisfied with democracy?**
+
+**Does a party represent my views?**
 """)
 
 st.divider()
 
+
 # ============================================================
-# WHAT ELSE IS INCLUDED?
+# 3. PREDICTORS
 # ============================================================
 
-st.header("What else does the analysis take into account?")
+st.header("3. What might explain differences in these outcomes?")
 
 st.markdown("""
-To distinguish Feeling Left Behind from other characteristics,
-the analysis also includes:
+Now that the outcomes are clear, we can introduce the information
+used to try to explain why respondents differ.
+""")
 
-- **Household Income**
-- **Education**
-- **Age**
-- **East / West Germany**
-- **Migration Background**
-- **Political Interest**
-- **Subjective Social Class**
+st.markdown("""
+### Traditional information
+
+💰 Household Income
+
+🎓 Education
+
+🎂 Age
+
+📍 East / West Germany
+
+🌍 Migration Background
+
+🗳️ Political Interest
+
+### Subjective position
+
+🪜 Subjective Social Class
+
+### Subjective social experience
+
+🧩 Feeling Left Behind
 """)
 
 st.divider()
 
+
 # ============================================================
-# MODELS
+# 4. THREE MODELS
 # ============================================================
 
-st.header("How is the question tested?")
+st.header("4. Why are there three models?")
 
 st.markdown("""
-The analysis adds information in three stages.
+Instead of putting everything into one regression immediately,
+the analysis adds information step by step.
+
+This lets us see whether each new layer adds explanatory information.
+""")
+
+c1, c2, c3 = st.columns(3)
+
+
+with c1:
+    with st.container(border=True):
+
+        st.markdown("## MODEL 1")
+
+        st.markdown("### Traditional factors")
+
+        st.markdown("""
+💰 Household Income
+
+🎓 Education
+
+🎂 Age
+
+📍 East / West Germany
+
+🌍 Migration Background
+
+🗳️ Political Interest
+""")
+
+        st.markdown("""
+**Question:**
+
+How much do these traditional characteristics help us
+understand differences in the outcome?
+""")
+
+
+with c2:
+    with st.container(border=True):
+
+        st.markdown("## MODEL 2")
+
+        st.markdown("### Model 1 + Subjective Social Class")
+
+        st.markdown("""
+Everything from Model 1 remains.
+
+Then we add:
+
+🪜 **Subjective Social Class**
+""")
+
+        st.markdown("""
+**Question:**
+
+Does knowing where respondents believe they stand socially
+add information beyond the traditional characteristics?
+""")
+
+
+with c3:
+    with st.container(border=True):
+
+        st.markdown("## MODEL 3")
+
+        st.markdown("### Model 2 + Feeling Left Behind")
+
+        st.markdown("""
+Everything from Model 2 remains.
+
+Then we add:
+
+🧩 **Left Behind Index**
+""")
+
+        st.markdown("""
+**Question:**
+
+Does knowing how left behind respondents feel add information
+beyond everything already included?
+""")
+
+
+st.warning("""
+### Models are not respondent scores
+
+There is no “Model 1 score” or “Model 2 score”.
+
+The models are simply different **sets of variables entered
+into the regression**.
+""")
+
+st.divider()
+
+
+# ============================================================
+# 5. 3 × 3 DESIGN
+# ============================================================
+
+st.header("5. The 3 × 3 research design")
+
+st.markdown("""
+Each of the three model specifications is estimated separately
+for each of the three outcomes.
+""")
+
+st.markdown("""
+| Outcome ↓ / Model → | Model 1 | Model 2 | Model 3 |
+|---|---|---|---|
+| 🏛️ Institutional Trust | Traditional factors | + Social Class | + LBI |
+| 🗳️ Democratic Satisfaction | Traditional factors | + Social Class | + LBI |
+| 👥 Party Representation | Traditional factors | + Social Class | + LBI |
+""")
+
+st.success("""
+# 3 outcomes × 3 models = 9 regressions
+""")
+
+st.divider()
+
+
+# ============================================================
+# 6. CENTRAL COMPARISON
+# ============================================================
+
+st.header("6. What comparison matters most?")
+
+st.markdown("""
+The central comparison is **Model 2 versus Model 3**.
+
+Why?
+
+Because Model 2 already knows:
+
+- income;
+- education;
+- age;
+- region;
+- migration background;
+- political interest;
+- Subjective Social Class.
+
+Model 3 then adds only one new construct:
+
+# 🧩 Feeling Left Behind
+""")
+
+st.info("""
+### Therefore the central question becomes:
+
+If we already know all these characteristics about a respondent,
+does knowing **how left behind they feel** help us understand
+their democratic attitudes better?
+""")
+
+st.divider()
+
+
+# ============================================================
+# 7. EXPECTATION
+# ============================================================
+
+st.header("7. Research expectation")
+
+st.markdown("""
+The expectation is that stronger Feeling Left Behind will be associated
+with greater democratic disconnection.
 """)
 
 c1, c2, c3 = st.columns(3)
 
 with c1:
-    with st.container(border=True):
+    st.markdown("""
+### LBI ↑
 
-        st.markdown("### 1️⃣ Traditional Factors")
-
-        st.markdown("""
-Income  
-Education  
-Age  
-East / West Germany  
-Migration background  
-Political interest
+### Institutional Trust ↓
 """)
 
 with c2:
-    with st.container(border=True):
+    st.markdown("""
+### LBI ↑
 
-        st.markdown("### 2️⃣ + Social Class")
-
-        st.markdown("""
-Everything in the first model
-
-**+**
-
-Subjective Social Class
+### Democratic Dissatisfaction ↑
 """)
 
 with c3:
-    with st.container(border=True):
+    st.markdown("""
+### LBI ↑
 
-        st.markdown("### 3️⃣ + Feeling Left Behind")
-
-        st.markdown("""
-Everything above
-
-**+**
-
-Left Behind Index
+### Party Representation ↓
 """)
 
-st.info("""
-### Why do this in stages?
-
-If the model improves substantially only after Feeling Left Behind
-is added, this suggests that the index captures information not already
-represented by income, education and social class.
+st.warning("""
+These are expected **associations**, not causal claims.
 """)
 
 st.divider()
 
+
 # ============================================================
-# MODELS NUMBER
+# 8. LOGIC
 # ============================================================
 
-st.header("How many regression analyses were performed?")
+st.header("8. Research logic in one sentence")
 
-c1, c2, c3 = st.columns(3)
-
-c1.metric("Democratic outcomes", "3")
-c2.metric("Models per outcome", "3")
-c3.metric("Total regression models", "9")
-
-st.caption("""
-3 democratic outcomes × 3 model specifications = 9 regression models.
-Two outcomes (Institutional Trust, Democratic Satisfaction) use OLS.
-Party Representation, a binary outcome, uses logistic regression.
-""")
-
-st.divider()
-
-st.caption("""
-Source: German Longitudinal Election Study (GLES 2025),
-Post-Election Cross-Section, ZA10100.
+st.success("""
+### First define what democratic disconnection means,
+### then measure Feeling Left Behind,
+### then test whether it adds explanatory information
+### beyond traditional socioeconomic factors.
 """)
