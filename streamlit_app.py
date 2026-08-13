@@ -1,4 +1,7 @@
 import streamlit as st
+import numpy as np
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 
 # ============================================================
@@ -13,35 +16,102 @@ st.set_page_config(
 
 
 # ============================================================
-# HELPER: PUZZLE VISUAL
+# HELPERS — VISUAL EXPLAINERS FOR "MODEL FIT" / R²
 # ============================================================
 
-def puzzle_visual(explained, label, value):
+def build_gap_chart():
+    """Illustrative scatter chart showing prediction 'gaps' shrinking
+    when information is added. Uses synthetic data — NOT real GLES
+    values — purely to teach the concept of model fit visually."""
 
-    explained_round = round(explained)
-    unexplained_round = 100 - explained_round
+    rng = np.random.default_rng(7)
+    n = 22
+    x = rng.uniform(1, 5, n)
+    true_trend = 9 - 1.3 * x
+    y = np.clip(true_trend + rng.normal(0, 1.1, n), 1, 11)
+    mean_y = y.mean()
+    coeffs = np.polyfit(x, y, 1)
+    fit_y = np.polyval(coeffs, x)
+    order = np.argsort(x)
 
-    with st.container(border=True):
+    fig = make_subplots(
+        rows=1, cols=2,
+        subplot_titles=(
+            "Guessing the same number for everyone",
+            "Adjusting the guess per person"
+        ),
+        horizontal_spacing=0.12
+    )
 
-        st.markdown(f"### {label}")
+    for xi, yi in zip(x, y):
+        fig.add_trace(go.Scatter(
+            x=[xi, xi], y=[yi, mean_y], mode="lines",
+            line=dict(color="#B7C1E0", width=1.5),
+            showlegend=False, hoverinfo="skip"
+        ), row=1, col=1)
+    fig.add_trace(go.Scatter(
+        x=sorted(x), y=[mean_y] * n, mode="lines",
+        line=dict(color="#F96167", width=3), name="Model's guess"
+    ), row=1, col=1)
+    fig.add_trace(go.Scatter(
+        x=x, y=y, mode="markers",
+        marker=dict(color="#1E2761", size=9), name="Actual person"
+    ), row=1, col=1)
 
-        st.progress(explained / 100)
+    for xi, yi, pi in zip(x, y, fit_y):
+        fig.add_trace(go.Scatter(
+            x=[xi, xi], y=[yi, pi], mode="lines",
+            line=dict(color="#B7C1E0", width=1.5),
+            showlegend=False, hoverinfo="skip"
+        ), row=1, col=2)
+    fig.add_trace(go.Scatter(
+        x=x[order], y=fit_y[order], mode="lines",
+        line=dict(color="#F96167", width=3),
+        name="Model's guess", showlegend=False
+    ), row=1, col=2)
+    fig.add_trace(go.Scatter(
+        x=x, y=y, mode="markers",
+        marker=dict(color="#1E2761", size=9),
+        name="Actual person", showlegend=False
+    ), row=1, col=2)
 
-        c1, c2 = st.columns(2)
+    fig.update_xaxes(title_text="Feeling Left Behind (illustrative)", row=1, col=1)
+    fig.update_xaxes(title_text="Feeling Left Behind (illustrative)", row=1, col=2)
+    fig.update_yaxes(title_text="Institutional Trust (1–11)", range=[0, 12], row=1, col=1)
+    fig.update_yaxes(range=[0, 12], row=1, col=2)
 
-        with c1:
-            st.metric(
-                "🧩 Accounted for by the model",
-                f"≈ {explained_round} / 100"
-            )
+    fig.update_layout(
+        height=420,
+        legend=dict(orientation="h", yanchor="bottom", y=-0.32, x=0.28),
+        margin=dict(t=50, b=70, l=10, r=10),
+    )
+    return fig
 
-        with c2:
-            st.metric(
-                "Not accounted for by the model",
-                f"≈ {unexplained_round} / 100"
-            )
 
-        st.caption(f"Statistical value: {value}")
+def build_donut(pct, label, color="#1E2761"):
+    """Small donut showing the identified slice vs. the unknown
+    remainder — the 'slice of the pizza' metaphor, made visual."""
+
+    fig = go.Figure(data=[go.Pie(
+        labels=["Accounted for", "Not captured by this model"],
+        values=[pct, 100 - pct],
+        hole=0.7,
+        marker=dict(colors=[color, "#E7EAF4"]),
+        textinfo="none",
+        sort=False,
+        direction="clockwise",
+        hoverinfo="skip",
+    )])
+    fig.update_layout(
+        showlegend=False,
+        height=220,
+        margin=dict(t=10, b=10, l=10, r=10),
+        annotations=[dict(
+            text=f"<b>{pct:.1f}%</b><br><span style='font-size:11px;color:#5B6B9C'>{label}</span>",
+            x=0.5, y=0.5, font_size=20, showarrow=False, font_color="#1E2761"
+        )],
+    )
+    return fig
 
 
 # ============================================================
@@ -57,9 +127,9 @@ def home():
     )
 
     st.markdown("""
-This project asks whether people's **economic and social position**
-is enough to understand democratic disconnection, or whether another
-dimension also matters:
+This project explores whether people's **social and economic position**
+is enough to understand democratic disconnection in Germany, or whether
+another dimension also matters:
 
 ### **How people experience their place in society.**
 """)
@@ -68,15 +138,15 @@ dimension also matters:
 
 
     # ========================================================
-    # 1. OUTCOMES
+    # 1. WHAT ARE WE TRYING TO UNDERSTAND?
     # ========================================================
 
     st.header("1. What are we trying to understand?")
 
     st.markdown("""
-People do not all relate to democracy in the same way.
+People can relate to democracy in different ways.
 
-This project examines **three different outcomes**.
+This project looks at **three different outcomes**:
 """)
 
     c1, c2, c3 = st.columns(3)
@@ -87,15 +157,15 @@ This project examines **three different outcomes**.
             st.markdown("### 🏛️ Institutional Trust")
 
             st.markdown("""
-Respondents rated **eight institutions** from:
+**Do people trust important institutions?**
+
+Respondents rated eight institutions from:
 
 **1 = Do not trust at all**
 
 to
 
 **11 = Trust completely**
-
-The ratings are averaged into one trust score for each person.
 """)
 
     with c2:
@@ -104,15 +174,15 @@ The ratings are averaged into one trust score for each person.
             st.markdown("### 🗳️ Democratic Satisfaction")
 
             st.markdown("""
-Respondents answered:
+**Are people satisfied with how democracy works in Germany?**
+
+Responses range from:
 
 **1 = Very satisfied**
 
 to
 
 **4 = Not at all satisfied**
-
-Higher values mean greater dissatisfaction.
 """)
 
     with c3:
@@ -121,34 +191,27 @@ Higher values mean greater dissatisfaction.
             st.markdown("### 👥 Party Representation")
 
             st.markdown("""
-Respondents were asked:
+**Does any political party represent the person's views well?**
 
-**Does any political party represent your views well?**
+Respondents answer:
 
 **Yes / No**
-""")
-
-    st.info("""
-### There is an important difference
-
-For **Institutional Trust** and **Democratic Satisfaction**, people are
-not divided into “trust” / “no trust” groups.
-
-They have different scores.
-
-The question is:
-
-> **Why do some people have higher scores and others lower scores?**
 """)
 
     st.divider()
 
 
     # ========================================================
-    # 2. MODELS
+    # 2. HOW IS THE QUESTION TESTED? (THREE MODELS OVERVIEW)
     # ========================================================
 
-    st.header("2. What information might help us understand those differences?")
+    st.header("2. How is the question tested?")
+
+    st.markdown("""
+To find out what helps explain these three outcomes, the analysis
+builds understanding in **three stages**, adding one layer of
+information at a time.
+""")
 
     c1, c2, c3 = st.columns(3)
 
@@ -176,9 +239,11 @@ The question is:
             st.markdown("""
 Everything in Model 1
 
-### +
+**+**
 
-🪜 **Subjective Social Class**
+🪜 Subjective Social Class
+
+*Where the respondent believes they belong in the social hierarchy.*
 """)
 
     with c3:
@@ -190,30 +255,52 @@ Everything in Model 1
             st.markdown("""
 Everything in Model 2
 
-### +
+**+**
 
-🧩 **Left Behind Index**
+🧩 Left Behind Index
+
+*A new measure introduced in this project — explained in detail
+below.*
 """)
 
-    st.markdown("""
-The logic is simple:
+    st.info("""
+Each stage adds one layer of information. The central test is simple:
 
-> **If adding new information makes the model much better at understanding
-> why people's scores differ, that information is adding something useful.**
+> **Does the last layer — Feeling Left Behind — help us understand
+> democratic attitudes beyond everything already captured by income,
+> education, age, region, migration background, political interest
+> and perceived social class?**
+
+To answer that, we first need to unpack what Feeling Left Behind
+actually measures.
 """)
 
     st.divider()
 
 
     # ========================================================
-    # 3. LEFT BEHIND
+    # 3. WHAT IS FEELING LEFT BEHIND?
     # ========================================================
 
     st.header("3. What is Feeling Left Behind?")
 
     st.markdown("""
-The GLES contains four questions about whether respondents feel that
-**people like them** are sufficiently considered by society.
+Even after knowing someone's income, education and perceived social
+class, we may still know very little about **how that person feels
+society treats people like them**. That is what this index tries to
+capture.
+""")
+
+    st.success("""
+# 🧩 Feeling Left Behind
+
+Feeling Left Behind captures whether people feel that **people like them**
+are overlooked, insufficiently recognized, underserved or unable to
+freely express their views.
+""")
+
+    st.markdown("""
+The GLES survey contains four questions covering:
 """)
 
     c1, c2, c3, c4 = st.columns(4)
@@ -255,10 +342,10 @@ The GLES contains four questions about whether respondents feel that
             )
 
     st.markdown("""
-The four answers are averaged into one score for each person:
+The four answers are combined into a single score for each respondent:
 """)
 
-    c1, c2, c3 = st.columns([1, 1.3, 1])
+    c1, c2, c3 = st.columns([1, 1.4, 1])
 
     with c1:
         st.metric(
@@ -269,10 +356,14 @@ The four answers are averaged into one score for each person:
     with c2:
         st.markdown("""
 ### 4 answers
+
 ### ↓
+
 ### Average
+
 ### ↓
-## 🧩 Left Behind Index
+
+## Left Behind Index
 """)
 
     with c3:
@@ -282,253 +373,191 @@ The four answers are averaged into one score for each person:
         )
 
     st.info("""
-There is **no cut-off** between “left behind” and “not left behind”.
+There is **no cut-off** separating people into “left behind” and
+“not left behind”.
 
-The index measures **degrees** of Feeling Left Behind.
+The index measures **degrees of Feeling Left Behind**, from lower to higher.
+""")
+
+    st.markdown("""
+So the central test from Model 3 becomes:
+
+> ### Does knowing how left behind someone feels help us understand
+> ### their democratic attitudes beyond everything already included
+> ### in Models 1 and 2?
 """)
 
     st.divider()
 
 
     # ========================================================
-    # 4. PUZZLE
+    # 3B. WHAT DOES "MODEL FIT" ACTUALLY MEAN?
     # ========================================================
 
-    st.header("4. What do the percentages actually mean?")
+    st.header("Before the numbers: what does \"model fit\" mean?")
 
     st.markdown("""
-Let's use **Institutional Trust** as an example.
+Imagine trying to guess how much each of the **5,039 people** in this
+survey trusts institutions, using only what you know about them.
+You won't guess perfectly — but some information helps more than
+others. The chart below shows this idea: dots are people, the red
+line is the model's guess, and the **gray lines are the gaps** —
+how far off each guess is.
+""")
 
-People in the survey have different trust scores.
+    st.plotly_chart(build_gap_chart(), width="stretch")
 
-Some score low. Others score high.
+    st.info("""
+**"Model fit" (R²) measures how much smaller those gray gaps get**
+when information is added — from guessing the same number for
+everyone, to adjusting the guess per person.
 
-The question is:
-
-> ### Why are people's trust scores different?
-
-To make the statistical result easier to understand, imagine all those
-differences as a **100-piece puzzle**.
+*(Illustrative example with made-up numbers, used only to explain the
+idea — not real survey data. The actual model uses 7 variables at
+once, which can't be drawn on a simple chart like this.)*
 """)
 
     st.markdown("""
-## 🧩 100 pieces = all the observed differences in trust scores
-
-The model tries to account for as much of that puzzle as possible
-using the information we give it.
+Here is what that looks like for the real results. Each circle shows:
+of all the differences between real respondents, what share can the
+final model account for?
 """)
 
-    puzzle_visual(
-        8.8,
-        "Model 1 — Traditional Factors",
-        "R² = 8.8%"
-    )
+    d1, d2, d3 = st.columns(3)
 
-    st.markdown("**Traditional factors help account for roughly 9 of 100 pieces.**")
+    with d1:
+        st.plotly_chart(build_donut(27.6, "Institutional Trust"), width="stretch")
 
-    puzzle_visual(
-        10.7,
-        "Model 2 — + Subjective Social Class",
-        "R² = 10.7%"
-    )
+    with d2:
+        st.plotly_chart(build_donut(22.2, "Democratic Satisfaction"), width="stretch")
 
-    st.markdown("**Adding Social Class moves this to roughly 11 of 100 pieces.**")
-
-    puzzle_visual(
-        27.6,
-        "Model 3 — + Feeling Left Behind",
-        "R² = 27.6%"
-    )
-
-    st.success("""
-### This is the important jump
-
-After Feeling Left Behind is added, the complete model can account for
-roughly:
-
-# 🧩 28 of every 100 pieces
-
-of the observed differences in Institutional Trust scores.
-
-About **72 of 100 pieces remain unaccounted for by this model.**
-""")
+    with d3:
+        st.plotly_chart(
+            build_donut(4.6, "Party Representation", color="#F96167"),
+            width="stretch"
+        )
 
     st.caption("""
-The puzzle is a teaching analogy.
-
-Statistically, R² measures the share of observed variation in the outcome
-that the model can account for.
-
-The 100 pieces do not represent 100 separate causes.
+The colored slice is what the model accounts for; the gray slice is
+everything else — reasons not captured by this survey. Party
+Representation uses a different statistic (Pseudo R²) — see the
+Results page for details.
 """)
-
-    st.divider()
-
-
-    # ========================================================
-    # 5. WHAT 27.6% MEANS
-    # ========================================================
-
-    st.header("5. So what does 27.6% actually mean?")
 
     c1, c2 = st.columns(2)
 
     with c1:
         with st.container(border=True):
-
             st.markdown("### ❌ It does NOT mean")
-
             st.markdown("""
-**27.6% of people trust institutions**
+**"27.6% of people trust institutions."**
 
-or
-
-**trust increased by 27.6%**
-
-or
-
-**Feeling Left Behind alone explains 27.6%**
+It is not a share of people, and not a level of trust.
 """)
 
     with c2:
         with st.container(border=True):
-
             st.markdown("### ✅ It DOES mean")
-
             st.markdown("""
-The **complete Model 3** can account for:
+**"We can account for 27.6% of the differences between
+people in how much they trust institutions."**
 
-# 27.6%
-
-of the observed differences in Institutional Trust scores
-between respondents.
+The remaining ~72% comes from things not measured here —
+personality, specific experiences, events not captured by this survey.
 """)
 
     st.divider()
 
 
     # ========================================================
-    # 6. RESULTS
+    # 4. MAIN RESULTS
     # ========================================================
 
-    st.header("6. Does the same pattern appear elsewhere?")
+    st.header("4. What happens when Feeling Left Behind is added?")
 
-    c1, c2 = st.columns(2)
+    c1, c2, c3 = st.columns(3)
 
     with c1:
         with st.container(border=True):
 
             st.markdown("### 🏛️ Institutional Trust")
 
+            st.metric(
+                "Model fit",
+                "27.6%",
+                delta="+16.9 pp"
+            )
+
             st.markdown("""
-Traditional Factors  
-**8.8%**
+**Before:** 10.7%
 
-↓
-
-+ Social Class  
-**10.7%**
-
-↓
-
-+ Feeling Left Behind  
-# **27.6%**
+**After adding Feeling Left Behind:** 27.6%
 """)
 
-            st.metric(
-                "Gain after adding Feeling Left Behind",
-                "+16.9 pp"
-            )
+            st.caption("OLS R²")
 
     with c2:
         with st.container(border=True):
 
             st.markdown("### 🗳️ Democratic Satisfaction")
 
-            st.markdown("""
-Traditional Factors  
-**8.5%**
-
-↓
-
-+ Social Class  
-**9.6%**
-
-↓
-
-+ Feeling Left Behind  
-# **22.2%**
-""")
-
             st.metric(
-                "Gain after adding Feeling Left Behind",
-                "+12.6 pp"
+                "Model fit",
+                "22.2%",
+                delta="+12.6 pp"
             )
 
-    st.success("""
-### The pattern is similar
+            st.markdown("""
+**Before:** 9.6%
 
-Adding Subjective Social Class changes the models relatively little.
+**After adding Feeling Left Behind:** 22.2%
+""")
 
-Adding **Feeling Left Behind** adds substantially more information.
+            st.caption("OLS R²")
+
+    with c3:
+        with st.container(border=True):
+
+            st.markdown("### 👥 Party Representation")
+
+            st.metric(
+                "Model fit",
+                "4.6%",
+                delta="+1.2 pp"
+            )
+
+            st.markdown("""
+**Before:** 3.4%
+
+**After adding Feeling Left Behind:** 4.6%
+""")
+
+            st.caption(
+                "McFadden Pseudo R² · Logistic regression"
+            )
+
+    st.info("""
+### How should these percentages be read?
+
+They are **not percentages of people who trust institutions or are
+satisfied with democracy**.
+
+For example, the **27.6%** means that the final model can account for
+27.6% of the differences in Institutional Trust between respondents.
+
+Party Representation uses a different statistic, Pseudo R², because
+the outcome is Yes/No. Its numerical value should not be directly
+compared with the two OLS R² values.
 """)
 
     st.divider()
 
 
     # ========================================================
-    # 7. PARTY REPRESENTATION
+    # 5. MAIN MESSAGE
     # ========================================================
 
-    st.header("7. Party Representation is different")
-
-    st.markdown("""
-Party Representation is different because respondents answer:
-
-# **Yes / No**
-
-So this outcome uses **logistic regression** rather than the same
-type of regression used above.
-""")
-
-    c1, c2, c3 = st.columns(3)
-
-    c1.metric(
-        "Traditional Factors",
-        "3.4%"
-    )
-
-    c2.metric(
-        "+ Social Class",
-        "3.4%"
-    )
-
-    c3.metric(
-        "+ Feeling Left Behind",
-        "4.6%",
-        delta="+1.2 pp"
-    )
-
-    st.warning("""
-These are **McFadden Pseudo R² values**.
-
-They do not have the same interpretation as the R² values for
-Institutional Trust and Democratic Satisfaction.
-
-So we do **not** use the 100-piece puzzle literally here.
-
-The important result is that adding Feeling Left Behind improves
-this model much less.
-""")
-
-    st.divider()
-
-
-    # ========================================================
-    # 8. CONCLUSION
-    # ========================================================
-
-    st.header("8. What does this tell us?")
+    st.header("5. What does this tell us?")
 
     st.success("""
 ### Socioeconomic position does not tell the whole story.
@@ -537,53 +566,45 @@ Income, education, age, region and social class provide useful information.
 
 But for **Institutional Trust** and **Democratic Satisfaction**, knowing
 how left behind people feel adds substantially more information.
+
+The pattern is much weaker for **Party Representation**, suggesting that
+democratic disconnection has different dimensions.
 """)
 
     st.markdown("""
+In simple terms:
+
 > ## What people have matters.
 >
 > ## But how people feel seen, recognized, served and heard may matter too.
 """)
 
     st.warning("""
-The analysis identifies **associations, not causation**.
+The analysis identifies **statistical associations**, not cause and effect.
 
-It cannot establish which direction the relationship runs.
+It cannot establish whether Feeling Left Behind causes lower trust or
+democratic dissatisfaction, or whether people who already distrust
+institutions are more likely to report feeling left behind.
 """)
 
     st.divider()
 
 
     # ========================================================
-    # ABOUT
+    # PROJECT
     # ========================================================
 
     st.header("About the analysis")
 
     c1, c2, c3, c4 = st.columns(4)
 
-    c1.metric(
-        "Survey respondents",
-        "7,336"
-    )
-
-    c2.metric(
-        "Analytical sample",
-        "5,039"
-    )
-
-    c3.metric(
-        "Democratic outcomes",
-        "3"
-    )
-
-    c4.metric(
-        "Regression models",
-        "9"
-    )
+    c1.metric("Survey respondents", "7,336")
+    c2.metric("Analytical sample", "5,039")
+    c3.metric("Democratic outcomes", "3")
+    c4.metric("Regression models", "9")
 
     st.caption("""
-Source: German Longitudinal Election Study (GLES 2025),
+**Source:** German Longitudinal Election Study (GLES 2025),
 Post-Election Cross-Section, ZA10100.
 """)
 
