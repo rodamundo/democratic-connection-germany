@@ -16,54 +16,32 @@ st.set_page_config(
 # HELPER: PUZZLE VISUAL
 # ============================================================
 
-def puzzle_visual(explained, label, value, total=100):
-    """
-    Didactic visual:
-    100 squares represent all observed variation.
-    Filled squares approximate the share accounted for by the model.
-    """
+def puzzle_visual(explained, label, value):
 
-    filled = round(explained)
-    empty = total - filled
+    explained_round = round(explained)
+    unexplained_round = 100 - explained_round
 
-    squares = (
-        "<span style='color:#2E86DE;'>■</span>" * filled +
-        "<span style='color:#D9D9D9;'>■</span>" * empty
-    )
+    with st.container(border=True):
 
-    st.markdown(
-        f"""
-        <div style="
-            border:1px solid #dddddd;
-            border-radius:12px;
-            padding:18px;
-            margin-bottom:12px;
-        ">
-            <div style="font-size:19px;font-weight:700;margin-bottom:6px;">
-                {label}
-            </div>
+        st.markdown(f"### {label}")
 
-            <div style="
-                font-size:20px;
-                line-height:1.25;
-                letter-spacing:2px;
-                word-break:break-all;
-                margin-bottom:10px;
-            ">
-                {squares}
-            </div>
+        st.progress(explained / 100)
 
-            <div style="font-size:18px;font-weight:700;">
-                ≈ {round(explained)} of 100 pieces
-            </div>
+        c1, c2 = st.columns(2)
 
-            <div style="font-size:14px;color:#777777;">
-                Statistical value: {value}
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+        with c1:
+            st.metric(
+                "🧩 Accounted for by the model",
+                f"≈ {explained_round} / 100"
+            )
+
+        with c2:
+            st.metric(
+                "Not accounted for by the model",
+                f"≈ {unexplained_round} / 100"
+            )
+
+        st.caption(f"Statistical value: {value}")
 
 
 # ============================================================
@@ -242,28 +220,36 @@ The GLES contains four questions about whether respondents feel that
 
     with c1:
         with st.container(border=True):
+
             st.markdown("### 💶 Economic attention")
+
             st.write(
                 "Are the economic concerns of people like me being overlooked?"
             )
 
     with c2:
         with st.container(border=True):
+
             st.markdown("### 👏 Recognition")
+
             st.write(
                 "Is the contribution of people like me recognized?"
             )
 
     with c3:
         with st.container(border=True):
+
             st.markdown("### 🏥 Services")
+
             st.write(
                 "Do people like me receive adequate access to essential services?"
             )
 
     with c4:
         with st.container(border=True):
+
             st.markdown("### 🗣️ Voice")
+
             st.write(
                 "Do people like me feel free to express their opinions?"
             )
@@ -275,7 +261,10 @@ The four answers are averaged into one score for each person:
     c1, c2, c3 = st.columns([1, 1.3, 1])
 
     with c1:
-        st.metric("Lower Feeling Left Behind", "1")
+        st.metric(
+            "Lower Feeling Left Behind",
+            "1"
+        )
 
     with c2:
         st.markdown("""
@@ -287,7 +276,10 @@ The four answers are averaged into one score for each person:
 """)
 
     with c3:
-        st.metric("Higher Feeling Left Behind", "5")
+        st.metric(
+            "Higher Feeling Left Behind",
+            "5"
+        )
 
     st.info("""
 There is **no cut-off** between “left behind” and “not left behind”.
@@ -299,21 +291,30 @@ The index measures **degrees** of Feeling Left Behind.
 
 
     # ========================================================
-    # 4. PUZZLE EXPLANATION
+    # 4. PUZZLE
     # ========================================================
 
     st.header("4. What do the percentages actually mean?")
 
     st.markdown("""
-This is the part that can be difficult to understand statistically,
-so here is a visual analogy.
+Let's use **Institutional Trust** as an example.
 
-Imagine all the differences in **Institutional Trust scores**
-between respondents as a **100-piece puzzle**.
+People in the survey have different trust scores.
 
-### 🧩 100 pieces = all the observed differences in trust scores
+Some score low. Others score high.
 
-The model tries to account for as many of those differences as possible
+The question is:
+
+> ### Why are people's trust scores different?
+
+To make the statistical result easier to understand, imagine all those
+differences as a **100-piece puzzle**.
+""")
+
+    st.markdown("""
+## 🧩 100 pieces = all the observed differences in trust scores
+
+The model tries to account for as much of that puzzle as possible
 using the information we give it.
 """)
 
@@ -323,11 +324,15 @@ using the information we give it.
         "R² = 8.8%"
     )
 
+    st.markdown("**Traditional factors help account for roughly 9 of 100 pieces.**")
+
     puzzle_visual(
         10.7,
         "Model 2 — + Subjective Social Class",
         "R² = 10.7%"
     )
+
+    st.markdown("**Adding Social Class moves this to roughly 11 of 100 pieces.**")
 
     puzzle_visual(
         27.6,
@@ -336,34 +341,77 @@ using the information we give it.
     )
 
     st.success("""
-### What changed?
+### This is the important jump
 
-Traditional factors account for roughly **9 of 100 pieces**.
+After Feeling Left Behind is added, the complete model can account for
+roughly:
 
-Adding Subjective Social Class moves this to roughly **11 of 100**.
+# 🧩 28 of every 100 pieces
 
-Adding Feeling Left Behind moves it to roughly **28 of 100**.
+of the observed differences in Institutional Trust scores.
 
-### Feeling Left Behind does not complete the puzzle.
-
-But it adds substantially more information than Social Class alone.
+About **72 of 100 pieces remain unaccounted for by this model.**
 """)
 
     st.caption("""
 The puzzle is a teaching analogy.
 
 Statistically, R² measures the share of observed variation in the outcome
-that the model can account for. The pieces do not represent 100 separate causes.
+that the model can account for.
+
+The 100 pieces do not represent 100 separate causes.
 """)
 
     st.divider()
 
 
     # ========================================================
-    # 5. RESULTS
+    # 5. WHAT 27.6% MEANS
     # ========================================================
 
-    st.header("5. Does the same pattern appear elsewhere?")
+    st.header("5. So what does 27.6% actually mean?")
+
+    c1, c2 = st.columns(2)
+
+    with c1:
+        with st.container(border=True):
+
+            st.markdown("### ❌ It does NOT mean")
+
+            st.markdown("""
+**27.6% of people trust institutions**
+
+or
+
+**trust increased by 27.6%**
+
+or
+
+**Feeling Left Behind alone explains 27.6%**
+""")
+
+    with c2:
+        with st.container(border=True):
+
+            st.markdown("### ✅ It DOES mean")
+
+            st.markdown("""
+The **complete Model 3** can account for:
+
+# 27.6%
+
+of the observed differences in Institutional Trust scores
+between respondents.
+""")
+
+    st.divider()
+
+
+    # ========================================================
+    # 6. RESULTS
+    # ========================================================
+
+    st.header("6. Does the same pattern appear elsewhere?")
 
     c1, c2 = st.columns(2)
 
@@ -373,15 +421,22 @@ that the model can account for. The pieces do not represent 100 separate causes.
             st.markdown("### 🏛️ Institutional Trust")
 
             st.markdown("""
-Model 1: **8.8%**
+Traditional Factors  
+**8.8%**
 
-Model 2: **10.7%**
+↓
 
-Model 3: **27.6%**
++ Social Class  
+**10.7%**
+
+↓
+
++ Feeling Left Behind  
+# **27.6%**
 """)
 
             st.metric(
-                "Gain after Feeling Left Behind",
+                "Gain after adding Feeling Left Behind",
                 "+16.9 pp"
             )
 
@@ -391,61 +446,89 @@ Model 3: **27.6%**
             st.markdown("### 🗳️ Democratic Satisfaction")
 
             st.markdown("""
-Model 1: **8.5%**
+Traditional Factors  
+**8.5%**
 
-Model 2: **9.6%**
+↓
 
-Model 3: **22.2%**
++ Social Class  
+**9.6%**
+
+↓
+
++ Feeling Left Behind  
+# **22.2%**
 """)
 
             st.metric(
-                "Gain after Feeling Left Behind",
+                "Gain after adding Feeling Left Behind",
                 "+12.6 pp"
             )
 
     st.success("""
-For both outcomes, adding Subjective Social Class changes relatively little.
+### The pattern is similar
 
-Adding **Feeling Left Behind** changes the model much more.
+Adding Subjective Social Class changes the models relatively little.
+
+Adding **Feeling Left Behind** adds substantially more information.
 """)
 
     st.divider()
 
 
     # ========================================================
-    # PARTY
+    # 7. PARTY REPRESENTATION
     # ========================================================
 
-    st.header("6. Party Representation is different")
+    st.header("7. Party Representation is different")
 
     st.markdown("""
-Party Representation is **Yes / No**, so it uses logistic regression
-rather than the same R² measure used above.
+Party Representation is different because respondents answer:
+
+# **Yes / No**
+
+So this outcome uses **logistic regression** rather than the same
+type of regression used above.
 """)
 
     c1, c2, c3 = st.columns(3)
 
-    c1.metric("Traditional Factors", "3.4%")
-    c2.metric("+ Social Class", "3.4%")
-    c3.metric("+ Feeling Left Behind", "4.6%", delta="+1.2 pp")
+    c1.metric(
+        "Traditional Factors",
+        "3.4%"
+    )
+
+    c2.metric(
+        "+ Social Class",
+        "3.4%"
+    )
+
+    c3.metric(
+        "+ Feeling Left Behind",
+        "4.6%",
+        delta="+1.2 pp"
+    )
 
     st.warning("""
 These are **McFadden Pseudo R² values**.
 
-Do not interpret them as “pieces of the puzzle explained” in exactly
-the same way as the R² values above.
+They do not have the same interpretation as the R² values for
+Institutional Trust and Democratic Satisfaction.
 
-The important message is that the improvement is much smaller.
+So we do **not** use the 100-piece puzzle literally here.
+
+The important result is that adding Feeling Left Behind improves
+this model much less.
 """)
 
     st.divider()
 
 
     # ========================================================
-    # CONCLUSION
+    # 8. CONCLUSION
     # ========================================================
 
-    st.header("7. What does this tell us?")
+    st.header("8. What does this tell us?")
 
     st.success("""
 ### Socioeconomic position does not tell the whole story.
@@ -470,12 +553,34 @@ It cannot establish which direction the relationship runs.
 
     st.divider()
 
+
+    # ========================================================
+    # ABOUT
+    # ========================================================
+
+    st.header("About the analysis")
+
     c1, c2, c3, c4 = st.columns(4)
 
-    c1.metric("Survey respondents", "7,336")
-    c2.metric("Analytical sample", "5,039")
-    c3.metric("Democratic outcomes", "3")
-    c4.metric("Regression models", "9")
+    c1.metric(
+        "Survey respondents",
+        "7,336"
+    )
+
+    c2.metric(
+        "Analytical sample",
+        "5,039"
+    )
+
+    c3.metric(
+        "Democratic outcomes",
+        "3"
+    )
+
+    c4.metric(
+        "Regression models",
+        "9"
+    )
 
     st.caption("""
 Source: German Longitudinal Election Study (GLES 2025),
