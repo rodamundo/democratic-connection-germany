@@ -285,25 +285,25 @@ results_page = st.Page(
 )
 
 party_choice_page = st.Page(
-    "pages/7_Party_Choice.py",
+    "pages/4_Party_Choice.py",
     title="Party Choice",
     icon="🗳️"
 )
 
 methodology_page = st.Page(
-    "pages/4_Methodology.py",
+    "pages/5_Methodology.py",
     title="Study 1 Methodology",
     icon="🔬"
 )
 
 policy_page = st.Page(
-    "pages/5_Policy_Implications.py",
+    "pages/6_Policy_Implications.py",
     title="Policy Implications",
     icon="💡"
 )
 
 about_page = st.Page(
-    "pages/6_About.py",
+    "pages/7_About.py",
     title="About",
     icon="👤"
 )
