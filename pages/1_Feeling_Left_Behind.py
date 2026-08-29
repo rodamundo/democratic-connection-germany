@@ -321,11 +321,11 @@ The four reversed answers are **averaged for each respondent**.
 st.markdown("""
 The resulting score ranges conceptually from:
 
-### **1 — Lower Feeling Left Behind**
+### **1: Lower Feeling Left Behind**
 
 to
 
-### **5 — Higher Feeling Left Behind**
+### **5: Higher Feeling Left Behind**
 """)
 
 st.divider()
@@ -416,7 +416,7 @@ They describe patterns in the raw index rather than adjusted effects.
 
 
 region_df = pd.DataFrame({
-    "Region": ["West Germany", "East Germany"],
+    "Region": ["East Germany", "West Germany"],
     "Left Behind Index": [2.73, 2.48]
 })
 
@@ -524,7 +524,7 @@ with tab1:
 
     st.success("""
 People who place themselves in a lower subjective social class report
-a much stronger sense of being left behind — a clear, steady gradient
+a much stronger sense of being left behind, with a clear, steady gradient
 from the lowest to the highest class category.
 """)
 
@@ -591,14 +591,13 @@ with tab3:
         width="stretch"
     )
 
-    st.warning("""
-**This result runs against a common assumption.**
+    st.info("""
+Respondents in **East Germany** report a higher average Left Behind
+score than respondents in **West Germany** in this descriptive comparison.
 
-Respondents in **West Germany** report a slightly higher average
-Left Behind score than respondents in **East Germany**, not the reverse.
-
-Feeling Left Behind, as measured here, does not simply track the
-East/West divide often discussed in German politics.
+These are unadjusted group averages, so the difference should not be
+interpreted as a causal effect of region. It provides a reason to examine
+what lies behind the East-West gap more closely.
 """)
 
 
@@ -690,7 +689,7 @@ st.divider()
 # WHAT THE INDEX DOES NOT MEAN
 # ============================================================
 
-st.header("What the index does — and does not — tell us")
+st.header("What the index does and does not tell us")
 
 c1, c2 = st.columns(2)
 
