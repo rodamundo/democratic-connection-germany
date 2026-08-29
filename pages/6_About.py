@@ -1,33 +1,40 @@
 import streamlit as st
 
 
+# ============================================================
+# PAGE
+# ============================================================
+
 st.title("👤 About")
 
 st.markdown("""
 ## About the project
 
-**Feeling Left Behind and Democracy in Germany** is a data analytics
-project examining whether subjective perceptions of social disconnection
-help us understand people's relationship with democratic institutions
-beyond traditional socioeconomic, demographic and political characteristics.
+**Feeling Left Behind** is an ongoing research and data-communication
+project about the relationship between citizens, representation and
+democracy in Germany.
+
+The project asks whether subjective perceptions of being overlooked,
+unrecognized, poorly served or unheard provide information that
+traditional socioeconomic, demographic and political characteristics
+do not fully capture.
 """)
 
 st.divider()
 
 
 # ============================================================
-# PROJECT
+# PROJECT AT A GLANCE
 # ============================================================
 
 st.header("Project at a glance")
 
 c1, c2, c3 = st.columns(3)
 
-
 with c1:
     with st.container(border=True):
 
-        st.markdown("### 📊 Data")
+        st.markdown("### 📊 Primary data")
 
         st.markdown("""
 German Longitudinal Election Study
@@ -37,7 +44,6 @@ German Longitudinal Election Study
 Post-Election Cross-Section
 """)
 
-
 with c2:
     with st.container(border=True):
 
@@ -46,46 +52,95 @@ with c2:
         st.markdown("""
 **Feeling Left Behind**
 
-Economic attention  
-Recognition  
-Services  
+Economic attention
+
+Recognition
+
+Services
+
 Voice
 """)
-
 
 with c3:
     with st.container(border=True):
 
-        st.markdown("### 🏛️ Outcomes")
+        st.markdown("### 🏛️ Political questions")
 
         st.markdown("""
-Institutional Trust  
-Democratic Satisfaction  
-Party Representation
-""")
+Institutional Trust
 
+Democratic Satisfaction
+
+Party Representation
+
+Party Choice
+""")
 
 st.divider()
 
 
 # ============================================================
-# INTERDISCIPLINARY APPROACH
+# RESEARCH STREAM
+# ============================================================
+
+st.header("The research stream")
+
+c1, c2 = st.columns(2)
+
+with c1:
+    with st.container(border=True):
+
+        st.markdown("### Study 1")
+
+        st.markdown("""
+## Democratic attitudes
+
+Does Feeling Left Behind add explanatory information about:
+
+- Institutional Trust;
+- Democratic Satisfaction;
+- Party Representation;
+
+beyond a conventional socioeconomic, demographic and political profile?
+""")
+
+with c2:
+    with st.container(border=True):
+
+        st.markdown("### Study 2")
+
+        st.markdown("""
+## Party choice
+
+Does Feeling Left Behind add useful information about reported
+2025 party choice?
+
+Where is that information strongest?
+
+Can the historical pattern help interpret the political context
+in Saxony-Anhalt before the 2026 state-election result is known?
+""")
+
+st.divider()
+
+
+# ============================================================
+# WHY THIS PROJECT
 # ============================================================
 
 st.header("Why this project?")
 
 st.markdown("""
-This project brings together **social science, programme thinking and
-data analytics** to examine a public-policy question through empirical data.
+This project brings together **social science, programme thinking,
+data analytics and public communication**.
 
-The goal is not only to run statistical models, but also to translate
-the results into evidence that can be understood by people without a
-technical background.
+The goal is not only to run statistical models.
+
+It is also to turn those models into evidence that can be understood,
+questioned and used by people who do not work with data every day.
 """)
 
-
 c1, c2 = st.columns(2)
-
 
 with c1:
     with st.container(border=True):
@@ -93,11 +148,9 @@ with c1:
         st.markdown("### 🔬 Analytical goal")
 
         st.write(
-            "Test whether subjective social disconnection provides "
-            "information beyond traditional socioeconomic, demographic "
-            "and political characteristics."
+            "Test whether subjective political and social experience "
+            "provides information beyond conventional characteristics."
         )
-
 
 with c2:
     with st.container(border=True):
@@ -105,47 +158,59 @@ with c2:
         st.markdown("### 💬 Communication goal")
 
         st.write(
-            "Make statistical evidence understandable without requiring "
-            "the reader to be a statistician."
+            "Translate statistical evidence into clear public-facing "
+            "research without hiding uncertainty or limitations."
         )
-
 
 st.divider()
 
 
 # ============================================================
-# MODEL DESIGN
+# METHODS
 # ============================================================
 
-st.header("The analytical idea")
+st.header("Methods used across the project")
 
-c1, c2 = st.columns(2)
-
+c1, c2, c3 = st.columns(3)
 
 with c1:
     with st.container(border=True):
 
-        st.markdown("### Model 1")
+        st.markdown("### 🧩 Measurement")
 
         st.markdown("""
-**Traditional factors**
-
-Income · Education · Age · Region ·
-Migration Background · Political Interest
+- Index construction
+- Scale reversal
+- Reliability analysis
+- Factor analysis
+- Descriptive comparisons
 """)
-
 
 with c2:
     with st.container(border=True):
 
-        st.markdown("### Model 2")
+        st.markdown("### 📈 Statistical analysis")
 
         st.markdown("""
-**Traditional factors + Feeling Left Behind**
-
-Does LBI add information beyond what we already know?
+- Multiple OLS regression
+- Binary logistic regression
+- Adjusted R²
+- Odds Ratios
+- Bootstrap comparisons
 """)
 
+with c3:
+    with st.container(border=True):
+
+        st.markdown("### 🤖 Predictive analysis")
+
+        st.markdown("""
+- Multinomial logistic regression
+- Repeated cross-validation
+- Held-out evaluation
+- Standardized predicted probabilities
+- Historical benchmark comparison
+""")
 
 st.divider()
 
@@ -154,41 +219,68 @@ st.divider()
 # WORKFLOW
 # ============================================================
 
-st.header("From survey data to evidence")
+st.header("From survey data to public evidence")
 
 c1, c2, c3, c4 = st.columns(4)
-
 
 with c1:
     with st.container(border=True):
         st.markdown("### 1️⃣")
         st.markdown("**Data preparation**")
 
-
 with c2:
     with st.container(border=True):
         st.markdown("### 2️⃣")
-        st.markdown("**Index construction**")
-
+        st.markdown("**Model design**")
 
 with c3:
     with st.container(border=True):
         st.markdown("### 3️⃣")
-        st.markdown("**Statistical analysis**")
-
+        st.markdown("**Robustness and testing**")
 
 with c4:
     with st.container(border=True):
         st.markdown("### 4️⃣")
         st.markdown("**Data communication**")
 
+st.markdown("""
+**Tools**
+
+Python · Pandas · scikit-learn · statsmodels · Plotly · Streamlit
+""")
+
+st.divider()
+
+
+# ============================================================
+# PORTFOLIO LOGIC
+# ============================================================
+
+st.header("How the portfolio is structured")
+
+st.info("""
+### Public articles
+
+The newsletter focuses on **the question, the evidence and why it matters**.
+
+### This Streamlit site
+
+The site provides the **methodological and analytical layer behind the
+public-facing research**.
+""")
 
 st.markdown("""
-**Tools and methods**
+The two formats are designed to complement each other:
 
-Python · Pandas · Statistical modelling · Reliability analysis ·
-Factor analysis · Multiple OLS regression · Logistic regression ·
-Adjusted R² · Plotly · Streamlit
+**Public communication**
+
+↓
+
+**Transparent analytical evidence**
+
+↓
+
+**A research programme that can be extended and tested over time**
 """)
 
 st.divider()
@@ -212,6 +304,7 @@ st.markdown("""
 Professional interests:
 
 - Democratic Participation
+- Political Representation
 - Public Policy
 - Sustainability
 - Social Impact
@@ -230,35 +323,34 @@ st.header("Transparency")
 
 c1, c2 = st.columns(2)
 
-
 with c1:
     with st.container(border=True):
 
-        st.markdown("### What the data show")
+        st.markdown("### What the analyses show")
 
         st.write(
             "Statistical relationships between Feeling Left Behind "
-            "and different democratic attitudes."
+            "and democratic attitudes or party choice, together with "
+            "tests of whether the index adds information beyond "
+            "a conventional profile."
         )
-
 
 with c2:
     with st.container(border=True):
 
-        st.markdown("### What the data do not show")
+        st.markdown("### What the analyses do not show")
 
         st.write(
             "Proof that Feeling Left Behind causes changes in trust, "
-            "satisfaction or party representation."
+            "satisfaction, representation or voting behaviour."
         )
-
 
 st.divider()
 
-
 st.caption("""
-Source: German Longitudinal Election Study (GLES 2025),
+Primary source: German Longitudinal Election Study (GLES 2025),
 Post-Election Cross-Section, ZA10100.
 
-The analyses use cross-sectional observational data.
+The project uses observational data. The prospective Saxony-Anhalt
+comparison uses external polling only as a descriptive benchmark.
 """)
