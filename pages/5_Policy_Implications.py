@@ -8,34 +8,33 @@ import streamlit as st
 st.title("💡 Policy Implications")
 
 st.subheader(
-    "What might these findings mean for policy and future research?"
+    "What might Feeling Left Behind tell us about the quality of "
+    "the relationship between citizens and politics?"
 )
 
 st.markdown("""
-The goal of this page is not to repeat the statistical results.
+The goal of this page is not to turn statistical associations into
+a list of policy prescriptions.
 
-Instead, it asks:
-
-### If Feeling Left Behind adds information beyond traditional
-### socioeconomic, demographic and political characteristics,
-### what might policymakers and researchers learn from that?
+It is to ask what the findings may contribute to the diagnosis of
+**democratic disconnection, representation and political responsiveness**.
 """)
 
 st.warning("""
-### Association ≠ causation
+### Association is not causation
 
-This study identifies statistical associations in cross-sectional
-survey data.
+The analyses use cross-sectional observational survey data.
 
-It does **not** show that a specific policy intervention will
-automatically increase trust, satisfaction or representation.
+They do not show that a specific intervention will automatically
+increase trust, satisfaction, representation or support for a
+particular political party.
 """)
 
 st.divider()
 
 
 # ============================================================
-# 1. MAIN POLICY MESSAGE
+# 1. MAIN MESSAGE
 # ============================================================
 
 st.header("1. The main policy message")
@@ -44,270 +43,269 @@ st.markdown("""
 Traditional indicators such as income, education, age and region
 remain important.
 
-But the results suggest that they may not capture the whole picture.
-
-People's **subjective experience of how society treats people like them**
-may provide additional information about democratic disconnection.
+But the results suggest that these indicators may not capture the
+whole relationship between citizens and politics.
 """)
 
 st.success("""
-# A useful policy question may therefore be:
+# A useful question is not only:
 
-### Not only:
+### “What resources do people have?”
 
-**“What resources do people have?”**
+# It is also:
 
-### But also:
+### “Do people feel that people like them are seen, recognized,
+### served and heard?”
+""")
 
-**“Do people feel that people like them are seen, recognized,
-served and heard?”**
+st.markdown("""
+That distinction matters because two people with similar conventional
+profiles may still experience their relationship with society and
+politics very differently.
 """)
 
 st.divider()
 
 
 # ============================================================
-# 2. WHAT COULD BE MEASURED?
+# 2. STUDY 1
 # ============================================================
 
-st.header("2. What could policymakers monitor?")
+st.header("2. Study 1: democratic attitudes")
 
 st.markdown("""
-The Feeling Left Behind Index combines four dimensions.
+The first study finds that adding Feeling Left Behind to a conventional
+profile produces substantial improvements in the models for
+**Institutional Trust** and **Democratic Satisfaction**.
 
-The current study does **not** estimate the independent causal effect
-of each one, but they offer a useful framework for further diagnosis.
+The improvement is much smaller for the broader question of whether
+respondents feel represented by any political party.
+""")
+
+c1, c2, c3 = st.columns(3)
+
+with c1:
+    with st.container(border=True):
+
+        st.markdown("### 🏛️ Trust")
+
+        st.metric(
+            "Model fit",
+            "8.46% → 26.29%",
+            "+17.83 pp"
+        )
+
+        st.caption("OLS R²")
+
+with c2:
+    with st.container(border=True):
+
+        st.markdown("### 🗳️ Satisfaction")
+
+        st.metric(
+            "Model fit",
+            "7.97% → 21.20%",
+            "+13.23 pp"
+        )
+
+        st.caption("OLS R²")
+
+with c3:
+    with st.container(border=True):
+
+        st.markdown("### 👥 Representation")
+
+        st.metric(
+            "Model fit",
+            "3.33% → 4.65%",
+            "+1.32 pp"
+        )
+
+        st.caption("McFadden Pseudo R²")
+
+st.info("""
+### Interpretation
+
+Democratic disconnection should not automatically be treated as
+one single problem.
+
+Distrust, dissatisfaction and lack of party representation may have
+overlapping causes, but they are not the same political experience.
+""")
+
+st.divider()
+
+
+# ============================================================
+# 3. STUDY 2
+# ============================================================
+
+st.header("3. Study 2: party choice")
+
+st.markdown("""
+The second study adds an important qualification.
+
+Feeling Left Behind does **not** transform party-choice prediction
+across the whole party system. The overall improvement is modest.
+
+But the average hides a much stronger contrast between specific
+electorates, especially AfD and Green voters.
+""")
+
+c1, c2, c3 = st.columns(3)
+
+with c1:
+    with st.container(border=True):
+        st.metric(
+            "Conventional profile",
+            "35.9%"
+        )
+        st.caption("Correct party classifications")
+
+with c2:
+    with st.container(border=True):
+        st.metric(
+            "+ Feeling Left Behind",
+            "38.1%"
+        )
+        st.caption("Correct party classifications")
+
+with c3:
+    with st.container(border=True):
+        st.metric(
+            "Improvement",
+            "+2.2 pp"
+        )
+        st.caption("Modest overall gain")
+
+st.markdown("""
+When the same conventional voter profiles are used and only the
+Left Behind Index is changed from 1 to 4:
+
+- the estimated AfD probability rises from **1.7% to 33.7%**;
+- the estimated Green probability falls from **37.7% to 5.0%**.
+""")
+
+st.warning("""
+These are model-based estimates.
+
+They do not show that a person would change parties if their Feeling
+Left Behind score changed.
+""")
+
+st.divider()
+
+
+# ============================================================
+# 4. WHAT THIS MEANS FOR POLITICAL PRACTICE
+# ============================================================
+
+st.header("4. What might this mean for political practice?")
+
+st.markdown("""
+The practical implication is **not** that political organisations
+should identify and target people with a high Left Behind Index.
+
+A more useful question is what political institutions and leaders
+can change so that fewer citizens feel overlooked, unrecognized,
+poorly served or unheard in the first place.
 """)
 
 c1, c2, c3, c4 = st.columns(4)
 
-
 with c1:
     with st.container(border=True):
-
-        st.markdown("### 💶 Economic attention")
-
-        st.markdown("""
-Do people feel that the economic situation of
-**people like them** receives enough attention?
-""")
-
+        st.markdown("### 👀 Seen")
+        st.markdown(
+            "Do citizens feel that their economic concerns receive attention?"
+        )
 
 with c2:
     with st.container(border=True):
-
-        st.markdown("### 👏 Recognition")
-
-        st.markdown("""
-Do people feel that the work and contribution of
-**people like them** is sufficiently recognized?
-""")
-
+        st.markdown("### 👏 Recognized")
+        st.markdown(
+            "Do people feel that their contribution is socially recognized?"
+        )
 
 with c3:
     with st.container(border=True):
-
-        st.markdown("### 🏥 Services")
-
-        st.markdown("""
-Do people feel that **people like them** have adequate
-access to basic services and infrastructure?
-""")
-
+        st.markdown("### 🏥 Served")
+        st.markdown(
+            "Do people feel they have adequate access to services and infrastructure?"
+        )
 
 with c4:
     with st.container(border=True):
+        st.markdown("### 🗣️ Heard")
+        st.markdown(
+            "Do people feel able to express their views and be listened to?"
+        )
 
-        st.markdown("### 🗣️ Voice")
+st.success("""
+### The broader point
 
-        st.markdown("""
-Do people feel that **people like them** can freely
-express their views and be heard?
-""")
-
-
-st.info("""
-These four dimensions are components of the **combined LBI**.
-
-This project does not show that any one of them independently
-causes higher or lower democratic trust.
+Feeling Left Behind can be treated as a **diagnostic signal about the
+quality of connection between citizens and politics**, rather than as
+a label for a particular demographic or electorate.
 """)
 
 st.divider()
 
 
 # ============================================================
-# 3. WHY SUBJECTIVE EXPERIENCE MATTERS
+# 5. SAXONY-ANHALT
 # ============================================================
 
-st.header("3. Why might subjective experience matter?")
+st.header("5. Why Saxony-Anhalt is useful as a test")
 
 st.markdown("""
-Two people can look very similar in traditional socioeconomic terms
-and still have very different relationships with democracy.
+Saxony-Anhalt does not provide a causal experiment, and the Left Behind
+Index is not a substitute for polling.
+
+Its value in this project is different.
+
+Respondents from Saxony-Anhalt have the highest average LBI among the
+16 states in the party-choice analytical sample. The state therefore
+offers a useful context in which to ask whether a historical pattern
+associated with Feeling Left Behind remains recognizable before the
+votes are counted.
 """)
 
 c1, c2 = st.columns(2)
 
-
 with c1:
     with st.container(border=True):
-
-        st.markdown("### Person A")
-
-        st.markdown("""
-Similar income
-
-Similar education
-
-Similar age
-
-Similar region
-
-### But feels:
-
-✅ recognized
-
-✅ included
-
-✅ adequately served
-
-✅ heard
-""")
-
+        st.metric(
+            "Saxony-Anhalt mean LBI",
+            "2.84"
+        )
 
 with c2:
     with st.container(border=True):
+        st.metric(
+            "Rest of Germany",
+            "2.49"
+        )
 
-        st.markdown("### Person B")
+st.info("""
+The historical LBI-only benchmark and the frozen 2026 polling benchmark
+place the seven parties in the same order, but the historical benchmark
+does not reproduce the magnitude of AfD's polling advantage.
 
-        st.markdown("""
-Similar income
-
-Similar education
-
-Similar age
-
-Similar region
-
-### But feels:
-
-❌ overlooked
-
-❌ unrecognized
-
-❌ underserved
-
-❌ unheard
-""")
-
-
-st.success("""
-### Possible implication
-
-Traditional indicators may be useful for identifying
-**material and demographic differences**.
-
-Subjective indicators may add information about
-**social and democratic disconnection**.
+That is why the benchmark should be used for **interpretation**, not
+precise vote-share forecasting.
 """)
 
 st.divider()
 
 
 # ============================================================
-# 4. DIFFERENT DEMOCRATIC OUTCOMES
+# 6. PRACTICAL NEXT STEPS
 # ============================================================
 
-st.header("4. Democratic disconnection is not one single problem")
-
-st.markdown("""
-Feeling Left Behind does not improve model fit equally
-for every democratic outcome.
-""")
+st.header("6. What should happen next?")
 
 c1, c2, c3 = st.columns(3)
-
-
-with c1:
-    with st.container(border=True):
-
-        st.markdown("### 🏛️ Institutional Trust")
-
-        st.metric(
-            "R² gain after LBI",
-            "+17.83 pp"
-        )
-
-        st.markdown("""
-A large increase in model fit appears after
-Feeling Left Behind is added.
-""")
-
-
-with c2:
-    with st.container(border=True):
-
-        st.markdown("### 🗳️ Democratic Satisfaction")
-
-        st.metric(
-            "R² gain after LBI",
-            "+13.23 pp"
-        )
-
-        st.markdown("""
-A substantial increase also appears for
-Democratic Satisfaction.
-""")
-
-
-with c3:
-    with st.container(border=True):
-
-        st.markdown("### 👥 Party Representation")
-
-        st.metric(
-            "Pseudo R² gain",
-            "+1.32 pp"
-        )
-
-        st.markdown("""
-The improvement in logistic model fit is much smaller.
-""")
-
-
-st.caption("""
-Party Representation uses McFadden Pseudo R² and is not
-on the same numeric scale as OLS R².
-""")
-
-
-st.success("""
-### Possible implication
-
-Distrust, dissatisfaction and lack of party representation
-should not automatically be treated as the same problem.
-
-Different forms of democratic disconnection may require
-different explanations and different responses.
-""")
-
-st.divider()
-
-
-# ============================================================
-# 5. PRACTICAL NEXT STEPS
-# ============================================================
-
-st.header("5. What should happen next?")
-
-st.markdown("""
-The current results are better suited to **diagnosis and further research**
-than to prescribing a specific intervention.
-""")
-
-c1, c2, c3 = st.columns(3)
-
 
 with c1:
     with st.container(border=True):
@@ -315,28 +313,27 @@ with c1:
         st.markdown("### 🔎 Measure")
 
         st.markdown("""
-Complement traditional indicators with questions about:
+Track not only material conditions, but also perceptions of:
 
+- attention;
 - recognition;
 - services;
-- economic attention;
-- perceived voice.
+- voice.
 """)
-
 
 with c2:
     with st.container(border=True):
 
-        st.markdown("### 🧪 Test")
+        st.markdown("### 🧪 Diagnose")
 
         st.markdown("""
-Analyze the four Feeling Left Behind dimensions separately.
+Test which dimensions are most strongly related to:
 
-Ask:
-
-**Which dimension is most strongly associated with each outcome?**
+- trust;
+- satisfaction;
+- representation;
+- party choice.
 """)
-
 
 with c3:
     with st.container(border=True):
@@ -344,89 +341,65 @@ with c3:
         st.markdown("### ⏳ Follow over time")
 
         st.markdown("""
-Use longitudinal data to test whether changes in Feeling Left Behind
-come **before** changes in trust, satisfaction or representation.
-""")
-
-
-st.info("""
-Other useful extensions include comparing:
-
-- regions;
-- income groups;
-- age groups;
-- social classes;
-- migration-background groups.
+Use longitudinal evidence to ask whether changes in Feeling Left Behind
+come before changes in democratic attitudes or electoral behaviour.
 """)
 
 st.divider()
 
 
 # ============================================================
-# 6. WHAT TO CONCLUDE
+# 7. CONCLUSION
 # ============================================================
 
-st.header("6. What should we conclude?")
+st.header("7. What should we conclude?")
 
 c1, c2 = st.columns(2)
-
 
 with c1:
     with st.container(border=True):
 
-        st.markdown("### ✅ The study supports")
+        st.markdown("### ✅ The evidence supports")
 
         st.markdown("""
-- Feeling Left Behind is statistically associated with democratic attitudes.
-- LBI adds explanatory information beyond traditional factors.
-- The strongest model improvement appears for Trust and Satisfaction.
-- Subjective social experience deserves further investigation.
+- Feeling Left Behind is associated with democratic attitudes.
+- It adds information beyond conventional characteristics.
+- Its added value differs across political outcomes.
+- AfD and Green voters show the clearest party-choice contrast.
+- The concept may be useful as a diagnostic tool for political disconnection.
 """)
-
 
 with c2:
     with st.container(border=True):
 
-        st.markdown("### ❌ The study does not prove")
+        st.markdown("### ❌ The evidence does not prove")
 
         st.markdown("""
-- that Feeling Left Behind causes distrust;
+- that Feeling Left Behind causes distrust or a particular vote;
 - that one intervention will solve democratic disconnection;
-- that all four LBI dimensions have the same independent effect;
-- that improving one dimension will automatically improve democratic attitudes.
+- that the four LBI dimensions have identical effects;
+- that the LBI can replace polling;
+- that the historical model precisely forecasts Saxony-Anhalt.
 """)
-
 
 st.divider()
 
-
-# ============================================================
-# FINAL TAKEAWAY
-# ============================================================
-
-st.header("Final takeaway")
-
 st.success("""
-# What people have matters.
+# Final takeaway
 
-# How people feel treated by society may matter too.
+Political systems need to understand not only **who citizens are**,
+but also **how citizens experience their relationship with society
+and politics**.
 
-Understanding democratic disconnection may require looking at both:
-
-**traditional socioeconomic and demographic characteristics**
-
-and
-
-**subjective social experience**.
-
-The next step is to identify which mechanisms matter most
-and whether they have causal effects over time.
+The most useful question is not how to target people who feel left
+behind. It is what can be changed so that fewer people feel unseen,
+unheard or poorly served in the first place.
 """)
 
 st.caption("""
-Source: German Longitudinal Election Study (GLES 2025),
+Primary data source: German Longitudinal Election Study (GLES 2025),
 Post-Election Cross-Section, ZA10100.
 
-These policy implications are interpretations of statistical
-associations and should not be treated as causal policy estimates.
+The Saxony-Anhalt polling comparison is a descriptive external benchmark.
+It is not used to train the machine-learning model.
 """)
