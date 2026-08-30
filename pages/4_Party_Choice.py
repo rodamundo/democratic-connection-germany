@@ -108,7 +108,7 @@ with c1:
     with st.container(border=True):
         st.metric(
             "Conventional profile",
-            "35.9%"
+            "35.8%"
         )
         st.caption("Correct party classifications")
 
@@ -116,7 +116,7 @@ with c2:
     with st.container(border=True):
         st.metric(
             "Conventional + LBI",
-            "38.1%"
+            "38.2%"
         )
         st.caption("Correct party classifications")
 
@@ -124,16 +124,17 @@ with c3:
     with st.container(border=True):
         st.metric(
             "Improvement",
-            "+2.2 pp"
+            "+2.3 pp"
         )
-        st.caption("About 6.1% more correct classifications relative to baseline")
+        st.caption("About a 6.5% relative increase in correct classifications")
 
 st.markdown("""
-The improvement appears consistently across the repeated tests,
-indicating that the Left Behind Index adds information beyond the
-conventional voter profile.
+The improvement is highly consistent across the repeated tests.
+Accuracy improved in **49 of 50 held-out evaluations**, while
+**macro F1 and log loss improved in all 50**.
 
-But the size of the overall gain remains modest.
+The Left Behind Index therefore adds information beyond the conventional
+voter profile, although the size of the overall gain remains modest.
 """)
 
 st.success("""
@@ -263,22 +264,22 @@ probabilities = pd.DataFrame({
         "FDP"
     ],
     "LBI 1": [
-        1.7,
-        37.7,
-        23.7,
-        19.8,
-        12.1,
-        2.3,
-        2.7
+        1.71,
+        37.76,
+        23.70,
+        19.78,
+        12.07,
+        2.27,
+        2.71
     ],
     "LBI 4": [
-        33.7,
-        5.0,
-        27.8,
-        9.4,
-        9.3,
-        8.5,
-        6.3
+        33.71,
+        5.01,
+        27.83,
+        9.34,
+        9.33,
+        8.48,
+        6.30
     ]
 })
 
@@ -357,8 +358,8 @@ with c2:
     with st.container(border=True):
         st.metric(
             "Greens",
-            "37.7% → 5.0%",
-            "-32.7 pp"
+            "37.8% → 5.0%",
+            "-32.8 pp"
         )
 
 st.warning("""
@@ -406,7 +407,7 @@ c3.metric(
 )
 
 st.caption(
-    "Bootstrap 95% interval for the difference: approximately +0.23 to +0.47."
+    "Bootstrap 95% interval for the difference: approximately +0.24 to +0.47."
 )
 
 state_lbi = pd.DataFrame({
@@ -432,7 +433,7 @@ state_lbi = pd.DataFrame({
         2.842,
         2.804,
         2.756,
-        2.683,
+        2.682,
         2.659,
         2.577,
         2.485,
@@ -457,7 +458,7 @@ state_lbi = pd.DataFrame({
         170,
         139,
         533,
-        696,
+        695,
         42,
         771,
         260,
@@ -526,7 +527,7 @@ the machine-learning model.
 historical_polling = pd.DataFrame({
     "Party": [
         "AfD",
-        "CDU/CSU",
+        "CDU",
         "The Left",
         "SPD",
         "Greens",
@@ -615,7 +616,7 @@ st.success("""
 
 Both benchmarks place the seven parties in the same order:
 
-**AfD → CDU/CSU → The Left → SPD → Greens → BSW → FDP**
+**AfD → CDU → The Left → SPD → Greens → BSW → FDP**
 
 But the magnitude is very different.
 
@@ -635,9 +636,9 @@ with Feeling Left Behind remains recognizable in a new electoral context.
 """)
 
 st.caption("""
-Polling benchmark frozen on 26 August 2026.
+Benchmark frozen on 26 August 2026.
 
-Equal-weight descriptive mean of three polls:
+Equal-weight descriptive mean of three selected polls:
 INSA, 10 August 2026;
 pollytix, 12 August 2026;
 Infratest dimap, 26 August 2026.
@@ -689,10 +690,12 @@ with st.expander("Technical notes"):
 ### Historical individual-level analysis
 
 - Data: GLES 2025 Post-Election Cross-Section
+- Analytical sample: 4,879 respondents across the seven parties
 - Target: reported second vote
 - Parties: CDU/CSU, SPD, FDP, Greens, The Left, AfD, BSW
-- Model: multinomial logistic regression
-- Evaluation: stratified 5-fold cross-validation repeated 10 times
+- Model: multinomial `LogisticRegression(max_iter=1000)`
+- Evaluation: `RepeatedStratifiedKFold`, 5 folds × 10 repetitions
+- Random state: 42
 - Total held-out evaluations: 50
 
 ### Conventional voter profile
@@ -700,7 +703,7 @@ with st.expander("Technical notes"):
 - Household Income
 - Education
 - Age
-- East / West Germany
+- East / West Germany (`ostwest`: 0 = East, 1 = West)
 - Migration Background
 - Political Interest
 
