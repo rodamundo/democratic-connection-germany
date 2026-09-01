@@ -10,218 +10,184 @@ import plotly.express as px
 st.title("🗳️ Feeling Left Behind and Party Choice")
 
 st.subheader(
-    "Where the Left Behind Index adds information, and what the "
-    "pattern may tell us before Saxony-Anhalt votes"
+    "What the overall index adds, and what changes when the four components are kept separate"
 )
 
 st.markdown("""
-The main finding is not that Feeling Left Behind predicts everyone's vote.
+The party-choice analysis focuses on respondents' reported **second vote
+in the 2025 federal election** across seven parties.
 
-Across the seven-party system, the overall improvement is modest.
-
-But **AfD and Green voters stand out**.
+The main result is not that Feeling Left Behind predicts everyone's vote.
+The overall gain is modest. The more interesting question is **where the
+additional information is concentrated**.
 """)
 
 st.info("""
 ### Main question
 
-**Can Feeling Left Behind improve our understanding of party choice
-beyond conventional voter characteristics?**
+**Does Feeling Left Behind add useful information about party choice
+beyond age, income, education, region, migration background and political
+interest?**
 """)
 
 st.divider()
 
 
 # ============================================================
-# 1. ANALYTICAL DESIGN
+# SAMPLE AND DESIGN
 # ============================================================
 
-st.header("1. What is being predicted?")
+st.header("1. Analytical design")
 
 st.markdown("""
-The target is respondents' reported **second vote in the 2025 federal election**.
+The common analytical sample contains **4,879 confirmed voters** with a
+valid second-vote choice among:
 
-The analysis includes seven parties:
-
-**CDU/CSU · SPD · FDP · Greens · The Left · AfD · BSW**
-""")
-
-st.markdown("""
-Three models are compared:
+**CDU/CSU · SPD · FDP · Greens · Die Linke · AfD · BSW**
 """)
 
 c1, c2, c3 = st.columns(3)
 
 with c1:
     with st.container(border=True):
-        st.markdown("### Model 1")
-        st.markdown("""
-**LBI only**
-
-Feeling Left Behind as the only predictor.
-""")
-
-with c2:
-    with st.container(border=True):
-        st.markdown("### Model 2")
+        st.markdown("### Model A")
         st.markdown("""
 **Conventional profile**
 
-Income · Education · Age · East/West ·
-Migration Background · Political Interest
+Income · Education · Age · East/West · Migration Background · Political Interest
+""")
+
+with c2:
+    with st.container(border=True):
+        st.markdown("### Model B")
+        st.markdown("""
+**Conventional profile + overall LBI**
+
+Tests whether the combined index adds predictive information.
 """)
 
 with c3:
     with st.container(border=True):
-        st.markdown("### Model 3")
+        st.markdown("### Model C")
         st.markdown("""
-**Conventional profile + LBI**
+**Conventional profile + four LBI components**
 
-The same voter profile plus Feeling Left Behind.
+Tests whether the four items are more informative when modeled separately.
 """)
 
 st.markdown("""
-### Testing on unseen voters
+The models are evaluated using **repeated stratified cross-validation**:
 
-The models use repeated stratified cross-validation:
+### 5 folds × 10 repetitions = 50 held-out evaluations
 
-**5 folds × 10 repetitions = 50 held-out evaluations**
+In each evaluation, predictions are assessed on respondents who were not
+used to fit that version of the model.
 """)
-
-st.caption(
-    "The model learns from four groups and is tested on the fifth. "
-    "The groups rotate, the sample is reshuffled and the procedure repeats."
-)
 
 st.divider()
 
 
 # ============================================================
-# 2. OVERALL GAIN
+# PERFORMANCE
 # ============================================================
 
-st.header("2. The overall improvement is modest")
+st.header("2. How much predictive information is added?")
 
 c1, c2, c3 = st.columns(3)
 
 with c1:
     with st.container(border=True):
-        st.metric(
-            "Conventional profile",
-            "35.8%"
-        )
-        st.caption("Correct party classifications")
+        st.metric("Conventional profile", "35.8%")
+        st.caption("Mean held-out accuracy")
 
 with c2:
     with st.container(border=True):
-        st.metric(
-            "Conventional + LBI",
-            "38.2%"
-        )
-        st.caption("Correct party classifications")
+        st.metric("+ overall LBI", "38.2%", "+2.3 pp")
+        st.caption("Mean held-out accuracy")
 
 with c3:
     with st.container(border=True):
-        st.metric(
-            "Improvement",
-            "+2.3 pp"
-        )
-        st.caption("About a 6.5% relative increase in correct classifications")
+        st.metric("+ four components", "39.9%", "+1.8 pp vs overall LBI")
+        st.caption("Mean held-out accuracy")
 
-st.markdown("""
-The improvement is highly consistent across the repeated tests.
-Accuracy improved in **49 of 50 held-out evaluations**, while
-**macro F1 and log loss improved in all 50**.
+performance_df = pd.DataFrame({
+    "Model": [
+        "Conventional profile",
+        "+ overall LBI",
+        "+ four LBI components"
+    ],
+    "Accuracy": [0.35835, 0.38151, 0.39941]
+})
 
-The Left Behind Index therefore adds information beyond the conventional
-voter profile, although the size of the overall gain remains modest.
-""")
+fig = px.bar(
+    performance_df,
+    x="Model",
+    y="Accuracy",
+    text="Accuracy",
+    title="Held-out party-choice accuracy"
+)
+fig.update_traces(texttemplate="%{text:.1%}", textposition="outside")
+fig.update_layout(
+    height=450,
+    xaxis_title="",
+    yaxis_title="Accuracy",
+    yaxis=dict(range=[0, 0.44], tickformat=".0%")
+)
+st.plotly_chart(fig, width="stretch")
 
 st.success("""
-### This changes the question
+### What the repeated tests show
 
-The interesting result is not that Feeling Left Behind transforms
-prediction across the whole party system.
+The four-component model outperformed the overall-LBI model in **all 50
+repeated evaluations** on accuracy and macro-F1, and had lower log loss
+in all 50 evaluations.
 
-The interesting question is **where that additional information is strongest**.
+The improvement is real but modest. The value of opening the index is
+therefore mainly **diagnostic**, not a claim of high-accuracy vote prediction.
 """)
 
 st.divider()
 
 
 # ============================================================
-# 3. PARTY AVERAGES
+# PARTY AVERAGES
 # ============================================================
 
-st.header("3. AfD and Green voters occupy opposite ends of the index")
+st.header("3. Party electorates occupy different positions on the overall LBI")
 
 party_lbi = pd.DataFrame({
     "Party": [
         "AfD",
         "BSW",
         "FDP",
-        "The Left",
+        "Die Linke",
         "CDU/CSU",
         "SPD",
         "Greens"
     ],
-    "Average LBI": [
-        3.30,
-        2.87,
-        2.57,
-        2.50,
-        2.47,
-        2.35,
-        2.01
-    ]
-})
-
-party_lbi = party_lbi.sort_values(
-    "Average LBI",
-    ascending=False
-)
+    "Average LBI": [3.30, 2.87, 2.57, 2.50, 2.47, 2.35, 2.01]
+}).sort_values("Average LBI", ascending=False)
 
 fig = px.bar(
     party_lbi,
     x="Party",
     y="Average LBI",
     text="Average LBI",
-    title="Average Left Behind Index by 2025 Party Choice"
+    title="Average Left Behind Index by 2025 party choice"
 )
-
-fig.update_traces(
-    texttemplate="%{text:.2f}",
-    textposition="outside"
-)
-
+fig.update_traces(texttemplate="%{text:.2f}", textposition="outside")
 fig.update_layout(
     height=500,
     xaxis_title="",
-    yaxis_title="Average Left Behind Index",
+    yaxis_title="Average LBI",
     yaxis=dict(range=[0, 3.7])
 )
-
-st.plotly_chart(
-    fig,
-    width="stretch"
-)
+st.plotly_chart(fig, width="stretch")
 
 c1, c2, c3 = st.columns(3)
-
-c1.metric(
-    "AfD average",
-    "3.30"
-)
-
-c2.metric(
-    "Greens average",
-    "2.01"
-)
-
-c3.metric(
-    "Difference",
-    "1.29 points"
-)
+c1.metric("AfD average", "3.30")
+c2.metric("Greens average", "2.01")
+c3.metric("Difference", "1.29 points")
 
 st.caption("""
 These are raw descriptive averages. They do not control for differences
@@ -232,25 +198,18 @@ st.divider()
 
 
 # ============================================================
-# 4. STANDARDIZED PROBABILITIES
+# OVERALL LBI SCENARIO
 # ============================================================
 
-st.header("4. What happens when only Feeling Left Behind changes?")
+st.header("4. The broad contrast in the aggregate-LBI model")
 
 st.markdown("""
-To separate the LBI contrast from the conventional voter profile,
-the fitted model is used for one additional calculation.
+An earlier aggregate-LBI model provides a simple way to visualize the
+broad AfD-Green contrast.
 
-For each respondent, age, income, education, East/West region,
-migration background and political interest are kept unchanged.
-
-Only the Left Behind Index is changed:
-
-**LBI = 1**
-
-versus
-
-**LBI = 4**
+For each respondent, the conventional voter characteristics are kept
+unchanged while the overall LBI is moved from **1 to 4**. The model then
+recalculates the estimated party probabilities.
 """)
 
 probabilities = pd.DataFrame({
@@ -259,60 +218,26 @@ probabilities = pd.DataFrame({
         "Greens",
         "CDU/CSU",
         "SPD",
-        "The Left",
+        "Die Linke",
         "BSW",
         "FDP"
     ],
-    "LBI 1": [
-        1.71,
-        37.76,
-        23.70,
-        19.78,
-        12.07,
-        2.27,
-        2.71
-    ],
-    "LBI 4": [
-        33.71,
-        5.01,
-        27.83,
-        9.34,
-        9.33,
-        8.48,
-        6.30
-    ]
+    "LBI = 1": [1.71, 37.76, 23.70, 19.78, 12.07, 2.27, 2.71],
+    "LBI = 4": [33.71, 5.01, 27.83, 9.34, 9.33, 8.48, 6.30]
 })
 
-probabilities["Change (pp)"] = (
-    probabilities["LBI 4"]
-    - probabilities["LBI 1"]
-)
+probabilities["Change (pp)"] = probabilities["LBI = 4"] - probabilities["LBI = 1"]
 
-display_probabilities = probabilities.copy()
+prob_display = probabilities.copy()
+prob_display["LBI = 1"] = prob_display["LBI = 1"].map(lambda x: f"{x:.1f}%")
+prob_display["LBI = 4"] = prob_display["LBI = 4"].map(lambda x: f"{x:.1f}%")
+prob_display["Change (pp)"] = prob_display["Change (pp)"].map(lambda x: f"{x:+.1f}")
 
-display_probabilities["LBI 1"] = display_probabilities["LBI 1"].map(
-    lambda x: f"{x:.1f}%"
-)
-
-display_probabilities["LBI 4"] = display_probabilities["LBI 4"].map(
-    lambda x: f"{x:.1f}%"
-)
-
-display_probabilities["Change (pp)"] = display_probabilities[
-    "Change (pp)"
-].map(
-    lambda x: f"{x:+.1f}"
-)
-
-st.dataframe(
-    display_probabilities,
-    width="stretch",
-    hide_index=True
-)
+st.dataframe(prob_display, width="stretch", hide_index=True)
 
 plot_probabilities = probabilities.melt(
     id_vars="Party",
-    value_vars=["LBI 1", "LBI 4"],
+    value_vars=["LBI = 1", "LBI = 4"],
     var_name="Scenario",
     value_name="Estimated probability"
 )
@@ -324,90 +249,49 @@ fig = px.bar(
     color="Scenario",
     barmode="group",
     text="Estimated probability",
-    title="Estimated Party Probabilities When Only the LBI Changes"
+    title="Aggregate-LBI model: estimated party probabilities"
 )
-
-fig.update_traces(
-    texttemplate="%{text:.1f}%",
-    textposition="outside"
-)
-
+fig.update_traces(texttemplate="%{text:.1f}%", textposition="outside")
 fig.update_layout(
     height=540,
     xaxis_title="",
     yaxis_title="Estimated probability (%)",
     yaxis=dict(range=[0, 42])
 )
-
-st.plotly_chart(
-    fig,
-    width="stretch"
-)
-
-c1, c2 = st.columns(2)
-
-with c1:
-    with st.container(border=True):
-        st.metric(
-            "AfD",
-            "1.7% → 33.7%",
-            "+32.0 pp"
-        )
-
-with c2:
-    with st.container(border=True):
-        st.metric(
-            "Greens",
-            "37.8% → 5.0%",
-            "-32.8 pp"
-        )
+st.plotly_chart(fig, width="stretch")
 
 st.warning("""
-### Important
+### Interpretation
 
-These are **model-based adjusted estimates**.
+These are **model-based adjusted estimates**, not observed people becoming
+more left behind and then switching parties.
 
-They are not real people observed becoming more left behind and
-then changing parties.
-
-The calculation isolates how estimated party probabilities differ
-when Feeling Left Behind changes while the conventional voter profile
-is held fixed.
+The aggregate model also hides which of the four LBI items is associated
+with the contrast. The **LBI Components** page opens that black box.
 """)
 
 st.divider()
 
 
 # ============================================================
-# 5. SAXONY-ANHALT
+# GEOGRAPHY
 # ============================================================
 
-st.header("5. Why Saxony-Anhalt matters")
+st.header("5. Geography: where does Saxony-Anhalt sit?")
 
 st.markdown("""
-In the party-choice analytical sample, Saxony-Anhalt has a higher
-average Left Behind Index than the rest of Germany.
+The party-choice sample also provides a descriptive geographic comparison.
+Saxony-Anhalt has a higher average LBI than the rest of Germany in this
+analytical sample.
 """)
 
 c1, c2, c3 = st.columns(3)
-
-c1.metric(
-    "Saxony-Anhalt",
-    "2.84"
-)
-
-c2.metric(
-    "Rest of Germany",
-    "2.49"
-)
-
-c3.metric(
-    "Difference",
-    "+0.35"
-)
+c1.metric("Saxony-Anhalt", "2.84")
+c2.metric("Rest of Germany", "2.49")
+c3.metric("Difference", "+0.35")
 
 st.caption(
-    "Bootstrap 95% interval for the difference: approximately +0.24 to +0.47."
+    "Bootstrap 95% interval for the descriptive difference: approximately +0.24 to +0.47."
 )
 
 state_lbi = pd.DataFrame({
@@ -430,40 +314,12 @@ state_lbi = pd.DataFrame({
         "Bremen"
     ],
     "Average LBI": [
-        2.842,
-        2.804,
-        2.756,
-        2.682,
-        2.659,
-        2.577,
-        2.485,
-        2.484,
-        2.423,
-        2.423,
-        2.414,
-        2.405,
-        2.382,
-        2.308,
-        2.092,
-        2.031
+        2.842, 2.804, 2.756, 2.682, 2.659, 2.577, 2.485, 2.484,
+        2.423, 2.423, 2.414, 2.405, 2.382, 2.308, 2.092, 2.031
     ],
     "N": [
-        226,
-        246,
-        169,
-        300,
-        535,
-        243,
-        423,
-        170,
-        139,
-        533,
-        695,
-        42,
-        771,
-        260,
-        103,
-        24
+        226, 246, 169, 300, 535, 243, 423, 170,
+        139, 533, 695, 42, 771, 260, 103, 24
     ]
 })
 
@@ -473,17 +329,13 @@ fig = px.bar(
     y="State",
     orientation="h",
     text="Average LBI",
-    title="Average Left Behind Index Across the 16 German States"
+    hover_data=["N"],
+    title="Average Left Behind Index across the 16 German states"
 )
-
-fig.update_traces(
-    texttemplate="%{text:.2f}",
-    textposition="outside"
-)
-
+fig.update_traces(texttemplate="%{text:.2f}", textposition="outside")
 fig.update_layout(
     height=700,
-    xaxis_title="Average Left Behind Index",
+    xaxis_title="Average LBI",
     yaxis_title="",
     yaxis=dict(
         categoryorder="array",
@@ -491,245 +343,62 @@ fig.update_layout(
     ),
     xaxis=dict(range=[0, 3.05])
 )
+st.plotly_chart(fig, width="stretch")
 
-st.plotly_chart(
-    fig,
-    width="stretch"
-)
-
-st.info("""
-### Interpretation
-
-This is a **descriptive state comparison**.
-
-Sample sizes vary across states, and the ranking should not be treated
-as a precise estimate of the population mean in every state.
+st.caption("""
+These state averages are descriptive. Small state samples, especially
+Bremen and Saarland, should be interpreted cautiously.
 """)
 
 st.divider()
 
 
 # ============================================================
-# 6. PROSPECTIVE BENCHMARK
+# SAXONY-ANHALT EXTENSION
 # ============================================================
 
-st.header("6. Historical benchmark versus 2026 polling")
+st.header("6. The Saxony-Anhalt prospective extension")
 
 st.markdown("""
-The prospective exercise uses the historical relationship between
-LBI and party choice among voters in the same East German regional
-category, excluding Saxony-Anhalt, as a directional benchmark.
+The project uses the historical LBI-party relationship as a **directional
+benchmark** for interpreting the political context in Saxony-Anhalt before
+the 2026 state election.
 
-The 2026 polling benchmark is external and is not used to train
-the machine-learning model.
-""")
-
-historical_polling = pd.DataFrame({
-    "Party": [
-        "AfD",
-        "CDU",
-        "The Left",
-        "SPD",
-        "Greens",
-        "BSW",
-        "FDP"
-    ],
-    "Historical LBI-only benchmark": [
-        21.8,
-        20.3,
-        17.9,
-        13.8,
-        12.1,
-        10.5,
-        3.6
-    ],
-    "2026 polling benchmark": [
-        42.3,
-        22.3,
-        12.3,
-        7.0,
-        5.0,
-        4.3,
-        3.0
-    ]
-})
-
-display_benchmark = historical_polling.copy()
-
-display_benchmark["Historical LBI-only benchmark"] = display_benchmark[
-    "Historical LBI-only benchmark"
-].map(
-    lambda x: f"{x:.1f}%"
-)
-
-display_benchmark["2026 polling benchmark"] = display_benchmark[
-    "2026 polling benchmark"
-].map(
-    lambda x: f"{x:.1f}%"
-)
-
-st.dataframe(
-    display_benchmark,
-    width="stretch",
-    hide_index=True
-)
-
-plot_benchmark = historical_polling.melt(
-    id_vars="Party",
-    value_vars=[
-        "Historical LBI-only benchmark",
-        "2026 polling benchmark"
-    ],
-    var_name="Benchmark",
-    value_name="Share"
-)
-
-fig = px.bar(
-    plot_benchmark,
-    x="Party",
-    y="Share",
-    color="Benchmark",
-    barmode="group",
-    text="Share",
-    title="Same Party Order, Very Different Magnitude"
-)
-
-fig.update_traces(
-    texttemplate="%{text:.1f}%",
-    textposition="outside"
-)
-
-fig.update_layout(
-    height=540,
-    xaxis_title="",
-    yaxis_title="Share (%)",
-    yaxis=dict(range=[0, 47])
-)
-
-st.plotly_chart(
-    fig,
-    width="stretch"
-)
-
-st.success("""
-### What the comparison shows
-
-Both benchmarks place the seven parties in the same order:
-
-**AfD → CDU → The Left → SPD → Greens → BSW → FDP**
-
-But the magnitude is very different.
-
-The polling benchmark shows a much larger AfD advantage than the
-historical LBI-only benchmark.
+The external polling benchmark is not used to fit the historical model.
 """)
 
 st.warning("""
-### What the comparison does not show
+### What this extension is not
 
-The historical LBI-only benchmark is **not a vote-share forecast**.
-
-It should not be evaluated as if it were an opinion poll.
-
-Its role is to ask whether the broader historical pattern associated
-with Feeling Left Behind remains recognizable in a new electoral context.
-""")
-
-st.caption("""
-Benchmark frozen on 26 August 2026.
-
-Equal-weight descriptive mean of three selected polls:
-INSA, 10 August 2026;
-pollytix, 12 August 2026;
-Infratest dimap, 26 August 2026.
+- It is not an opinion poll.
+- It is not a formal vote-share forecast.
+- It is not evidence that Feeling Left Behind alone explains the state's party landscape.
 """)
 
 st.divider()
 
 
 # ============================================================
-# 7. FINAL INTERPRETATION
+# TAKEAWAY
 # ============================================================
 
-st.header("7. What is the main conclusion?")
-
-st.markdown("""
-Feeling Left Behind is **not a universal predictor of party choice**.
-
-Its overall predictive contribution is modest.
-
-But the association is not equally strong across the party system.
-The clearest contrast appears between AfD and Green voters, including
-when the conventional voter characteristics in the model are held fixed.
-
-Saxony-Anhalt then provides a prospective test of whether the historical
-political pattern associated with Feeling Left Behind remains visible
-in a new electoral context.
-""")
+st.header("7. What should we take from the party-choice analysis?")
 
 st.success("""
-# The election is the test.
+### Main takeaway
 
-# The bigger question is representation.
+The overall LBI adds **modest but consistent** information beyond the
+conventional voter profile.
 
-The broader value of the Left Behind Index is not that it replaces
-polling. It is that it may help diagnose part of the political terrain
-beneath the polling numbers.
-""")
-
-st.divider()
-
-
-# ============================================================
-# 8. METHODOLOGICAL NOTES
-# ============================================================
-
-with st.expander("Technical notes"):
-
-    st.markdown("""
-### Historical individual-level analysis
-
-- Data: GLES 2025 Post-Election Cross-Section
-- Analytical sample: 4,879 respondents across the seven parties
-- Target: reported second vote
-- Parties: CDU/CSU, SPD, FDP, Greens, The Left, AfD, BSW
-- Model: multinomial `LogisticRegression(max_iter=1000)`
-- Evaluation: `RepeatedStratifiedKFold`, 5 folds × 10 repetitions
-- Random state: 42
-- Total held-out evaluations: 50
-
-### Conventional voter profile
-
-- Household Income
-- Education
-- Age
-- East / West Germany (`ostwest`: 0 = East, 1 = West)
-- Migration Background
-- Political Interest
-
-### Standardized probability exercise
-
-The same fitted model is used.
-
-Observed conventional characteristics are kept unchanged for every
-respondent. Only the Left Behind Index is set to 1 and then to 4.
-
-The resulting probabilities are averaged across respondents.
-
-### Prospective Saxony-Anhalt exercise
-
-The historical LBI-only benchmark is learned from the same East German
-regional category, excluding Saxony-Anhalt.
-
-The 2026 polling benchmark is an external descriptive comparison
-and is not training data.
+Keeping the four components separate improves held-out performance
+further, which motivates the next question: **which component is carrying
+that additional political information for which party?**
 """)
 
 st.caption("""
 Primary data source: German Longitudinal Election Study (GLES 2025),
-Post-Election Cross-Section, ZA10100.
+Post-Election Cross-Section, ZA10100 Version 3.0.0.
 
-All relationships should be interpreted as model-based associations,
-not causal effects.
+All party probabilities shown here are model-based associations from
+observational survey data, not causal effects or forecasts.
 """)
-

@@ -8,31 +8,40 @@ import streamlit as st
 st.title("🔎 Research")
 
 st.subheader(
-    "How the Feeling Left Behind research develops from "
-    "democratic attitudes to party choice"
+    "How the project develops from an overall index to a more precise political diagnosis"
 )
 
 st.markdown("""
-The project is built around one broader question:
+The project is organized around one broader question:
 
-### What happens when people feel unseen, unheard or poorly served by politics?
+### What happens when people feel unseen, insufficiently recognized, poorly served or unable to speak openly?
 
-Rather than treating this as a single outcome, the research examines
-different parts of the relationship between citizens and politics.
+The research does not treat Feeling Left Behind as a single endpoint.
+Instead, it tests the concept across different democratic and electoral
+outcomes and then asks whether the four parts of the index carry the same
+political information.
 """)
 
 st.info("""
 ### Research logic
 
-**Measure Feeling Left Behind**
+**Construct the Left Behind Index**
 
 ↓
 
-**Ask whether it adds information beyond conventional characteristics**
+**Test whether it adds information beyond conventional characteristics**
 
 ↓
 
-**Test that question across different democratic and electoral outcomes**
+**Compare democratic attitudes and party choice**
+
+↓
+
+**Open the index and test its four components separately**
+
+↓
+
+**Test plausible alternative explanations and robustness**
 """)
 
 st.divider()
@@ -45,14 +54,14 @@ st.divider()
 st.header("1. The shared concept")
 
 st.markdown("""
-The **Left Behind Index** combines four perceptions:
+The **Left Behind Index (LBI)** combines four equally weighted perceptions:
 
 - economic attention;
 - social recognition;
-- access to services and infrastructure;
-- voice and freedom to express views.
+- access to infrastructure and basic services;
+- perceived ability of people like the respondent to express opinions freely in public.
 
-The index runs from **1 to 5**.
+The final index runs from **1 to 5**.
 
 **Lower values** indicate lower Feeling Left Behind.
 
@@ -60,22 +69,23 @@ The index runs from **1 to 5**.
 """)
 
 st.caption(
-    "The construction and validation of the index are explained "
-    "in the Feeling Left Behind page."
+    "The Feeling Left Behind page explains the exact GLES items, scale reversal, "
+    "equal weighting and measurement checks."
 )
 
 st.divider()
 
 
 # ============================================================
-# SHARED CONVENTIONAL PROFILE
+# SHARED CONTROLS
 # ============================================================
 
 st.header("2. What information is already taken into account?")
 
 st.markdown("""
-Both studies ask whether Feeling Left Behind adds information beyond
-a conventional socioeconomic, demographic and political profile.
+The central model comparisons ask whether Feeling Left Behind adds
+information beyond a conventional socioeconomic, demographic and
+political profile.
 """)
 
 c1, c2, c3 = st.columns(3)
@@ -105,255 +115,250 @@ with c3:
 """)
 
 st.success("""
-The recurring question is simple:
+### The recurring test
 
-### If we already know these characteristics, does knowing how left behind
-### someone feels add useful information?
+If we already know these characteristics, **does knowing how left behind
+someone feels add useful information?**
 """)
 
 st.divider()
 
 
 # ============================================================
-# STUDY 1
+# STAGE 1
 # ============================================================
 
-st.header("3. Study 1 - Democratic attitudes")
-
-st.markdown("""
-The first study asks whether Feeling Left Behind helps us understand
-three different aspects of people's relationship with democracy.
-""")
+st.header("3. Stage 1 — Democratic attitudes")
 
 st.info("""
-### Study 1 research question
+### Question
 
-**Does Feeling Left Behind help us understand Institutional Trust,
-Democratic Satisfaction and Party Representation beyond conventional
-socioeconomic, demographic and political characteristics?**
+**Does the overall Left Behind Index add information about Institutional
+Trust, Democratic Satisfaction and Party Representation beyond the
+conventional profile?**
 """)
 
 c1, c2, c3 = st.columns(3)
 
 with c1:
     with st.container(border=True):
-
         st.markdown("### 🏛️ Institutional Trust")
-
         st.markdown("""
-Average trust across eight institutions.
+Mean trust across eight GLES institutions.
 
-**Scale: 1 to 11**
-
-Higher values mean higher trust.
+**Higher score = higher trust**
 """)
+        st.metric("Analytical N", "5,444")
 
 with c2:
     with st.container(border=True):
-
         st.markdown("### 🗳️ Democratic Satisfaction")
-
         st.markdown("""
-Satisfaction with how democracy works in Germany.
+The GLES democratic-satisfaction item is reversed for analysis.
 
-**Scale: 1 to 4**
-
-Higher values mean greater dissatisfaction.
+**Higher score = greater satisfaction**
 """)
+        st.metric("Analytical N", "5,571")
 
 with c3:
     with st.container(border=True):
-
         st.markdown("### 👥 Party Representation")
-
         st.markdown("""
-Whether any political party represents the respondent's
-political views well.
+Whether respondents say any party represents their political views well.
 
 **Yes / No**
 """)
+        st.metric("Analytical N", "5,008")
 
 st.markdown("""
-### Study 1 model design
+The updated analysis compares three specifications:
 
-For each outcome, the analysis compares:
+**Controls only → controls + overall LBI → controls + four LBI components**
 
-**Model 1**
-
-Conventional characteristics
-
-versus
-
-**Model 2**
-
-Conventional characteristics + Left Behind Index
+This allows the project to test not only whether the overall index adds
+information, but whether opening it reveals additional structure.
 """)
-
-st.caption(
-    "Institutional Trust and Democratic Satisfaction use multiple OLS "
-    "regression. Party Representation uses binary logistic regression."
-)
 
 st.divider()
 
 
 # ============================================================
-# STUDY 2
+# STAGE 2
 # ============================================================
 
-st.header("4. Study 2 - Party choice")
-
-st.markdown("""
-The second study moves from the broad question of whether someone feels
-represented by any party to the party they reported choosing in the
-2025 federal election.
-""")
+st.header("4. Stage 2 — Party choice")
 
 st.info("""
-### Study 2 research question
+### Question
 
-**Can Feeling Left Behind improve our understanding of party choice
-beyond conventional voter characteristics?**
+**Does Feeling Left Behind add useful information about reported second-vote
+choice across the seven major parties in the 2025 federal election?**
 """)
 
 st.markdown("""
-The analysis covers seven parties:
+The analysis covers:
 
-**CDU/CSU · SPD · FDP · Greens · The Left · AfD · BSW**
+**CDU/CSU · SPD · FDP · Greens · Die Linke · AfD · BSW**
+
+The common seven-party analytical sample contains **4,879 respondents**.
 """)
 
 c1, c2, c3 = st.columns(3)
 
 with c1:
     with st.container(border=True):
-
         st.markdown("### Model A")
-
         st.markdown("""
-**LBI only**
+**Conventional voter profile**
 
-How much information does Feeling Left Behind contain on its own?
+Income · Education · Age · Region · Migration Background · Political Interest
 """)
 
 with c2:
     with st.container(border=True):
-
         st.markdown("### Model B")
-
         st.markdown("""
-**Conventional voter profile**
+**Conventional profile + overall LBI**
 
-Income · Education · Age · Region ·
-Migration Background · Political Interest
+Tests whether the combined index adds predictive information.
 """)
 
 with c3:
     with st.container(border=True):
-
         st.markdown("### Model C")
-
         st.markdown("""
-**Conventional profile + LBI**
+**Conventional profile + four LBI components**
 
-Does Feeling Left Behind add information beyond the baseline profile?
+Tests whether the four items are more informative when kept separate.
 """)
 
 st.markdown("""
 ### Testing on unseen voters
 
-The party-choice model is evaluated using repeated cross-validation:
+The models use **repeated stratified cross-validation**:
 
-**5 folds × 10 repetitions = 50 held-out model evaluations**
+**5 folds × 10 repetitions = 50 held-out evaluations**
 
-In each fold, the model learns from four groups of voters and is tested
-on the fifth group, which it did not see during training.
+The model learns from one part of the data and is evaluated on respondents
+it did not use for fitting.
 """)
 
 st.success("""
-### Why this matters
-
-The test asks whether Feeling Left Behind helps with voters the model
-did not already know, rather than only improving the fit to the data
-used for training.
+The four-component model outperformed the overall-LBI model in **all 50
+repeated evaluations** on accuracy and macro-F1, and also produced lower
+log loss in all 50 evaluations.
 """)
 
 st.divider()
 
 
 # ============================================================
-# STANDARDIZED PROBABILITIES
+# STAGE 3
 # ============================================================
 
-st.header("5. A second question inside the party-choice study")
-
-st.markdown("""
-Party averages can be influenced by differences in age, income,
-education, region and other characteristics.
-
-The analysis therefore performs an additional model-based calculation.
-
-For every respondent:
-
-1. Keep the conventional voter characteristics unchanged.
-2. Set the Left Behind Index to **1**.
-3. Calculate party probabilities.
-4. Set the Left Behind Index to **4**.
-5. Calculate the probabilities again.
-6. Average the estimated probabilities across voters.
-""")
-
-st.warning("""
-### Interpretation
-
-This is an **adjusted model-based association**.
-
-It does not show that making a person feel more left behind would
-cause them to change their vote.
-""")
-
-st.divider()
-
-
-# ============================================================
-# SAXONY-ANHALT
-# ============================================================
-
-st.header("6. The prospective Saxony-Anhalt extension")
-
-st.markdown("""
-The final stage asks whether a relationship learned from historical
-individual-level data can help interpret a new electoral context
-before the result is known.
-""")
+st.header("5. Stage 3 — Opening the Left Behind Index")
 
 st.info("""
-### Prospective question
+### Question
 
-**Do party-choice patterns identified in historical individual-level
-data help interpret the changing party landscape in Saxony-Anhalt
-before the 2026 state-election result is known?**
+**Do the four equally weighted LBI components show equally strong
+relationships with political outcomes?**
 """)
 
 st.markdown("""
-The comparison uses:
+For party choice, the fitted multiclass model is converted into an easier
+comparison. Each component is moved from **1 to 4** while the other
+modeled characteristics remain unchanged, and the change in average
+estimated party probability is calculated.
 
-- a historical LBI-only benchmark learned from voters in the same
-  East German regional category, excluding Saxony-Anhalt;
-- a descriptive 2026 polling benchmark for Saxony-Anhalt;
-- the same seven parties used in the historical party-choice analysis.
+For Institutional Trust and Democratic Satisfaction, the four components
+are compared in adjusted regression models using standardized coefficients.
+""")
 
-The polling benchmark is external. It is **not used to train the model**.
+c1, c2, c3 = st.columns(3)
+
+with c1:
+    with st.container(border=True):
+        st.metric("AfD: public expression", "+34.1 pp")
+        st.caption("Estimated probability change when the item moves 1 → 4.")
+
+with c2:
+    with st.container(border=True):
+        st.metric("Trust: public expression", "β = −0.37")
+        st.caption("Standardized adjusted association.")
+
+with c3:
+    with st.container(border=True):
+        st.metric("Satisfaction: public expression", "β = −0.36")
+        st.caption("Standardized adjusted association.")
+
+st.warning("""
+These numbers describe **model-based associations**, not causal effects.
+The four components still have exactly the same arithmetic weight in the
+Left Behind Index.
+""")
+
+st.divider()
+
+
+# ============================================================
+# ALTERNATIVE EXPLANATION
+# ============================================================
+
+st.header("6. Is the public-expression result simply left-right ideology?")
+
+st.markdown("""
+The GLES asks respondents to place themselves on a left-right scale from
+**1 = Left** to **11 = Right**, with **6 = Centre**.
+
+The party analysis is repeated while taking that self-placement into account.
+""")
+
+st.metric(
+    "AfD public-expression association after left-right adjustment",
+    "about 14% smaller"
+)
+
+st.markdown("""
+The AfD relationship remains strong. The negative patterns for Greens and
+SPD also remain substantial. By contrast, the earlier public-expression
+patterns for Die Linke and FDP largely disappear after left-right position
+is included.
+""")
+
+st.success("""
+### Interpretation
+
+Political position accounts for **part** of the strongest public-expression
+relationship, but not most of it.
+""")
+
+st.divider()
+
+
+# ============================================================
+# PROSPECTIVE EXTENSION
+# ============================================================
+
+st.header("7. Prospective extension — Saxony-Anhalt")
+
+st.markdown("""
+Saxony-Anhalt remains a separate extension of the project.
+
+The historical GLES relationship is compared with the political context
+before the 2026 state election. The external polling benchmark is **not**
+used to fit the historical model.
 """)
 
 st.warning("""
-### What this prospective exercise is not
+### What this exercise is not
 
 It is not an opinion poll.
 
 It is not a formal vote-share forecast.
 
 It is not evidence that Feeling Left Behind alone explains
-Saxony-Anhalt's political landscape.
+Saxony-Anhalt's party landscape.
 """)
 
 st.divider()
@@ -363,42 +368,40 @@ st.divider()
 # CLAIMS
 # ============================================================
 
-st.header("7. What can each study claim?")
+st.header("8. What can the research claim?")
 
 c1, c2 = st.columns(2)
 
 with c1:
     with st.container(border=True):
-
         st.markdown("### ✅ Supported")
-
         st.markdown("""
-- Statistical associations between Feeling Left Behind and democratic attitudes.
-- Additional explanatory information beyond the conventional profile.
-- Modest overall improvement in party-choice prediction.
-- A particularly strong AfD-Green contrast in the party-choice model.
-- A descriptive historical comparison with the 2026 Saxony-Anhalt context.
+- Feeling Left Behind is associated with democratic attitudes.
+- The overall LBI adds information beyond the conventional profile.
+- The four components contain additional information for some outcomes.
+- Public expression stands out especially for AfD support, Institutional Trust and Democratic Satisfaction.
+- The AfD public-expression relationship remains strong after left-right self-placement is included.
+- Component patterns differ across party electorates.
 """)
 
 with c2:
     with st.container(border=True):
-
         st.markdown("### ❌ Not established")
-
         st.markdown("""
 - Causal effects of Feeling Left Behind.
+- That Germany objectively restricts freedom of expression.
+- What opinions respondents have in mind when answering the public-expression item.
 - Exact individual vote prediction.
-- A causal explanation for AfD or Green support.
+- A causal explanation for AfD, Green or SPD support.
 - A precise 2026 Saxony-Anhalt vote-share forecast.
-- Proof that one policy intervention would change trust or voting behaviour.
 """)
 
 st.divider()
 
 st.caption("""
 Primary data source: German Longitudinal Election Study (GLES 2025),
-Post-Election Cross-Section, ZA10100.
+Post-Election Cross-Section, ZA10100 Version 3.0.0.
 
-The studies use observational survey data and should be interpreted
-as associational rather than causal.
+The analyses use observational survey data and should be interpreted as
+associational rather than causal.
 """)

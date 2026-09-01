@@ -6,7 +6,7 @@ import streamlit as st
 # ============================================================
 
 st.set_page_config(
-    page_title="Feeling Left Behind | Research Portfolio",
+    page_title="Feeling Left Behind | Germany",
     page_icon="🏛️",
     layout="wide"
 )
@@ -16,7 +16,6 @@ st.set_page_config(
 # OPTIONAL PUBLIC LINKS
 # ============================================================
 
-# Add your public links here when you want buttons on the Home and About pages.
 LINKEDIN_NEWSLETTER_URL = ""
 GITHUB_URL = ""
 
@@ -35,27 +34,27 @@ def home():
     )
 
     st.markdown("""
-What happens when people feel **unseen, unheard or poorly served by politics**?
+What happens when people feel **unseen, insufficiently recognized,
+poorly served or unable to speak openly**?
 
-This project uses German election survey data to study whether
-**Feeling Left Behind** adds information that conventional
-socioeconomic, demographic and political characteristics do not capture.
+This project uses the **German Longitudinal Election Study (GLES 2025)**
+to examine whether Feeling Left Behind adds information beyond
+conventional socioeconomic, demographic and political characteristics.
 
-The project has developed in stages. The first study focuses on
-**institutional trust, democratic satisfaction and party representation**.
-The second asks whether the same concept also helps us understand
-**actual party choice**, and whether those historical patterns are useful
-for interpreting the political context in Saxony-Anhalt before its
-2026 state election.
+The research has developed in stages. It first examined democratic
+attitudes, then party choice, and now opens the Left Behind Index to ask
+whether its four components carry the same political information.
 """)
 
     st.info("""
 ### The central idea
 
-Political disconnection may not be only about **what resources people have**.
+Two people with similar income, education or demographic profiles can
+still experience their relationship with society and politics very
+differently.
 
-It may also be about whether people feel that people like them are
-**seen, recognized, served and heard**.
+The project asks whether those **subjective experiences of disconnection**
+help us diagnose democratic and electoral patterns more clearly.
 """)
 
     st.divider()
@@ -66,7 +65,7 @@ It may also be about whether people feel that people like them are
 
     st.header("The research stream")
 
-    c1, c2 = st.columns(2)
+    c1, c2, c3 = st.columns(3)
 
     with c1:
         with st.container(border=True):
@@ -74,35 +73,28 @@ It may also be about whether people feel that people like them are
             st.markdown("### 1️⃣ Democratic attitudes")
 
             st.markdown("""
-**Question**
-
-Does Feeling Left Behind help us understand people's relationship
-with democracy beyond conventional voter characteristics?
-
-**Outcomes**
+Does the overall Left Behind Index add information about:
 
 - Institutional Trust
 - Democratic Satisfaction
 - Party Representation
+
+beyond a conventional profile?
 """)
 
-            m1, m2 = st.columns(2)
+            st.metric(
+                "Trust R²",
+                "11.1% → 28.1%"
+            )
 
-            with m1:
-                st.metric(
-                    "Trust model fit",
-                    "8.46% → 26.29%"
-                )
-
-            with m2:
-                st.metric(
-                    "Satisfaction model fit",
-                    "7.97% → 21.20%"
-                )
+            st.metric(
+                "Satisfaction R²",
+                "9.4% → 22.0%"
+            )
 
             st.caption(
-                "Model fit improves substantially for Trust and "
-                "Democratic Satisfaction after Feeling Left Behind is added."
+                "Controls-only model → controls + overall LBI. "
+                "The gain is much smaller for generic party representation."
             )
 
     with c2:
@@ -111,75 +103,114 @@ with democracy beyond conventional voter characteristics?
             st.markdown("### 2️⃣ Party choice")
 
             st.markdown("""
-**Question**
+Does Feeling Left Behind help distinguish reported second-vote choices
+across seven parties?
 
-Does Feeling Left Behind add useful information about party choice
-beyond age, income, education, region, migration background and
-political interest?
-
-**Main contrast**
-
-AfD and Green voters occupy particularly different positions
-on the Left Behind Index.
+The overall LBI adds modest predictive information beyond the
+conventional voter profile.
 """)
 
-            m1, m2 = st.columns(2)
+            st.metric(
+                "Conventional profile",
+                "35.8%"
+            )
 
-            with m1:
-                st.metric(
-                    "AfD probability",
-                    "1.7% → 33.7%"
-                )
-
-            with m2:
-                st.metric(
-                    "Green probability",
-                    "37.7% → 5.0%"
-                )
+            st.metric(
+                "+ overall LBI",
+                "38.2%"
+            )
 
             st.caption(
-                "Model-based estimates when the same conventional "
-                "voter profiles are used and only the Left Behind Index changes."
+                "Repeated held-out accuracy in the common seven-party sample."
+            )
+
+    with c3:
+        with st.container(border=True):
+
+            st.markdown("### 3️⃣ Opening the index")
+
+            st.markdown("""
+The four LBI items count equally in the index, but they do **not** show
+the same relationships with political outcomes.
+
+The strongest contrast concerns perceived inability to express opinions
+freely in public.
+""")
+
+            st.metric(
+                "Party accuracy with 4 components",
+                "39.9%"
+            )
+
+            st.metric(
+                "AfD: public-expression scenario",
+                "+34.1 pp"
+            )
+
+            st.caption(
+                "Adjusted model-based association when the item is moved "
+                "from 1 to 4, with other modeled characteristics unchanged."
             )
 
     st.divider()
 
     # ========================================================
-    # WHY SAXONY-ANHALT
+    # KEY DIAGNOSIS
     # ========================================================
 
-    st.header("Why Saxony-Anhalt enters the project")
+    st.header("What the newer analyses add")
 
     st.markdown("""
-Saxony-Anhalt provides a useful new context because respondents from the
-state have the **highest average Feeling Left Behind score among the
-16 German states in the party-choice analytical sample**.
+The overall Left Behind Index remains useful, but opening it reveals an
+important distinction.
 
-The project does not treat the Left Behind Index as an alternative
-to opinion polling. Instead, the historical relationship between
-Feeling Left Behind and party choice is used as a **directional benchmark**
-that can be compared with the political pattern visible before election day.
+Among the four components, **perceived inability to express opinions
+freely in public** is much more strongly related to:
+
+- higher estimated AfD support;
+- lower Institutional Trust; and
+- lower Democratic Satisfaction.
+
+The relationship with AfD becomes smaller after respondents' own
+left-right political position is taken into account, but only by about
+**14%**. The result therefore cannot be reduced to left-right
+self-placement alone.
+""")
+
+    st.warning("""
+### Important interpretation
+
+The survey measures whether respondents **perceive** that people like
+them are no longer allowed to express their opinions freely in public.
+
+The analysis does **not** establish that freedom of expression is
+objectively restricted, and it does not identify what opinions
+respondents have in mind.
+""")
+
+    st.divider()
+
+    # ========================================================
+    # SAXONY-ANHALT
+    # ========================================================
+
+    st.header("A prospective extension: Saxony-Anhalt")
+
+    st.markdown("""
+Saxony-Anhalt remains a useful extension of the project because it has a
+high average Left Behind Index in the historical party-choice sample.
+The comparison is used as a **directional benchmark**, not as an opinion
+poll or a formal vote-share forecast.
 """)
 
     c1, c2, c3 = st.columns(3)
 
-    c1.metric(
-        "Saxony-Anhalt mean LBI",
-        "2.84"
-    )
-
-    c2.metric(
-        "Rest of Germany",
-        "2.49"
-    )
-
-    c3.metric(
-        "Difference",
-        "+0.35"
-    )
+    c1.metric("Saxony-Anhalt mean LBI", "2.84")
+    c2.metric("Rest of Germany", "2.49")
+    c3.metric("Difference", "+0.35")
 
     st.caption(
-        "Descriptive comparison in the party-choice analytical sample."
+        "Descriptive comparison in the historical party-choice analytical sample."
     )
 
     st.divider()
@@ -190,37 +221,46 @@ that can be compared with the political pattern visible before election day.
 
     st.header("How to use this site")
 
-    c1, c2, c3 = st.columns(3)
+    c1, c2, c3, c4 = st.columns(4)
 
     with c1:
         with st.container(border=True):
             st.markdown("### 🧩 Concept")
             st.markdown(
                 "See how Feeling Left Behind is defined, constructed "
-                "and validated."
+                "and checked as a four-item index."
             )
 
     with c2:
         with st.container(border=True):
-            st.markdown("### 📊 Evidence")
+            st.markdown("### 📊 Outcomes")
             st.markdown(
-                "Explore the statistical results for democratic attitudes "
-                "and party choice."
+                "Explore the evidence for democratic attitudes and party choice."
             )
 
     with c3:
         with st.container(border=True):
+            st.markdown("### 🧭 Components")
+            st.markdown(
+                "Compare the four LBI components and the political patterns "
+                "associated with each one."
+            )
+
+    with c4:
+        with st.container(border=True):
             st.markdown("### 🔬 Method")
             st.markdown(
-                "See how the analyses were designed, tested and interpreted."
+                "See the model design, cross-validation, robustness tests "
+                "and limitations."
             )
 
     st.success("""
-### The portfolio logic
+### Portfolio logic
 
 The public articles tell the **story and political relevance**.
 
-This site provides the **analytical depth behind that story**.
+This site provides the **analytical depth, model comparisons and
+robustness checks behind that story**.
 """)
 
     if LINKEDIN_NEWSLETTER_URL or GITHUB_URL:
@@ -248,10 +288,10 @@ This site provides the **analytical depth behind that story**.
 
     st.caption("""
 Data source: German Longitudinal Election Study (GLES 2025),
-Post-Election Cross-Section, ZA10100.
+Post-Election Cross-Section, ZA10100 Version 3.0.0.
 
-The analyses use observational survey data. Reported relationships
-should not be interpreted as causal effects.
+The analyses use observational survey data. Reported relationships are
+associational and should not be interpreted as causal effects.
 """)
 
 
@@ -278,9 +318,9 @@ research_page = st.Page(
     icon="🔎"
 )
 
-results_page = st.Page(
-    "pages/3_Results.py",
-    title="Study 1 Results",
+democratic_attitudes_page = st.Page(
+    "pages/3_Democratic_Attitudes.py",
+    title="Democratic Attitudes",
     icon="📊"
 )
 
@@ -290,20 +330,26 @@ party_choice_page = st.Page(
     icon="🗳️"
 )
 
+components_page = st.Page(
+    "pages/5_LBI_Components.py",
+    title="LBI Components",
+    icon="🧭"
+)
+
 methodology_page = st.Page(
-    "pages/5_Methodology.py",
-    title="Study 1 Methodology",
+    "pages/6_Methodology.py",
+    title="Methodology",
     icon="🔬"
 )
 
-policy_page = st.Page(
-    "pages/6_Policy_Implications.py",
-    title="Policy Implications",
+diagnosis_page = st.Page(
+    "pages/7_Political_Diagnosis.py",
+    title="Political Diagnosis",
     icon="💡"
 )
 
 about_page = st.Page(
-    "pages/7_About.py",
+    "pages/8_About.py",
     title="About",
     icon="👤"
 )
@@ -313,10 +359,11 @@ pg = st.navigation([
     home_page,
     left_behind_page,
     research_page,
-    results_page,
+    democratic_attitudes_page,
     party_choice_page,
+    components_page,
     methodology_page,
-    policy_page,
+    diagnosis_page,
     about_page
 ])
 

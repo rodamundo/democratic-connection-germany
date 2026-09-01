@@ -3,203 +3,183 @@ import pandas as pd
 import plotly.express as px
 
 
+# ============================================================
+# PAGE
+# ============================================================
+
 st.title("🧩 Feeling Left Behind")
 
 st.subheader(
-    "Understanding the central concept behind this research"
+    "How the Left Behind Index is defined, constructed and interpreted"
 )
 
 st.markdown("""
 ## What does “Feeling Left Behind” mean?
 
-Feeling Left Behind describes a **subjective experience of social
-disconnection**.
+Feeling Left Behind describes a **subjective experience of social and
+political disconnection**.
 
-It captures whether people feel that **people like them are overlooked,
-insufficiently recognized, underserved or constrained in expressing
-their views**.
+It captures whether people feel that people like them receive too little
+attention, recognition or access to services, and whether they perceive
+that people like them are no longer able to express their opinions freely
+in public.
 
-This is important because Feeling Left Behind is **not the same thing
-as having a low income or belonging to a particular social class**.
+This is not the same thing as having a low income, belonging to a
+particular social class or supporting a particular political party.
 """)
 
 st.divider()
 
 
 # ============================================================
-# THREE DIFFERENT CONCEPTS
+# THREE CONCEPTS
 # ============================================================
 
-st.header("Three concepts that should not be confused")
+st.header("1. Three concepts that should not be confused")
 
 c1, c2, c3 = st.columns(3)
 
 with c1:
     with st.container(border=True):
-
         st.markdown("### 💰 Household Income")
-
         st.markdown("""
 **What resources do I have?**
 
 Measures the economic resources available to a household.
 """)
-
         st.caption("Objective socioeconomic position")
-
 
 with c2:
     with st.container(border=True):
-
         st.markdown("### 🪜 Subjective Social Class")
-
         st.markdown("""
 **Where do I see myself in society?**
 
 Measures where people believe they sit in the social hierarchy.
 """)
-
         st.caption("Perceived social position")
-
 
 with c3:
     with st.container(border=True):
-
         st.markdown("### 🧩 Feeling Left Behind")
-
         st.markdown("""
-**Do I feel that people like me are seen and considered?**
+**Do I feel that people like me are considered?**
 
-Measures perceived attention, recognition, services and voice.
+Measures perceived attention, recognition, services and public expression.
 """)
-
-        st.caption("Subjective social disconnection")
-
+        st.caption("Subjective disconnection")
 
 st.success("""
-### Why does this distinction matter?
+### Why the distinction matters
 
-Two people with similar income, education or perceived social position
-may still feel very differently about whether society recognizes,
-listens to or provides adequately for people like them.
-
-The research tests whether Feeling Left Behind is associated with
-democratic attitudes beyond traditional characteristics.
+Two people with similar income, education or social position may still
+feel very differently about whether people like them are recognized,
+served or able to speak openly.
 """)
 
 st.divider()
 
 
 # ============================================================
-# FOUR DIMENSIONS
+# FOUR ITEMS
 # ============================================================
 
-st.header("How was Feeling Left Behind measured?")
+st.header("2. The four survey items")
 
 st.markdown("""
-The GLES survey asked respondents:
+The project constructs the Left Behind Index from four items in the
+**GLES 2025 Post-Election Cross-Section**.
 
-> **“To what extent do you agree with the following statements or not?”**
-
-Four statements are used in this project.
+Respondents were asked how strongly they agreed or disagreed with four
+statements.
 """)
 
 c1, c2 = st.columns(2)
 
 with c1:
-
     with st.container(border=True):
-
-        st.markdown("### 💶 1. Economic attention")
-
+        st.markdown("### 💶 Economic attention")
         st.markdown("""
-**In simple terms:**
+**In simple terms**
 
-*Are the economic concerns of people like me being overlooked?*
+*Do the economic concerns of people like me receive too little attention?*
 
-**GLES statement:**
+**GLES statement**
 
-> “The economic situation of people like me receives too little
-> attention from society.”
+> “The economic situation of people like me receives too little attention from society.”
 
 **Variable:** `q46a`
 """)
 
     with st.container(border=True):
-
-        st.markdown("### 🏥 3. Infrastructure and basic services")
-
+        st.markdown("### 🏥 Infrastructure and basic services")
         st.markdown("""
-**In simple terms:**
+**In simple terms**
 
 *Do people like me receive adequate access to essential services?*
 
-**GLES statement:**
+**GLES statement**
 
-> “Society pays too little attention to ensuring that people like me
-> have access to basic infrastructures and services.”
+> “Society pays too little attention to ensuring that people like me have access to basic infrastructures and services.”
 
-Examples provided by the survey include:
-
-- doctors;
-- public transportation;
-- schools;
-- banks;
-- post offices;
-- Internet access.
+Examples in the survey include doctors, public transportation, schools,
+banks, post offices and Internet access.
 
 **Variable:** `q46c`
 """)
 
-
 with c2:
-
     with st.container(border=True):
-
-        st.markdown("### 👏 2. Social recognition")
-
+        st.markdown("### 👏 Social recognition")
         st.markdown("""
-**In simple terms:**
+**In simple terms**
 
 *Is the work and contribution of people like me recognized?*
 
-**GLES statement:**
+**GLES statement**
 
-> “People like me receive too little recognition from society
-> for the work they do.”
+> “People like me receive too little recognition from society for the work they do.”
 
 **Variable:** `q46b`
 """)
 
     with st.container(border=True):
-
-        st.markdown("### 🗣️ 4. Freedom of expression")
-
+        st.markdown("### 🗣️ Perceived freedom of public expression")
         st.markdown("""
-**In simple terms:**
+**In simple terms**
 
-*Do people like me feel free to express their opinions publicly?*
+*Do people like me feel able to express their opinions freely in public?*
 
-**GLES statement:**
+**GLES statement**
 
-> “People like me are no longer allowed to freely express their
-> opinions in public.”
+> “People like me are no longer allowed to freely express their opinions in public.”
 
 **Variable:** `q46d`
 """)
 
+st.warning("""
+### A necessary distinction
+
+The fourth item measures a **perception**. It tells us whether respondents
+agree that people like them are no longer allowed to express their
+opinions freely in public.
+
+It does not tell us what opinions they have in mind, what they believe
+prevents them from speaking, or whether an objective restriction is
+actually present.
+""")
 
 st.divider()
 
 
 # ============================================================
-# ORIGINAL SCALE
+# SCALE
 # ============================================================
 
-st.header("How did respondents answer?")
+st.header("3. From survey answers to a 1–5 index")
 
 st.markdown("""
-Each question originally uses the same five-point scale:
+Each original item uses the same five-point response scale:
 """)
 
 c1, c2, c3, c4, c5 = st.columns(5)
@@ -210,70 +190,27 @@ c3.metric("3", "Neither")
 c4.metric("4", "Disagree")
 c5.metric("5", "Strongly disagree")
 
-st.divider()
-
-
-# ============================================================
-# REVERSING SCALE
-# ============================================================
-
-st.header("Why was the scale reversed?")
-
 st.markdown("""
-There is an important detail.
+Agreement with these negative statements indicates **stronger Feeling
+Left Behind**, but the original survey codes stronger agreement with a
+smaller number.
 
-In the **original survey**, agreeing with these negative statements
-indicates a **stronger feeling of being left behind**.
-
-That means:
-
-**1 = strongest agreement**
-
-but numerically 1 is the smallest value.
-
-To make the final index easier to understand, the scale was reversed.
+The project therefore reverses each item:
 """)
 
-st.code(
-    "reversed_score = 6 - original_score",
-    language="python"
-)
-
-st.markdown("""
-After reversing the scale:
-""")
+st.code("reversed_score = 6 - original_score", language="python")
 
 c1, c2 = st.columns(2)
 
 with c1:
     with st.container(border=True):
-
-        st.markdown("""
-### 1
-
-## Lower Feeling Left Behind
-
-Respondent tends to disagree with the statements.
-""")
-
+        st.metric("1", "Lower Feeling Left Behind")
+        st.caption("Respondent tends to disagree with the statements.")
 
 with c2:
     with st.container(border=True):
-
-        st.markdown("""
-### 5
-
-## Higher Feeling Left Behind
-
-Respondent tends to agree with the statements.
-""")
-
-
-st.success("""
-### The final interpretation is simple:
-
-**Higher score = stronger Feeling Left Behind**
-""")
+        st.metric("5", "Higher Feeling Left Behind")
+        st.caption("Respondent tends to agree with the statements.")
 
 st.divider()
 
@@ -282,7 +219,7 @@ st.divider()
 # INDEX CREATION
 # ============================================================
 
-st.header("How do four answers become one index?")
+st.header("4. How the four items become one index")
 
 c1, c2, c3, c4 = st.columns(4)
 
@@ -294,7 +231,7 @@ with c1:
 with c2:
     with st.container(border=True):
         st.markdown("### 👏")
-        st.markdown("**Recognition**")
+        st.markdown("**Social recognition**")
 
 with c3:
     with st.container(border=True):
@@ -304,29 +241,33 @@ with c3:
 with c4:
     with st.container(border=True):
         st.markdown("### 🗣️")
-        st.markdown("**Voice**")
-
-
-st.markdown("""
-## ↓
-
-The four reversed answers are **averaged for each respondent**.
-
-## ↓
-
-# 🧩 Left Behind Index
-""")
-
+        st.markdown("**Public expression**")
 
 st.markdown("""
-The resulting score ranges conceptually from:
+### ↓
 
-### **1: Lower Feeling Left Behind**
+The four reversed responses are **averaged with equal weight**.
 
-to
+### ↓
 
-### **5: Higher Feeling Left Behind**
+# Left Behind Index: 1–5
 """)
+
+st.info("""
+### Equal weighting
+
+Each item contributes one quarter of the overall LBI.
+
+The index itself does **not** assume that one component is more important
+than another. Later analyses ask a different question: whether the four
+components have equally strong relationships with political outcomes.
+""")
+
+c1, c2, c3 = st.columns(3)
+
+c1.metric("Complete four-item LBI", "6,831 respondents")
+c2.metric("Minimum", "1")
+c3.metric("Maximum", "5")
 
 st.divider()
 
@@ -335,26 +276,25 @@ st.divider()
 # EXAMPLE
 # ============================================================
 
-st.header("A simple example")
+st.header("5. A simple example")
 
 st.markdown("""
-Imagine a respondent has these **final reversed scores**:
+Imagine a respondent has these **reversed scores**:
 """)
 
 c1, c2, c3, c4 = st.columns(4)
-
 c1.metric("Economic attention", "5")
 c2.metric("Recognition", "4")
 c3.metric("Services", "4")
-c4.metric("Voice", "3")
+c4.metric("Public expression", "3")
 
 st.markdown("""
-The Left Behind Index would be:
+The Left Behind Index is:
 
-**(5 + 4 + 4 + 3) ÷ 4 = 4.0**
+### **(5 + 4 + 4 + 3) ÷ 4 = 4.0**
 
-A score of **4.0** represents a relatively strong subjective
-feeling of being left behind.
+A value of **4.0** represents relatively strong Feeling Left Behind on
+this constructed measure.
 """)
 
 st.divider()
@@ -364,77 +304,54 @@ st.divider()
 # VALIDATION
 # ============================================================
 
-st.header("Can these four questions really be combined?")
+st.header("6. Can the four items be combined?")
 
 st.markdown("""
-Before treating the four questions as one index, the analysis checked
-whether they behave consistently enough to represent a common concept.
+The project checks whether the four items behave consistently enough to
+be summarized by a common index.
 """)
 
-with st.expander("Technical validation"):
+c1, c2 = st.columns(2)
 
-    c1, c2 = st.columns(2)
+with c1:
+    with st.container(border=True):
+        st.metric("Cronbach's α: four items", "0.753")
+        st.caption("Acceptable internal consistency for the four-item scale.")
 
-    c1.metric(
-        "Cronbach's α",
-        "0.753"
-    )
+with c2:
+    with st.container(border=True):
+        st.metric("Cronbach's α without public expression", "0.757")
+        st.caption("An increase of only about 0.004.")
 
-    c2.metric(
-        "Factor 1 eigenvalue",
-        "2.323"
-    )
+st.success("""
+### Measurement conclusion
 
-    st.markdown("""
-**Cronbach's α = 0.753** indicates acceptable internal consistency.
-
-The factor analysis also found a clear dominant factor.
-
-Together, these results support summarizing the four questions
-with one Left Behind Index.
+The public-expression item is somewhat distinct, but removing it barely
+changes the scale's internal consistency. The measurement checks do not
+provide a strong reason to drop it from the LBI.
 """)
 
 st.divider()
 
 
 # ============================================================
-# WHO FEELS MORE LEFT BEHIND?
+# DESCRIPTIVE PATTERNS
 # ============================================================
 
-st.header("Who feels more left behind?")
+st.header("7. What does the overall index look like descriptively?")
 
 st.markdown("""
-Before looking at how Feeling Left Behind relates to democratic
-attitudes, it helps to see how the index itself varies across
-different groups.
-
-These are **descriptive averages**, not the regression models used
-elsewhere in the project.
-
-They describe patterns in the raw index rather than adjusted effects.
+These examples show **raw descriptive averages**. They are not adjusted
+regression results and should not be interpreted as causal effects.
 """)
-
 
 region_df = pd.DataFrame({
     "Region": ["East Germany", "West Germany"],
-    "Left Behind Index": [2.73, 2.48]
-})
-
-age_df = pd.DataFrame({
-    "Age group": ["16-29", "30-44", "45-59", "60+"],
-    "Left Behind Index": [2.56, 2.64, 2.58, 2.52]
-})
-
-migration_df = pd.DataFrame({
-    "Migration background": [
-        "No migration background",
-        "Migration background"
-    ],
-    "Left Behind Index": [2.56, 2.65]
+    "Average LBI": [2.73, 2.48]
 })
 
 class_df = pd.DataFrame({
-    "Subjective Social Class": [
+    "Subjective social class": [
         "Lower class",
         "Working class",
         "Lower middle class",
@@ -442,290 +359,87 @@ class_df = pd.DataFrame({
         "Upper middle class",
         "Upper class"
     ],
-    "Left Behind Index": [
-        3.26,
-        3.13,
-        2.81,
-        2.42,
-        2.14,
-        1.89
-    ]
+    "Average LBI": [3.26, 3.13, 2.81, 2.42, 2.14, 1.89]
 })
 
-income_df = pd.DataFrame({
-    "Income group": [
-        "< €500",
-        "€500–749",
-        "€750–999",
-        "€1,000–1,249",
-        "€1,250–1,499",
-        "€1,500–1,999",
-        "€2,000–2,499",
-        "€2,500–2,999",
-        "€3,000–3,999",
-        "€4,000–4,999",
-        "€5,000–7,499",
-        "€7,500–9,999",
-        "€10,000+"
-    ],
-    "Left Behind Index": [
-        3.05,
-        2.69,
-        3.00,
-        3.01,
-        2.96,
-        2.81,
-        2.78,
-        2.65,
-        2.58,
-        2.46,
-        2.28,
-        2.10,
-        2.01
-    ]
-})
-
-
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
-    "By Subjective Social Class",
-    "By Income",
-    "By Region",
-    "By Age",
-    "By Migration Background"
+tab1, tab2 = st.tabs([
+    "By subjective social class",
+    "By East / West region"
 ])
 
-
 with tab1:
-
-    st.subheader("Subjective Social Class")
-
     fig = px.bar(
         class_df,
-        x="Subjective Social Class",
-        y="Left Behind Index",
-        text="Left Behind Index",
-        title="Left Behind Index by Subjective Social Class"
+        x="Subjective social class",
+        y="Average LBI",
+        text="Average LBI",
+        title="Average Left Behind Index by Subjective Social Class"
     )
-
-    fig.update_traces(
-        texttemplate="%{text:.2f}",
-        textposition="outside"
-    )
-
+    fig.update_traces(texttemplate="%{text:.2f}", textposition="outside")
     fig.update_layout(
-        height=420,
-        yaxis=dict(range=[0, 4])
+        height=440,
+        xaxis_title="",
+        yaxis_title="Average LBI",
+        yaxis=dict(range=[0, 3.6])
     )
-
-    st.plotly_chart(
-        fig,
-        width="stretch"
-    )
-
-    st.success("""
-People who place themselves in a lower subjective social class report
-a much stronger sense of being left behind, with a clear, steady gradient
-from the lowest to the highest class category.
-""")
-
+    st.plotly_chart(fig, width="stretch")
 
 with tab2:
-
-    st.subheader("Household Income")
-
-    fig = px.bar(
-        income_df,
-        x="Income group",
-        y="Left Behind Index",
-        text="Left Behind Index",
-        title="Left Behind Index by Household Net Monthly Income"
-    )
-
-    fig.update_traces(
-        texttemplate="%{text:.2f}",
-        textposition="outside"
-    )
-
-    fig.update_layout(
-        height=460,
-        yaxis=dict(range=[0, 4]),
-        xaxis=dict(tickangle=-40)
-    )
-
-    st.plotly_chart(
-        fig,
-        width="stretch"
-    )
-
-    st.success("""
-A similar gradient appears for income: respondents in lower income
-groups report higher Left Behind scores, decreasing fairly steadily
-toward higher income groups.
-""")
-
-
-with tab3:
-
-    st.subheader("East vs. West Germany")
-
     fig = px.bar(
         region_df,
         x="Region",
-        y="Left Behind Index",
-        text="Left Behind Index",
-        title="Left Behind Index by Region"
+        y="Average LBI",
+        text="Average LBI",
+        title="Average Left Behind Index by East / West Region"
     )
-
-    fig.update_traces(
-        texttemplate="%{text:.2f}",
-        textposition="outside"
-    )
-
+    fig.update_traces(texttemplate="%{text:.2f}", textposition="outside")
     fig.update_layout(
         height=420,
-        yaxis=dict(range=[0, 3.2])
+        xaxis_title="",
+        yaxis_title="Average LBI",
+        yaxis=dict(range=[0, 3.1])
     )
+    st.plotly_chart(fig, width="stretch")
 
-    st.plotly_chart(
-        fig,
-        width="stretch"
-    )
-
-    st.info("""
-Respondents in **East Germany** report a higher average Left Behind
-score than respondents in **West Germany** in this descriptive comparison.
-
-These are unadjusted group averages, so the difference should not be
-interpreted as a causal effect of region. It provides a reason to examine
-what lies behind the East-West gap more closely.
-""")
-
-
-with tab4:
-
-    st.subheader("Age Group")
-
-    fig = px.bar(
-        age_df,
-        x="Age group",
-        y="Left Behind Index",
-        text="Left Behind Index",
-        title="Left Behind Index by Age Group"
-    )
-
-    fig.update_traces(
-        texttemplate="%{text:.2f}",
-        textposition="outside"
-    )
-
-    fig.update_layout(
-        height=420,
-        yaxis=dict(range=[0, 3.2])
-    )
-
-    st.plotly_chart(
-        fig,
-        width="stretch"
-    )
-
-    st.info("""
-Differences across age groups are small.
-
-Feeling Left Behind does not appear to be primarily a
-generational phenomenon in this sample.
-""")
-
-
-with tab5:
-
-    st.subheader("Migration Background")
-
-    fig = px.bar(
-        migration_df,
-        x="Migration background",
-        y="Left Behind Index",
-        text="Left Behind Index",
-        title="Left Behind Index by Migration Background"
-    )
-
-    fig.update_traces(
-        texttemplate="%{text:.2f}",
-        textposition="outside"
-    )
-
-    fig.update_layout(
-        height=420,
-        yaxis=dict(range=[0, 3.2])
-    )
-
-    st.plotly_chart(
-        fig,
-        width="stretch"
-    )
-
-    st.info("""
-Respondents with a migration background report a slightly higher
-average score, but the difference is modest compared with the
-gradients seen for Subjective Social Class and income.
-""")
-
-
-st.caption("""
-Figures are simple group averages of the Left Behind Index,
-calculated after removing non-response codes for each demographic
-variable.
-
-Subjective Social Class is shown here as a **descriptive comparison**.
-It is not a separate regression stage in the final two-model design.
-
-GLES variables: ostwest, age, migration_background,
-d38 (Subjective Social Class), and d63 (household net monthly income).
-""")
+st.caption(
+    "Descriptive averages from the GLES 2025 project data. "
+    "Adjusted relationships are examined on the evidence pages."
+)
 
 st.divider()
 
 
 # ============================================================
-# WHAT THE INDEX DOES NOT MEAN
+# WHY COMPONENTS
 # ============================================================
 
-st.header("What the index does and does not tell us")
+st.header("8. Why open the index?")
 
-c1, c2 = st.columns(2)
+st.markdown("""
+An overall LBI score is useful because it summarizes four related
+experiences in one number.
 
-with c1:
-    with st.container(border=True):
-
-        st.markdown("### ✅ What it measures")
-
-        st.markdown("""
-Respondents' **perceptions** of:
-
-- economic attention;
-- social recognition;
-- access to services;
-- freedom of expression.
+But two respondents can reach the same overall score through different
+combinations of those experiences. The newer analyses therefore compare
+the four components separately.
 """)
 
+st.success("""
+### The key analytical distinction
 
-with c2:
-    with st.container(border=True):
+**Equal weight in the index does not imply equal relationship with every
+political outcome.**
 
-        st.markdown("### ⚠️ What it does not prove")
-
-        st.markdown("""
-It does not objectively establish that society actually neglects
-a particular respondent or group.
-
-It measures **perceived social disconnection**.
+The LBI Components page shows which parts of Feeling Left Behind stand
+out for party choice, Institutional Trust and Democratic Satisfaction.
 """)
-
 
 st.divider()
 
 st.caption("""
-Source: German Longitudinal Election Study (GLES 2025),
-Post-Election Cross-Section, ZA10100.
+Primary data source: German Longitudinal Election Study (GLES 2025),
+Post-Election Cross-Section, ZA10100 Version 3.0.0.
 
-Variables used: q46a, q46b, q46c and q46d.
+The Left Behind Index is constructed for this project and is not an
+official GLES scale.
 """)
