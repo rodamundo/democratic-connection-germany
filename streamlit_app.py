@@ -201,6 +201,11 @@ Saxony-Anhalt remains a useful extension of the project because it has a
 high average Left Behind Index in the historical party-choice sample.
 The comparison is used as a **directional benchmark**, not as an opinion
 poll or a formal vote-share forecast.
+
+Saxony-Anhalt held its state election on **6 September 2026**. See the
+**Saxony-Anhalt 2026** page for the full post-election comparison between
+the historical LBI-only benchmark, the frozen pre-election polling
+benchmark and the official result.
 """)
 
     c1, c2, c3 = st.columns(3)
@@ -354,6 +359,12 @@ about_page = st.Page(
     icon="👤"
 )
 
+saxony_anhalt_2026_page = st.Page(
+    "pages/9_Saxony_Anhalt_2026.py",
+    title="Saxony-Anhalt 2026",
+    icon="📍"
+)
+
 
 pg = st.navigation([
     home_page,
@@ -364,6 +375,7 @@ pg = st.navigation([
     components_page,
     methodology_page,
     diagnosis_page,
+    saxony_anhalt_2026_page,
     about_page
 ])
 
