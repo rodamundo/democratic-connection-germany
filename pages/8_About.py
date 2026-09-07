@@ -280,22 +280,102 @@ st.header("Author")
 st.markdown("""
 ### Ricardo Martins Batista
 
-**Sociologist · Programme Manager · Data Analyst**
+**Senior Program Director · Sustainability, Public Policy & Social Impact
+· Data Analytics (SQL, Python, Tableau)**
 
 Berlin, Germany
 """)
 
 st.markdown("""
-Professional interests:
+10+ years of international experience leading public policy, sustainability
+and social impact initiatives across Europe, Latin America and Africa —
+turning high-level strategy into execution, navigating complex political
+ecosystems, scaling grassroots organizations, and building multi-stakeholder
+partnerships between public administrations, international networks, NGOs
+and corporate partners.
 
-- Democratic Participation
-- Political Representation
-- Public Policy
-- Sustainability
-- Social Impact
-- Data Analytics
-- Evidence-based Decision Making
+In 2026, I completed a Data Analytics Certification (SQL, Python, Tableau,
+Power BI) at WBS Coding School. **Feeling Left Behind** — this project —
+was the certification's capstone: an application of data analysis to a
+real democratic-representation question. It was featured in a LinkedIn
+newsletter and covered by *Público*, Portugal's national newspaper.
 """)
+
+c1, c2, c3 = st.columns(3)
+
+with c1:
+    with st.container(border=True):
+        st.markdown("### 🎤 Public speaking")
+        st.write(
+            "TEDx speaker (TEDxUniMannheim) and UN presenter (COP23) on "
+            "advocacy and fundraising methodologies."
+        )
+
+with c2:
+    with st.container(border=True):
+        st.markdown("### 🌍 Programme leadership")
+        st.write(
+            "Founded and scaled social-impact and mobility programmes "
+            "across Brazil, Portugal and Africa/Europe."
+        )
+
+with c3:
+    with st.container(border=True):
+        st.markdown("### 📊 Data + impact")
+        st.write(
+            "Now combining stakeholder management with hands-on data "
+            "modeling for impact evaluation (MEL/ESG)."
+        )
+
+c1, c2 = st.columns(2)
+
+with c1:
+    with st.container(border=True):
+        st.markdown("#### Experience")
+        st.markdown("""
+**Data Analytics Bootcamp** — WBS Coding School
+Berlin, Germany · 2026
+
+**Co-Founder & Executive Director, Community Development & Mobility**
+— PEDALA QUEIMADOS (NGO)
+Rio de Janeiro, Brazil · 2016 – 2026
+
+**Customer Experience Officer, CX Ambassador International** — Canyon
+Remote, Germany · 2024 – 2026
+
+**Founder & Program Director, Sustainable Mobility & Social Impact**
+— Roda Mundo
+Lisbon, Portugal · 2023 – 2025
+
+**Founder & Global Program Director, Global Leadership & Capacity
+Building** — The Bamboo Trip Project
+Africa & Europe · 2016 – 2023
+""")
+
+with c2:
+    with st.container(border=True):
+        st.markdown("#### Education & languages")
+        st.markdown("""
+**Instituto Universitário de Pesquisas do Rio de Janeiro**
+Sociology, Urban Planning specialization · 2013 – 2016
+
+**Universidade Cândido Mendes**
+Bachelor's degree, Marketing · 2003 – 2007
+
+**WBS Coding School**
+Data Analytics Certification · 2026
+
+---
+
+**Languages:** Portuguese (native) · English (C1) · Spanish (C1) ·
+German (A2)
+""")
+
+st.link_button(
+    "Connect on LinkedIn",
+    "https://www.linkedin.com/in/ricardo-martins-batista/",
+    use_container_width=True
+)
 
 st.divider()
 
